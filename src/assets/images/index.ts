@@ -1,0 +1,29 @@
+import instructor  from './instructor.png';
+import VideoThumb from './video-thumb.png';
+import Bg1 from './bg-1.png';
+import PhotoshopImg from './photoshop.png';
+import Logo from './ma-logo.png'
+import IllustratorImg from './illustrator.png';
+import CourseThumbnail from './course-thumbnail.png';
+import Mithun from './Mithun-Sarkar.png';
+import Nurnobi from './Nurnobi-Hossen-Shagor.png';
+import Debbroto from './Debbroto-Biswas.png';
+// import PuspitaSingha from './Puspita-Singha.png';
+import paytmQR from './paytm_qr.png'
+import phonePe from './phonePe.png';
+
+export {
+    instructor,
+    VideoThumb,
+    Bg1,
+    PhotoshopImg,
+    Logo,
+    IllustratorImg,
+    CourseThumbnail,
+    Mithun,
+    Nurnobi,
+    Debbroto,
+    // PuspitaSingha,
+    paytmQR,
+    phonePe
+}

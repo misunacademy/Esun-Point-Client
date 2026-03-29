@@ -1,0 +1,262 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { AuthUser } from '@/types/auth';
+import { getAuthErrorMessage } from '@/lib/auth-errors';
+
+/**
+ * Subdomain auth hook.
+ * Session source is centralized backend GET /api/v1/auth/me.
+ * Subdomain must not perform local sign-in/sign-up flows.
+ */
+export function useAuth() {
+  const router = useRouter();
+  const [user, setUser] = useState<AuthUser | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  const baseApiUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+  const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
+
+  const session = useMemo(() => (user ? { user } : null), [user]);
+  const isAuthenticated = !!user;
+
+  const buildMainLoginUrl = useCallback((redirectUrl?: string) => {
+    if (!mainFrontendUrl) {
+      return '/';
+    }
+
+    const redirectTarget = redirectUrl || (typeof window !== 'undefined' ? window.location.href : undefined);
+    const encoded = redirectTarget ? encodeURIComponent(redirectTarget) : '';
+    return `${mainFrontendUrl}/auth/login${encoded ? `?redirect_url=${encoded}` : ''}`;
+  }, [mainFrontendUrl]);
+
+  const refetchSession = useCallback(async () => {
+    if (!baseApiUrl) {
+      setUser(undefined);
+      setError(new Error('Missing NEXT_PUBLIC_BASE_API_URL'));
+      setIsLoading(false);
+      return null;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${baseApiUrl}/auth/me`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (response.status === 401) {
+        setUser(undefined);
+        setError(null);
+        setIsLoading(false);
+        return null;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch auth user: ${response.status}`);
+      }
+
+      const payload = await response.json();
+      const nextUser = payload?.data?.user as AuthUser | undefined;
+      setUser(nextUser);
+      setError(null);
+      return nextUser || null;
+    } catch (err) {
+      setError(err as Error);
+      setUser(undefined);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [baseApiUrl]);
+
+  useEffect(() => {
+    refetchSession();
+  }, [refetchSession]);
+
+  /**
+   * Subdomain login must be handled on main domain.
+   */
+  const signIn = async (_email: string, _password: string, redirectUrl?: string) => {
+    try {
+      const loginUrl = buildMainLoginUrl(redirectUrl);
+      if (typeof window !== 'undefined') {
+        window.location.assign(loginUrl);
+      }
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  };
+
+  /**
+   * Subdomain registration must be handled on main domain.
+   */
+  const signUp = async (_name: string, _email: string, _password: string) => {
+    try {
+      const loginUrl = buildMainLoginUrl();
+      if (typeof window !== 'undefined') {
+        window.location.assign(loginUrl);
+      }
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  };
+
+  /**
+   * Sign out
+   */
+  const signOut = async () => {
+    try {
+      await authClient.signOut();
+      setUser(undefined);
+      toast.success('Successfully logged out');
+      router.push('/');
+      return { success: true };
+    } catch (error: unknown) {
+      toast.error('Logout failed');
+      return { success: false, error: (error as Error).message };
+    }
+  };
+
+  /**
+   * Sign in with Google
+   */
+  const signInWithGoogle = async (redirectUrl?: string) => {
+    try {
+      const loginUrl = buildMainLoginUrl(redirectUrl);
+      if (typeof window !== 'undefined') {
+        window.location.assign(loginUrl);
+      }
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  };
+
+  /**
+   * Forgot password - send reset email
+   */
+  const forgotPassword = async (email: string) => {
+    try {
+      const result = await authClient.requestPasswordReset({
+        email,
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/reset-password`,
+      });
+
+      if (result.error) {
+        const errorMsg = result.error.message || 'Failed to send reset email';
+        toast.error(errorMsg);
+        return { success: false, error: errorMsg };
+      }
+
+      toast.success('Password reset email sent! Check your inbox.');
+      return { success: true, error: null };
+    } catch (error) {
+      const errorMsg = (error as Error).message || 'Failed to send reset email';
+      toast.error(errorMsg);
+      return { success: false, error: errorMsg };
+    }
+  };
+
+  /**
+   * Reset password with token
+   */
+  const resetPassword = async (newPassword: string, token: string) => {
+    try {
+      const result = await authClient.resetPassword({
+        newPassword,
+        token,
+      });
+
+      if (result.error) {
+        const errorMsg = getAuthErrorMessage(result.error.code, result.error.message);
+        toast.error(errorMsg);
+        return { success: false, error: errorMsg };
+      }
+
+      toast.success('Password reset successful! You can now log in.');
+      if (typeof window !== 'undefined') {
+        window.location.assign(buildMainLoginUrl());
+      }
+      return { success: true };
+    } catch (error: unknown) {
+      toast.error('Failed to reset password');
+      return { success: false, error: (error as Error).message };
+    }
+  };
+
+  /**
+   * Verify email with token
+   */
+  /**
+   * Verify email with token
+   */
+  const verifyEmailToken = useCallback(async (token: string) => {
+    try {
+      const result = await authClient.verifyEmail({
+        query: {
+          token,
+        },
+      });
+
+      if (result.error) {
+        const errorMsg = getAuthErrorMessage(result.error.code, result.error.message);
+        toast.error(errorMsg);
+        return { success: false, error: errorMsg };
+      }
+
+      toast.success('Email verified successfully! You can now log in.');
+      if (typeof window !== 'undefined') {
+        window.location.assign(buildMainLoginUrl());
+      }
+      return { success: true };
+    } catch (error: unknown) {
+      toast.error('Email verification failed');
+      return { success: false, error: (error as Error).message };
+    }
+  }, [router]);
+
+  return {
+    // Session data
+    user,
+    session,
+    isAuthenticated,
+    isLoading,
+    error,
+
+    // Auth actions
+    signIn,
+    signUp,
+    signOut,
+    signInWithGoogle,
+    forgotPassword,
+    resetPassword,
+    verifyEmail: verifyEmailToken,
+
+    // Manual session refresh
+    refetchSession,
+
+    // User update with automatic session refresh
+    updateUserProfile: async (data: Partial<AuthUser>) => {
+      try {
+        const result = await authClient.updateUser(data);
+
+        if (result.error) {
+          return { success: false, error: result.error.message };
+        }
+
+        // Automatically refresh session to get updated user data
+        await refetchSession();
+
+        return { success: true, data: result.data };
+      } catch (error: unknown) {
+        return { success: false, error: (error as Error).message };
+      }
+    },
+  };
+}
