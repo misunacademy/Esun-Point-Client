@@ -67,6 +67,13 @@ export default function MobileNavbar() {
                 >
                     About Us
                 </Link>
+                <Link
+                    onClick={() => setIsOpen(!isOpen)}
+                    href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/`}
+                    className="text-lg h-14 flex items-center border-b border-blue-500/20"
+                >
+                    Graphic Design path
+                </Link>
                 {/* <Link
                     onClick={() => setIsOpen(!isOpen)}
                     href="/blogs"
