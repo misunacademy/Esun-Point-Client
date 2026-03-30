@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { authClient } from '@/lib/auth-client';
+import { authServerApi } from '@/lib/auth-server-api';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -112,7 +112,10 @@ export function useAuth() {
    */
   const signOut = async () => {
     try {
-      await authClient.signOut();
+      const result = await authServerApi.signOut();
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
       setUser(undefined);
       toast.success('Successfully logged out');
       router.push('/');
@@ -143,7 +146,7 @@ export function useAuth() {
    */
   const forgotPassword = async (email: string) => {
     try {
-      const result = await authClient.requestPasswordReset({
+      const result = await authServerApi.requestPasswordReset({
         email,
         redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/reset-password`,
       });
@@ -168,7 +171,7 @@ export function useAuth() {
    */
   const resetPassword = async (newPassword: string, token: string) => {
     try {
-      const result = await authClient.resetPassword({
+      const result = await authServerApi.resetPassword({
         newPassword,
         token,
       });
@@ -198,11 +201,7 @@ export function useAuth() {
    */
   const verifyEmailToken = useCallback(async (token: string) => {
     try {
-      const result = await authClient.verifyEmail({
-        query: {
-          token,
-        },
-      });
+      const result = await authServerApi.verifyEmail(token);
 
       if (result.error) {
         const errorMsg = getAuthErrorMessage(result.error.code, result.error.message);
@@ -244,7 +243,7 @@ export function useAuth() {
     // User update with automatic session refresh
     updateUserProfile: async (data: Partial<AuthUser>) => {
       try {
-        const result = await authClient.updateUser(data);
+        const result = await authServerApi.updateUser(data as Record<string, unknown>);
 
         if (result.error) {
           return { success: false, error: result.error.message };

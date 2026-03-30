@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, initStorePersistence } from "@/redux/store";
 import { Toaster } from '@/components/ui/sonner';
-import { authClient } from "@/lib/auth-client";
 import { usePathname } from 'next/navigation';
 import { initPixel, trackPageView } from '@/lib/metaPixel';
 
