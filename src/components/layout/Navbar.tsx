@@ -1,49 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '../ui/button';
 import Container from '../ui/container';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import MobileNavbar from './MobileNavbar';
 import Image from 'next/image';
 import MisunLogo from '@/assets/svg/esun-logo.svg';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { User, LogOut, Settings, UserCircle, LayoutDashboard, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation';
 import type { AuthUser } from '@/types/auth';
 
 export default function Navbar() {
   const [isHydrated, setIsHydrated] = useState(false); // ensure SSR/CSR markup match
   const navbarRef = useRef<HTMLDivElement>(null);
-  const { user, signOut } = useAuth();
-  const router = useRouter();
+  const { user } = useAuth();
 
-  // Normalize role to the dashboard segment used in routes
-  const getDashboardSegment = (role?: AuthUser['role']) => {
-    const map: Record<AuthUser['role'], string> = {
-      superadmin: 'admin',
-      admin: 'admin',
-      instructor: 'admin',
-      learner: 'student',
-    };
-    return map[role ?? 'learner'] ?? 'student';
-  };
 
-  const handleLogout = async () => {
-    const result = await signOut();
-    if (result.success) {
-      router.push('/');
-    }
-  };
 
   const handleEnrollClick = () => {
     import('@/lib/metaPixel').then(({ track }) =>
@@ -56,7 +29,7 @@ export default function Navbar() {
     );
   };
 
-  const redirectBackUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://english.maindomain.com';
+  const redirectBackUrl = process.env.NEXT_PUBLIC_EP_FRONTEND_URL!;
   const loginHref = `${process.env.NEXT_PUBLIC_MA_FRONTEND_URL || ''}/auth/login?redirect_url=${encodeURIComponent(redirectBackUrl)}`;
 
   useEffect(() => {

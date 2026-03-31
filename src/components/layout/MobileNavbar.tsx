@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 
 export default function MobileNavbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const redirectBackUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://english.maindomain.com';
+    const redirectBackUrl = process.env.NEXT_PUBLIC_EP_FRONTEND_URL!;
     const loginHref = `${process.env.NEXT_PUBLIC_MA_FRONTEND_URL || ''}/auth/login?redirect_url=${encodeURIComponent(redirectBackUrl)}`;
 
     return (
