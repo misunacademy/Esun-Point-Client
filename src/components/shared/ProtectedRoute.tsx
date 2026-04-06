@@ -23,7 +23,8 @@ const defaultFallback = (
 const roleHome: Record<Role, string> = {
   superadmin: '/dashboard/admin',
   admin: '/dashboard/admin',
-  instructor: '/dashboard/instructor',
+  instructor: '/dashboard/admin',
+  employee: '/dashboard/admin',
   learner: '/my-classes',
 };
 
@@ -61,7 +62,7 @@ export default function ProtectedRoute({
 
     if (requiredRoles && requiredRoles.length > 0 && !requiredRoles.includes(role)) {
       // Keep /dashboard/student as temporary legacy fallback until route removal.
-      const destination = unauthorizedRedirectTo || roleHome[role] || '/my-classes' || '/dashboard/student';
+      const destination = unauthorizedRedirectTo || roleHome[role] || '/my-classes';
       router.replace(destination);
     }
   }, [isLoading, user, requiredRoles, router, pathname, unauthorizedRedirectTo]);

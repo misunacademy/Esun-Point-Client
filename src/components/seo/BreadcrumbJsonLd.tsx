@@ -7,28 +7,29 @@ import { trackCustom } from '@/lib/metaPixel';
 
 const BreadcrumbJsonLd = () => {
     const pathname = usePathname();
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.misun-academy.com';
 
     // Map routes to breadcrumb names and URLs
     const breadcrumbMap: { [key: string]: { name: string; item: string } } = {
         '/': {
             name: 'Home',
-            item: 'https://www.misun-academy.com/'
+            item: `${baseUrl}/`
         },
         '/about': {
             name: 'About Us',
-            item: 'https://www.misun-academy.com/about'
+            item: `${baseUrl}/about`
         },
         '/courses': {
             name: 'Courses',
-            item: 'https://www.misun-academy.com/courses',
+            item: `${baseUrl}/courses`,
         },
         '/checkout': {
             name: 'Enroll',
-            item: 'https://www.misun-academy.com/checkout',
+            item: `${baseUrl}/checkout`,
         },
         '/auth': {
             name: 'Login / Registration',
-            item: 'https://www.misun-academy.com/auth',
+            item: `${baseUrl}/auth`,
         }
     };
     // Track page view for homepage

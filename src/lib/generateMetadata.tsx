@@ -8,9 +8,9 @@ interface GenerateMetadataParams {
     image?: string; // fallback to default
 }
 
-const BASE_URL = 'https://www.misun-academy.com';
-const DEFAULT_IMAGE = `/default-og-image.png`;
-const SITE_NAME = 'MISUN Academy';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.misun-academy.com';
+const DEFAULT_IMAGE = 'default-og-image.png';
+const SITE_NAME = 'ESUN POINT';
 
 export const generateMetadata = ({
     title,
@@ -19,8 +19,10 @@ export const generateMetadata = ({
     slug = '',
     image = DEFAULT_IMAGE,
 }: GenerateMetadataParams): Metadata => {
-    const url = `${BASE_URL}/${slug}`;
-    const finalImage = `${BASE_URL}/preview/${image}`;
+    const normalizedSlug = slug ? `/${slug.replace(/^\/+/, '')}` : '';
+    const normalizedImage = image.replace(/^\/+/, '');
+    const url = `${BASE_URL}${normalizedSlug}`;
+    const finalImage = `${BASE_URL}/preview/${normalizedImage}`;
 
     return {
         title,
