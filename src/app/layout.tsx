@@ -15,9 +15,9 @@ const hindSiliguri = Hind_Siliguri({
 });
 
 export const metadata: Metadata = {
-  title: 'Misun Academy',
+  title: 'ESUN POINT',
   description:
-    'Build a successful career in the digital age by learning the right skills with MISUN Academy. From start to finish, we guide and support you to achieve your dreams in design and beyond.',
+    'ESUN POINT is an online learning platform focused on spoken English and professional communication skills to help learners grow confidently in career and daily life.',
 };
 
 export default function RootLayout({

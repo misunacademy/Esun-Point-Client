@@ -5,8 +5,6 @@ import Image from 'next/image';
 import Container from '@/components/ui/container';
 import WhyThisCourseModal from './WhyThisCourseModal';
 import { VideoThumb } from '@/assets/images';
-import AbstractLiquid from '@/assets/3d-elements/3d-abstract-colorful-twisted-liquid-shapes-creative-design-elements-vector-modern-gradient-shapes-elements-bannerbackgroundposter.png';
-import FluidShape from '@/assets/3d-elements/3d-abstract-fluid-shape-icon.png';
 import { FolderArchive, NotebookPen, Projector } from 'lucide-react';
 import PlayButton from '@/components/shared/PlayButton';
 import { FadeIn } from '@/components/ui/FadeIn';
@@ -278,7 +276,7 @@ export default function WhyThisCourse() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#060a12]/85 via-[#060a12]/20 to-transparent pointer-events-none rounded-2xl" />
 
                     {/* Text content */}
-                    <div className="w-[132px] md:w-72 lg:w-[410px] text-white mx-6 md:mx-12 lg:mx-24 mt-12 md:mt-20 lg:mt-24 relative z-10">
+                    {/* <div className="w-[132px] md:w-72 lg:w-[410px] text-white mx-6 md:mx-12 lg:mx-24 mt-12 md:mt-20 lg:mt-24 relative z-10">
                       <h2 className="text-xl md:text-3xl lg:text-5xl font-bold leading-[120%] tracking-[0%] drop-shadow-md">
                         Learn practical English communication skills step-by-step and{' '}
                         <span className="font-bold text-blue-400 drop-shadow-[0_0_12px_hsl(217_91%_60%/0.6)]">build your career</span>{' '}
@@ -289,10 +287,10 @@ export default function WhyThisCourse() {
                           Watch the full video
                         </h2>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Play button */}
-                    <div className="flex items-center justify-start relative z-10">
+                    <div className="flex items-center justify-center relative z-10">
                       <PlayButton
                         size="lg"
                         variant="gradient"

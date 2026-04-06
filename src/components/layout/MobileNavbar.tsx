@@ -3,13 +3,22 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { AlignLeft, X } from 'lucide-react';
+import { AlignLeft, LogOut, User, UserCircle, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
+import Image from 'next/image';
 
 export default function MobileNavbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const { user, signOut } = useAuth();
     const redirectBackUrl = process.env.NEXT_PUBLIC_EP_FRONTEND_URL!;
     const loginHref = `${process.env.NEXT_PUBLIC_MA_FRONTEND_URL || ''}/auth/login?redirect_url=${encodeURIComponent(redirectBackUrl)}`;
+    const profileHref = `${process.env.NEXT_PUBLIC_MA_FRONTEND_URL || ''}/profile`;
+
+    const handleLogout = async () => {
+        await signOut();
+        setIsOpen(false);
+    };
 
     return (
         <div className="relative ">
@@ -74,18 +83,52 @@ export default function MobileNavbar() {
                 >
                     Graphic Design path
                 </Link>
-                {/* <Link
-                    onClick={() => setIsOpen(!isOpen)}
-                    href="/blogs"
-                    className="text-lg h-14 flex items-center border-b border-blue-500/20"
-                >
-                    Blogs
-                </Link> */}
-                <Link href={loginHref}
-                    className="text-lg h-14 flex items-center border-b border-blue-500/20 text-blue-500"
-                >
-                    Login
-                </Link>
+                {user ? (
+                    <>
+                        <div className="py-4 border-b border-blue-500/20 flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-full overflow-hidden border border-blue-500/40 flex items-center justify-center">
+                                {user.image ? (
+                                    <Image
+                                        src={user.image}
+                                        alt={user.name || 'User profile'}
+                                        width={40}
+                                        height={40}
+                                        className="h-full w-full object-cover"
+                                    />
+                                ) : (
+                                    <User className="h-5 w-5 text-blue-400" />
+                                )}
+                            </div>
+                            <div className="min-w-0">
+                                <p className="text-sm font-semibold truncate">{user.name || 'User'}</p>
+                                <p className="text-xs text-white/60 truncate">{user.email}</p>
+                            </div>
+                        </div>
+                        <Link
+                            onClick={() => setIsOpen(false)}
+                            href={profileHref}
+                            className="text-lg h-14 flex items-center gap-2 border-b border-blue-500/20"
+                        >
+                            <UserCircle className="h-5 w-5 text-blue-400" />
+                            Profile
+                        </Link>
+                        <button
+                            type="button"
+                            onClick={handleLogout}
+                            className="text-lg h-14 flex items-center gap-2 border-b border-blue-500/20 text-red-400"
+                        >
+                            <LogOut className="h-5 w-5" />
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    <Link
+                        href={loginHref}
+                        className="text-lg h-14 flex items-center border-b border-blue-500/20 text-blue-500"
+                    >
+                        Login
+                    </Link>
+                )}
                 <div className='flex space-x-4 pt-6 pb-2'>
                     <Link
                         onClick={() => setIsOpen(!isOpen)}
@@ -95,6 +138,6 @@ export default function MobileNavbar() {
                     </Link>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

@@ -7,14 +7,22 @@ import { cn } from '@/lib/utils';
 import MobileNavbar from './MobileNavbar';
 import Image from 'next/image';
 import MisunLogo from '@/assets/svg/esun-logo.svg';
-import { Sparkles } from 'lucide-react';
+import { LogOut, Sparkles, User, UserCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import type { AuthUser } from '@/types/auth';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export default function Navbar() {
   const [isHydrated, setIsHydrated] = useState(false); // ensure SSR/CSR markup match
   const navbarRef = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
 
 
@@ -31,6 +39,11 @@ export default function Navbar() {
 
   const redirectBackUrl = process.env.NEXT_PUBLIC_EP_FRONTEND_URL!;
   const loginHref = `${process.env.NEXT_PUBLIC_MA_FRONTEND_URL || ''}/auth/login?redirect_url=${encodeURIComponent(redirectBackUrl)}`;
+  const profileHref = `${process.env.NEXT_PUBLIC_MA_FRONTEND_URL || ''}/profile`;
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   useEffect(() => {
     // Defer to next paint to avoid synchronous setState warning
@@ -155,11 +168,14 @@ export default function Navbar() {
                 </Link>
               </div>
 
-              {/* User Menu */}
-              {/* {safeUser ? (
+              {safeUser ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" aria-label="Open user menu" className="relative h-10 w-10 rounded-full border border-blue-500/40 transition-all duration-300 p-0 overflow-hidden hover:border-blue-500 hover:shadow-[0_0_15px_hsl(217_91%_60%/0.4)]">
+                    <button
+                      aria-label="Open user menu"
+                      className="relative h-10 w-10 rounded-full border border-blue-500/40 transition-all duration-300 p-0 overflow-hidden hover:border-blue-500 hover:shadow-[0_0_15px_hsl(217_91%_60%/0.4)]"
+                      type="button"
+                    >
                       {safeUser.image ? (
                         <Image
                           src={safeUser.image}
@@ -171,7 +187,7 @@ export default function Navbar() {
                       ) : (
                         <User className="h-6 w-6 text-blue-500" />
                       )}
-                    </Button>
+                    </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56 mt-2 z-[9999]" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
@@ -182,21 +198,9 @@ export default function Navbar() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href={`/profile`} className="flex items-center">
+                      <Link href={profileHref} className="flex items-center">
                         <UserCircle className="mr-2 h-4 w-4" />
                         Profile
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href={`/dashboard/${getDashboardSegment(userRole)}`} className="flex items-center">
-                        <LayoutDashboard className="mr-2 h-4 w-4" />
-                        Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href={`/dashboard/${getDashboardSegment(userRole)}/settings`} className="flex items-center">
-                        <Settings className="mr-2 h-4 w-4" />
-                        Settings
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleLogout} className="flex items-center text-red-600">
@@ -205,7 +209,7 @@ export default function Navbar() {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              ) : null} */}
+              ) : null}
             </div>
             <div className="md:hidden px-3">
               {/* <PhoneNavbar /> */}

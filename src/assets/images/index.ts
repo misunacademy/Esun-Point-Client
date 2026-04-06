@@ -1,5 +1,5 @@
-import instructor  from './instructor.png';
-import VideoThumb from './video-thumb.png';
+import instructor from './instructor.png';
+import VideoThumb from './video-thumb.jpeg';
 import Bg1 from './bg-1.png';
 import PhotoshopImg from './photoshop.png';
 import Logo from './ma-logo.png'

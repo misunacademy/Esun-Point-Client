@@ -2,13 +2,13 @@ import { generateMetadata } from '@/lib/generateMetadata';
 import EnglishCourseDetails from './EnglishCourseDetails';
 
 export const metadata = generateMetadata({
-  title: 'Courses | MISUN Academy',
+  title: 'Courses | ESUN POINT',
   description:
-    'Explore all courses from MISUN Academy. From Graphics Design to English Learning — enroll in your favorite course and build your career.',
+    'Explore all courses from ESUN POINT. Learn spoken English and practical communication skills with structured guidance and real-world practice.',
   keywords: [
     'Spoken English Course',
-    'Freelancing',
-    'MISUN Academy',
+    'Professional Communication',
+    'ESUN POINT',
     'Online Course',
     'English Learning',
     'Bangladesh',

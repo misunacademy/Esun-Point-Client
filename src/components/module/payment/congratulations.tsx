@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback, use } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import {
   ArrowLeft,
@@ -31,44 +31,109 @@ import { useGetBatchByIdQuery } from '@/redux/api/batchApi';
 /*                                  Templates                                 */
 /* -------------------------------------------------------------------------- */
 
-const TEMPLATES = [
-  {
-    id: 1,
-    name: 'Green Neon Style',
-    src: '/posters/templete-1.png',
-    config: {
-      canvasWidth: 1080,
-      canvasHeight: 1080,
-      photo: { x: 535, y: 578, radius: 155 },
-      name: { x: 540, y: 870, fontSize: 58, color: '#FFFFFF' },
-      batch: {
-        x: 540,
-        y: 930,
-        fontSize: 28,
-        color: '#000000',
-        bgColor: '#88f400',
+type PosterTemplate = {
+  id: number;
+  name: string;
+  src: string;
+  config: {
+    canvasWidth: number;
+    canvasHeight: number;
+    photo: { x: number; y: number; radius: number };
+    name: { x: number; y: number; fontSize: number; color: string };
+    batch: {
+      x: number;
+      y: number;
+      fontSize: number;
+      color: string;
+      bgColor: string;
+      minWidth?: number;
+      minHeight?: number;
+    };
+  };
+};
+
+const TEMPLATES: Record<'graphic' | 'english', PosterTemplate[]> = {
+  graphic: [
+    {
+      id: 1,
+      name: 'Green Neon Style',
+      src: '/posters/templete-1.png',
+      config: {
+        canvasWidth: 1080,
+        canvasHeight: 1080,
+        photo: { x: 535, y: 578, radius: 155 },
+        name: { x: 540, y: 870, fontSize: 58, color: '#FFFFFF' },
+        batch: {
+          x: 540,
+          y: 930,
+          fontSize: 28,
+          color: '#000000',
+          bgColor: '#88f400',
+        },
       },
     },
-  },
-  {
-    id: 2,
-    name: 'Teal Ribbon Style',
-    src: '/posters/templete-2.png',
-    config: {
-      canvasWidth: 1080,
-      canvasHeight: 1080,
-      photo: { x: 535, y: 578, radius: 155 },
-      name: { x: 540, y: 870, fontSize: 58, color: '#FFFFFF' },
-      batch: {
-        x: 540,
-        y: 930,
-        fontSize: 28,
-        color: '#000000',
-        bgColor: '#00ffb4',
+    {
+      id: 2,
+      name: 'Teal Ribbon Style',
+      src: '/posters/templete-2.png',
+      config: {
+        canvasWidth: 1080,
+        canvasHeight: 1080,
+        photo: { x: 535, y: 578, radius: 155 },
+        name: { x: 540, y: 870, fontSize: 58, color: '#FFFFFF' },
+        batch: {
+          x: 540,
+          y: 930,
+          fontSize: 28,
+          color: '#000000',
+          bgColor: '#00ffb4',
+        },
       },
     },
-  },
-];
+  ],
+  english: [
+    {
+      id: 1,
+      name: 'Blue Neon Style',
+      src: '/posters/esun1.png',
+      config: {
+        canvasWidth: 1080,
+        canvasHeight: 1080,
+        photo: { x: 535, y: 578, radius: 155 },
+        name: { x: 540, y: 870, fontSize: 58, color: '#FFFFFF' },
+        batch: {
+          x: 540,
+          y: 936,
+          fontSize: 28,
+          color: '#000000',
+          bgColor: '#1e90ff',
+          minWidth: 220,
+          minHeight: 62,
+        },
+      },
+    },
+    {
+      id: 2,
+      name: 'Sky Ribbon Style',
+      src: '/posters/esun2.png',
+      config: {
+        canvasWidth: 1080,
+        canvasHeight: 1080,
+        photo: { x: 535, y: 578, radius: 155 },
+        name: { x: 540, y: 870, fontSize: 58, color: '#FFFFFF' },
+        batch: {
+          x: 540,
+          y: 936,
+          fontSize: 28,
+          color: '#000000',
+          bgColor: '#38bdf8',
+          minWidth: 220,
+          minHeight: 62,
+        },
+      },
+    },
+  ],
+};
 
 /* -------------------------------------------------------------------------- */
 /*                               Helper Functions                              */
@@ -93,6 +158,41 @@ const drawRoundedRect = (
   ctx.lineTo(x, y + radius);
   ctx.quadraticCurveTo(x, y, x + radius, y);
   ctx.closePath();
+};
+
+const normalizeText = (value?: string | null) =>
+  (value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+
+const getCourseType = (title?: string | null): 'graphic' | 'english' | 'general' => {
+  const normalized = normalizeText(title);
+  if (/(graphic|design|freelancing|photoshop|illustrator)/i.test(normalized)) return 'graphic';
+  if (/(english|spoken|ielts|language)/i.test(normalized)) return 'english';
+  return 'general';
+};
+
+const getBatchNumber = (batchValue?: string | null): number | null => {
+  if (!batchValue) return null;
+  const match = batchValue.match(/(\d+)/);
+  if (!match) return null;
+  const parsed = Number(match[1]);
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
+const getTemplatePriority = (
+  courseType: 'graphic' | 'english' | 'general',
+  batchNumber: number | null
+) => {
+  const isEvenBatch = batchNumber !== null ? batchNumber % 2 === 0 : false;
+
+  if (courseType === 'graphic') {
+    return isEvenBatch ? [1, 0] : [0, 1];
+  }
+
+  if (courseType === 'english') {
+    return isEvenBatch ? [0, 1] : [1, 0];
+  }
+
+  return isEvenBatch ? [1, 0] : [0, 1];
 };
 
 /* -------------------------------------------------------------------------- */
@@ -121,7 +221,7 @@ function CongratulationsPage() {
 
   /* ------------------------------- State ------------------------------------ */
   const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(0);
-  
+
   // Use user data as initial values, but allow editing
   // Track if user has manually edited to prevent overwriting their changes
   const [userNameState, setUserNameState] = useState<{ value: string; edited: boolean }>({
@@ -222,6 +322,30 @@ function CongratulationsPage() {
     latestEnrollment?.batch?.title ??
     (batchData?.data ? `BATCH-${batchData.data.batchNumber}` : '');
 
+  const courseTitle =
+    (latestEnrollment as any)?.batchId?.courseId?.title ||
+    (latestEnrollment as any)?.course?.title ||
+    (latestEnrollment as any)?.courseId?.title ||
+    '';
+
+  const batchNumber = getBatchNumber(batchNo);
+  const selectedCourseType = getCourseType(courseTitle);
+  const templatePriority = getTemplatePriority(selectedCourseType, batchNumber);
+
+  const templateGroups: Record<'graphic' | 'english' | 'general', PosterTemplate[]> = {
+    graphic: TEMPLATES.graphic,
+    english: TEMPLATES.english.length > 0 ? TEMPLATES.english : TEMPLATES.graphic,
+    general: TEMPLATES.graphic,
+  };
+
+  const activeTemplateGroup = templateGroups[selectedCourseType];
+
+  const courseTemplates = templatePriority
+    .map((templateIndex) => activeTemplateGroup[templateIndex])
+    .filter(Boolean);
+
+  const resolvedTemplates = courseTemplates.length > 0 ? courseTemplates : activeTemplateGroup;
+
   /* ----------------------------- Image Upload ------------------------------- */
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -246,7 +370,10 @@ function CongratulationsPage() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const template = TEMPLATES[selectedTemplateIndex];
+    const template =
+      resolvedTemplates[selectedTemplateIndex] ||
+      resolvedTemplates[0] ||
+      TEMPLATES.graphic[0];
     const { config } = template;
 
     const cssWidth = config.canvasWidth;
@@ -397,7 +524,7 @@ function CongratulationsPage() {
 
     /* Batch */
     if (batchNo) {
-      const { x, y, fontSize, color, bgColor } = config.batch;
+      const { x, y, fontSize, color, bgColor, minWidth, minHeight } = config.batch;
       ctx.font = `bold ${fontSize}px Arial`;
 
       const text = batchNo.toUpperCase();
@@ -405,8 +532,8 @@ function CongratulationsPage() {
 
       const paddingX = 30;
       const paddingY = 12;
-      const width = metrics.width + paddingX * 2;
-      const height = fontSize + paddingY * 2;
+      const width = Math.max(metrics.width + paddingX * 2, minWidth ?? 0);
+      const height = Math.max(fontSize + paddingY * 2, minHeight ?? 0);
 
       ctx.fillStyle = bgColor;
       drawRoundedRect(
@@ -422,7 +549,7 @@ function CongratulationsPage() {
       ctx.fillStyle = color;
       ctx.fillText(text, x, y + 2);
     }
-  }, [selectedTemplateIndex, userImage, userName, batchNo, imageOffset, imageZoom]);
+  }, [selectedTemplateIndex, userImage, userName, batchNo, imageOffset, imageZoom, resolvedTemplates]);
 
   /* ---------------------------- Auto Regenerate ----------------------------- */
 
@@ -499,7 +626,7 @@ function CongratulationsPage() {
               <h1 className="text-3xl font-bold text-slate-900 mb-2">Congratulations, {userName.split(' ')[0]}!</h1>
 
               <p className="text-slate-600 max-w-2xl mx-auto">
-                You have successfully enrolled in the <strong>{latestEnrollment?.course?.title || 'Graphic Design with Freelancing'}</strong> course.
+                You have successfully enrolled in the <strong>English For Professional Communication</strong> course.
                 Download your welcome poster below and share your new journey!
               </p>
 
@@ -527,7 +654,7 @@ function CongratulationsPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 gap-4">
-                  {TEMPLATES.map((template, index) => (
+                  {resolvedTemplates.map((template, index) => (
                     <div
                       key={template.id}
                       onClick={() => setSelectedTemplateIndex(index)}

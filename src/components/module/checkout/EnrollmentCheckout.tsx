@@ -85,7 +85,7 @@ const EnrollmentCheckout = ({ courseSlug }: { courseSlug?: string } = {}) => {
     // Resolve course + batch: prefer slug-based data when courseSlug is provided.
     // For slug path: use current-enrollment batch first, then first upcoming batch as fallback.
     const resolvedCourse = courseSlug ? courseData : {};
-    const resolvedBatch  = courseSlug
+    const resolvedBatch = courseSlug
         ? ((currentBatchRes?.data as any) ?? (upcomingBatchRes?.data as any)?.[0])
         : {};
 
@@ -94,14 +94,14 @@ const EnrollmentCheckout = ({ courseSlug }: { courseSlug?: string } = {}) => {
         ? (() => {
             const now = Date.now();
             const start = new Date(resolvedBatch.enrollmentStartDate).getTime();
-            const end   = new Date(resolvedBatch.enrollmentEndDate).getTime();
+            const end = new Date(resolvedBatch.enrollmentEndDate).getTime();
             return now >= start && now <= end;
         })()
         : false;
 
     // Keep legacy aliases for backwards compat with rest of JSX
     const featuredCourseId = resolvedCourse;
-    const featuredBatchId  = resolvedBatch;
+    const featuredBatchId = resolvedBatch;
 
     const isDataLoading = (!!courseSlug && (courseLoading || (!!courseData && batchLoading)));
 
@@ -249,7 +249,7 @@ const EnrollmentCheckout = ({ courseSlug }: { courseSlug?: string } = {}) => {
                                             </div>
                                         </div>
                                     </>
-                                )}  
+                                )}
                             </div>
                             {featuredCourseId && (
                                 <div className="px-5 pb-5">
@@ -410,7 +410,7 @@ const EnrollmentCheckout = ({ courseSlug }: { courseSlug?: string } = {}) => {
                                                         <div className="aspect-video bg-black rounded-lg overflow-hidden mt-3">
                                                             <iframe
                                                                 className="w-full h-full"
-                                                                src="https://www.youtube.com/embed/UC4LM-u9TqM"
+                                                                src="https://www.youtube.com/embed/pCpgeeQsXPE"
                                                                 title="Payment Tutorial"
                                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                                 allowFullScreen
@@ -505,7 +505,7 @@ const EnrollmentCheckout = ({ courseSlug }: { courseSlug?: string } = {}) => {
                                                                             className={`w-4 h-4 rounded-full border-2 transition-colors ${field.value === 'phonePay'
                                                                                 ? 'border-primary bg-primary'
                                                                                 : 'border-white/30'
-                                                                            }`}
+                                                                                }`}
                                                                         >
                                                                             {field.value === 'phonePay' && (
                                                                                 <div className="w-full h-full rounded-full bg-white scale-[0.45]" />
@@ -513,7 +513,7 @@ const EnrollmentCheckout = ({ courseSlug }: { courseSlug?: string } = {}) => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="border-t border-primary/15 pt-3">
-                                                                            <p className="text-xs text-white/45 pb-2">Pay with your phone pay account:</p>
+                                                                        <p className="text-xs text-white/45 pb-2">Pay with your phone pay account:</p>
                                                                         <div className="bg-white rounded-lg overflow-hidden flex items-center justify-center h-[56px] max-w-[200px]">
                                                                             <Image src={phonepay} alt="Phone Pay" className="object-contain w-full h-full p-2" />
                                                                         </div>
@@ -587,7 +587,7 @@ const EnrollmentCheckout = ({ courseSlug }: { courseSlug?: string } = {}) => {
                                     <ManualPaymentForm
                                         onBack={() => setCurrentStep(1)}
                                         onPaymentComplete={handleManualPaymentComplete}
-                                     manualAmount={manualPaymentAmount}
+                                        manualAmount={manualPaymentAmount}
                                         manualCurrency={manualPaymentCurrency}
                                         batch={featuredBatchId?.title?.split(' ')[1]}
                                     />

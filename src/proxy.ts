@@ -5,12 +5,33 @@ import { getSessionCookie } from 'better-auth/cookies';
 
 const PROTECTED_PATHS = ['/checkout'] as const;
 
+const BETTER_AUTH_COOKIE_KEYS = [
+  'better-auth.session_token',
+  '__Secure-better-auth.session_token',
+  'better-auth.session_token.0',
+  '__Secure-better-auth.session_token.0',
+] as const;
+
+function hasBetterAuthSession(request: NextRequest): boolean {
+  if (getSessionCookie(request)) {
+    return true;
+  }
+
+  for (const key of BETTER_AUTH_COOKIE_KEYS) {
+    if (request.cookies.get(key)?.value) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function proxy(request: NextRequest) {
   const { pathname, search, origin } = request.nextUrl;
   const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
 
   //  Use BetterAuth helper (much more reliable than manual cookie check)
-  const betterAuthSession = Boolean(getSessionCookie(request));
+  const betterAuthSession = hasBetterAuthSession(request);
 
   if (process.env.NODE_ENV === 'development') {
     console.debug(`[proxy] Path: ${pathname} | Better Auth Session: ${betterAuthSession}`);

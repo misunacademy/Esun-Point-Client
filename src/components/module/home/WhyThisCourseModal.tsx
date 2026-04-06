@@ -24,7 +24,7 @@ export default function WhyThisCourseModal({
         </DialogHeader>
         <iframe
           className="w-full h-full"
-          src="https://www.youtube.com/embed/JDYJwp8nbew?si=vEdGzIzqKMfBYo23&amp;start=1"
+          src="https://www.youtube.com/embed/LDz3OX_cK6I?si=ONSvttswWqUy1G3T&amp;start=1"
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"

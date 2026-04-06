@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -57,16 +56,16 @@ export default function AuthGuard({ children, requiredRoles }: AuthGuardProps) {
         if (isAdminRoute && !hasAdminAccess) {
             console.warn('[AuthGuard] Insufficient permissions for admin route');
             if (hasInstructorAccess) {
-                router.replace('/instructor/dashboard');
+                router.replace('/dashboard/admin');
             } else {
-                router.replace('/dashboard/student');
+                router.replace('/my-classes');
             }
             return;
         }
 
         if (isInstructorRoute && !hasInstructorAccess && !hasAdminAccess) {
             console.warn('[AuthGuard] Insufficient permissions for instructor route');
-            router.replace('/dashboard/student');
+            router.replace('/my-classes');
             return;
         }
 
@@ -82,9 +81,9 @@ export default function AuthGuard({ children, requiredRoles }: AuthGuardProps) {
                 if (hasAdminAccess) {
                     router.replace('/dashboard/admin');
                 } else if (hasInstructorAccess) {
-                    router.replace('/instructor/dashboard');
+                    router.replace('/dashboard/admin');
                 } else {
-                    router.replace('/dashboard/student');
+                    router.replace('/my-classes');
                 }
                 return;
             }
