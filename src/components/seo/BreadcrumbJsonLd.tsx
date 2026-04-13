@@ -2,12 +2,10 @@
 
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
-import { useEffect } from 'react';
-import { trackCustom } from '@/lib/metaPixel';
 
 const BreadcrumbJsonLd = () => {
     const pathname = usePathname();
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.misun-academy.com';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!;
 
     // Map routes to breadcrumb names and URLs
     const breadcrumbMap: { [key: string]: { name: string; item: string } } = {
@@ -27,19 +25,27 @@ const BreadcrumbJsonLd = () => {
             name: 'Enroll',
             item: `${baseUrl}/checkout`,
         },
-        '/auth': {
-            name: 'Login / Registration',
-            item: `${baseUrl}/auth`,
-        }
+        '/feedback': {
+            name: 'Student Feedback',
+            item: `${baseUrl}/feedback`,
+        },
+        '/privacy-policy': {
+            name: 'Privacy Policy',
+            item: `${baseUrl}/privacy-policy`,
+        },
+        '/refund-policy': {
+            name: 'Refund Policy',
+            item: `${baseUrl}/refund-policy`,
+        },
+        '/terms-and-conditions': {
+            name: 'Terms & Conditions',
+            item: `${baseUrl}/terms-and-conditions`,
+        },
     };
-    // Track page view for homepage
-    useEffect(() => {
-        trackCustom("HomepageView");
-    }, []);
 
     // Generate breadcrumb trail
     const breadcrumbs = Object.entries(breadcrumbMap)
-        .filter(([route]) => pathname.startsWith(route))
+        .filter(([route]) => pathname === route || (route !== '/' && pathname.startsWith(route)))
         .map(([, value], index) => ({
             '@type': 'ListItem',
             position: index + 1,
@@ -60,8 +66,10 @@ const BreadcrumbJsonLd = () => {
             id="breadcrumb-jsonld"
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            strategy="afterInteractive"
         />
     );
 };
 
 export default BreadcrumbJsonLd;
+

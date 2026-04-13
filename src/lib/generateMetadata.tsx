@@ -6,9 +6,10 @@ interface GenerateMetadataParams {
     keywords?: string[];
     slug?: string; // e.g., 'courses'
     image?: string; // fallback to default
+    noIndex?: boolean; // prevent indexing for private pages
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.misun-academy.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
 const DEFAULT_IMAGE = 'default-og-image.png';
 const SITE_NAME = 'ESUN POINT';
 
@@ -18,6 +19,7 @@ export const generateMetadata = ({
     keywords = [],
     slug = '',
     image = DEFAULT_IMAGE,
+    noIndex = false,
 }: GenerateMetadataParams): Metadata => {
     const normalizedSlug = slug ? `/${slug.replace(/^\/+/, '')}` : '';
     const normalizedImage = image.replace(/^\/+/, '');
@@ -29,6 +31,13 @@ export const generateMetadata = ({
         description,
         keywords,
         metadataBase: new URL(BASE_URL),
+        ...(noIndex && {
+            robots: {
+                index: false,
+                follow: false,
+                googleBot: { index: false, follow: false },
+            },
+        }),
         alternates: {
             canonical: url,
         },
@@ -45,7 +54,7 @@ export const generateMetadata = ({
                     alt: `${title} | ${SITE_NAME}`,
                 },
             ],
-            locale: 'bn_BD',
+            locale: 'en_US',
             type: 'website',
         },
         twitter: {
@@ -53,6 +62,7 @@ export const generateMetadata = ({
             title,
             description,
             images: [finalImage],
+            site: '@EsunPoint',
         },
     };
 };

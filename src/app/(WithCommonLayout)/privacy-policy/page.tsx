@@ -1,4 +1,19 @@
 // app/privacy-policy/page.tsx
+import { generateMetadata } from '@/lib/generateMetadata';
+
+export const metadata = generateMetadata({
+    title: 'Privacy Policy | ESUN POINT',
+    description:
+        'Read the ESUN POINT privacy policy to understand how MISUN Academy collects, uses, and protects your personal information when you use our platform and courses.',
+    keywords: [
+        'esun point privacy policy',
+        'misun academy data policy',
+        'online course privacy',
+        'student data protection bangladesh',
+    ],
+    slug: 'privacy-policy',
+});
+
 export default function PrivacyPolicyPage() {
     return (
         <div className="min-h-screen bg-[#060f0a] relative overflow-hidden pt-20">

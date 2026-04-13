@@ -1,8 +1,24 @@
-
+import { generateMetadata } from '@/lib/generateMetadata';
 import { Target, Eye, Users, ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { ajeful, debrotto, mehedi, mithun, neyemur, nur, nur_2, puspita } from "@/assets/teamMembers/index";
 import Link from "next/link";
+
+export const metadata = generateMetadata({
+    title: 'About Us | ESUN POINT',
+    description:
+        'Learn about ESUN POINT and the MISUN Academy team. Our mission is to provide professional English communication training that builds confident, career-ready learners in Bangladesh and beyond.',
+    keywords: [
+        'about esun point',
+        'misun academy team',
+        'english course instructor',
+        'khulna english academy',
+        'online english education bangladesh',
+        'puspita singha instructor',
+        'mithun sarkar misun',
+    ],
+    slug: 'about',
+});
 
 const teamMembers = [
     {
