@@ -129,8 +129,8 @@ export default function RootLayout({
                 '@type': 'Organization',
                 name: 'MISUN Academy',
                 alternateName: 'ESUN POINT',
-                url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.misun-academy.com',
-                logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.misun-academy.com'}/preview/default-og-image.png`,
+                url: process.env.NEXT_PUBLIC_SITE_URL,
+                logo: `${process.env.NEXT_PUBLIC_SITE_URL}/preview/default-og-image.png`,
                 description:
                   'ESUN POINT is an online learning platform offering professional English communication courses in Bangladesh.',
                 address: {
@@ -156,7 +156,7 @@ export default function RootLayout({
                 '@context': 'https://schema.org',
                 '@type': 'WebSite',
                 name: 'ESUN POINT',
-                url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.misun-academy.com',
+                url: process.env.NEXT_PUBLIC_SITE_URL,
                 description:
                   'Professional English communication courses by MISUN Academy.',
                 publisher: {
