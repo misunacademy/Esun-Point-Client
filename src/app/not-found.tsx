@@ -5,25 +5,28 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function NotFoundPage() {
-    const [path, setPath] = useState(window.location.href);
-    const [referrer, setReferrer] = useState(document.referrer || '');
+    const [path, setPath] = useState<string>('');
+    const [referrer, setReferrer] = useState<string>('');
+
+    useEffect(() => {
+        setPath(window.location.href);
+        setReferrer(document.referrer || '');
+    }, []);
 
     useEffect(() => {
         // Run only in development to avoid sending logs in production
         if (process.env.NODE_ENV !== 'development') return;
+        if (!path) return;
 
-        const p = window.location.href;
-        const r = document.referrer || '';
-
-        console.warn('[NotFound] Rendered for path:', p, 'referrer:', r);
+        console.warn('[NotFound] Rendered for path:', path, 'referrer:', referrer);
 
         // Send a small dev-only payload to an API route so server logs capture it too
         fetch('/api/debug/log', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ path: p, referrer: r }),
+            body: JSON.stringify({ path, referrer }),
         }).catch((err) => console.debug('[NotFound] failed to send debug log', err));
-    }, []);
+    }, [path, referrer]);
 
     return (
         <div className="relative flex min-h-screen items-center justify-center bg-gray-100">

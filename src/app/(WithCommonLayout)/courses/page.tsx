@@ -1,10 +1,11 @@
 import { generateMetadata } from '@/lib/generateMetadata';
 import EnglishCourseDetails from './EnglishCourseDetails';
+import CourseJsonLd from '@/components/seo/CourseJsonLd';
 
 export const metadata = generateMetadata({
-  title: 'Courses | ESUN POINT',
+  title: 'English for Professional Communication Course | ESUN POINT',
   description:
-    'Explore all courses from ESUN POINT. Learn spoken English and practical communication skills with structured guidance and real-world practice.',
+    'Explore the ESUN POINT Professional English Communication course. Learn spoken English, business communication, interview skills, and more with expert mentorship and live interactive classes.',
   keywords: [
     'Spoken English Course',
     'Professional Communication',
@@ -12,10 +13,17 @@ export const metadata = generateMetadata({
     'Online Course',
     'English Learning',
     'Bangladesh',
+    'Business English',
+    'Interview Skills',
   ],
   slug: 'courses',
 });
 
 export default function CoursesPage() {
-  return <EnglishCourseDetails />;
+  return (
+    <>
+      <CourseJsonLd />
+      <EnglishCourseDetails />
+    </>
+  );
 }

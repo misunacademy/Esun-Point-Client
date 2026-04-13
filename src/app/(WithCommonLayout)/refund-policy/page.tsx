@@ -1,4 +1,19 @@
 // app/refund-policy/page.tsx
+import { generateMetadata } from '@/lib/generateMetadata';
+
+export const metadata = generateMetadata({
+    title: 'Refund Policy | ESUN POINT',
+    description:
+        'Understand the ESUN POINT refund policy. Learn about eligibility criteria, how to request a refund, and our processing timeline for course fee returns.',
+    keywords: [
+        'esun point refund policy',
+        'misun academy refund',
+        'online course refund bangladesh',
+        'course fee refund',
+    ],
+    slug: 'refund-policy',
+});
+
 export default function RefundPolicyPage() {
     return (
         <div className="min-h-screen bg-[#060f0a] relative overflow-hidden pt-20">

@@ -185,7 +185,7 @@ export default function HeroSection() {
               <div className="w-14 h-14 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
                 <UserCheck size={24} />
               </div>
-              <h2 className="text-white font-bold text-lg mb-2">Expert Mentorship</h2>
+              <h3 className="text-white font-bold text-lg mb-2">Expert Mentorship</h3>
               <p className="text-white/50 text-sm leading-relaxed">Personalized step-by-step guidance to build your confidence and refine your English skills.</p>
             </div>
 
@@ -196,7 +196,7 @@ export default function HeroSection() {
               <div className="w-14 h-14 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4 relative z-10">
                 <Video size={24} />
               </div>
-              <h2 className="text-white font-bold text-lg mb-2 relative z-10">Interactive live Classes</h2>
+              <h3 className="text-white font-bold text-lg mb-2 relative z-10">Interactive live Classes</h3>
               <p className="text-white/50 text-sm leading-relaxed relative z-10">Engage in real-time practice sessions focusing on workplace communication scenarios.</p>
             </div>
 
@@ -205,7 +205,7 @@ export default function HeroSection() {
               <div className="w-14 h-14 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
                 <Clock size={24} />
               </div>
-              <h2 className="text-white font-bold text-lg mb-2">Lifetime Access</h2>
+              <h3 className="text-white font-bold text-lg mb-2">Lifetime Access</h3>
               <p className="text-white/50 text-sm leading-relaxed">Review course recordings and access updated learning materials whenever you need them.</p>
             </div>
 

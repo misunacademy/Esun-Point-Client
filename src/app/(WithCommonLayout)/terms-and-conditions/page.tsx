@@ -1,4 +1,19 @@
 // app/terms-and-conditions/page.tsx
+import { generateMetadata } from '@/lib/generateMetadata';
+
+export const metadata = generateMetadata({
+    title: 'Terms & Conditions | ESUN POINT',
+    description:
+        'Read the ESUN POINT terms and conditions. Understand your rights and responsibilities as a student, including course content usage, account policies, and community guidelines.',
+    keywords: [
+        'esun point terms and conditions',
+        'misun academy terms of service',
+        'online course terms',
+        'student agreement bangladesh',
+    ],
+    slug: 'terms-and-conditions',
+});
+
 export default function TermsAndConditionsPage() {
     return (
         <div className="min-h-screen bg-[#060f0a] relative overflow-hidden pt-20">
