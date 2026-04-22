@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { AlignLeft, LogOut, User, UserCircle, X } from 'lucide-react';
+import { AlignLeft, LogOut, User, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 import Image from 'next/image';
+import { AuthUser } from '@/types/auth';
 
 export default function MobileNavbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,9 @@ export default function MobileNavbar() {
     const redirectBackUrl = process.env.NEXT_PUBLIC_EP_FRONTEND_URL!;
     const loginHref = `${process.env.NEXT_PUBLIC_MA_FRONTEND_URL || ''}/auth/login?redirect_url=${encodeURIComponent(redirectBackUrl)}`;
     const profileHref = `${process.env.NEXT_PUBLIC_MA_FRONTEND_URL || ''}/profile`;
+    const isEnrolled = (user?.enrolledCourses?.length ?? 0) > 0;
+    const userRole = (user as AuthUser | null)?.role;
+    const canSeeClasses = !!userRole && userRole.toLowerCase() === 'learner';
 
     const handleLogout = async () => {
         await signOut();
@@ -109,9 +113,25 @@ export default function MobileNavbar() {
                             href={profileHref}
                             className="text-lg h-14 flex items-center gap-2 border-b border-blue-500/20"
                         >
-                            <UserCircle className="h-5 w-5 text-blue-400" />
+                            {/* <UserCircle className="h-5 w-5 text-blue-400" /> */}
                             Profile
                         </Link>
+                        {
+                            userRole === 'learner' && canSeeClasses && isEnrolled &&
+                            <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/enrollment-posters`} className='text-lg h-14 flex items-center gap-2 border-b border-blue-500/20'>
+                                {/* <FaRegFileAlt className=" h-5 w-5 text-blue-400" /> */}
+                                Your Enrollment Posters
+                            </Link>
+                        }
+                            {(userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor') ? (
+                            <Link
+                                onClick={() => setIsOpen(!isOpen)}
+                                href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/dashboard/${userRole}`}
+                                className="text-lg h-14 flex items-center border-b border-primary/20 font-bangla"
+                            >
+                                Dashboard
+                            </Link>
+                        ) : null}
                         <button
                             type="button"
                             onClick={handleLogout}

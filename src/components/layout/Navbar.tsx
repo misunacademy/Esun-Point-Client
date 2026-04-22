@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import MobileNavbar from './MobileNavbar';
 import Image from 'next/image';
 import MisunLogo from '@/assets/svg/esun-logo.svg';
-import { LogOut, Sparkles, User, UserCircle } from 'lucide-react';
+import { LayoutDashboard, LogOut, Sparkles, User, UserCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import type { AuthUser } from '@/types/auth';
 import {
@@ -18,12 +18,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { FaRegFileAlt } from 'react-icons/fa';
 
 export default function Navbar() {
   const [isHydrated, setIsHydrated] = useState(false); // ensure SSR/CSR markup match
   const navbarRef = useRef<HTMLDivElement>(null);
   const { user, signOut } = useAuth();
-
+  const isEnrolled = (user?.enrolledCourses?.length ?? 0) > 0;
 
 
   const handleEnrollClick = () => {
@@ -173,7 +174,7 @@ export default function Navbar() {
                   <DropdownMenuTrigger asChild>
                     <button
                       aria-label="Open user menu"
-                      className="relative h-10 w-10 rounded-full border border-blue-500/40 transition-all duration-300 p-0 overflow-hidden hover:border-blue-500 hover:shadow-[0_0_15px_hsl(217_91%_60%/0.4)]"
+                      className="relative h-10 w-10 rounded-full border border-blue-500/40 transition-all duration-300 p-0 overflow-hidden hover:border-blue-500 hover:shadow-[0_0_15px_hsl(217_91%_60%/0.4)] flex items-center justify-center"
                       type="button"
                     >
                       {safeUser.image ? (
@@ -203,6 +204,24 @@ export default function Navbar() {
                         Profile
                       </Link>
                     </DropdownMenuItem>
+                    {
+                      userRole === 'learner' && canSeeClasses && isEnrolled &&
+                      <DropdownMenuItem asChild>
+                        <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/enrollment-posters`} className="">
+                          <FaRegFileAlt className="mr-2 h-4 w-4" />
+                          Your Enrollment Posters
+                        </Link>
+                      </DropdownMenuItem>
+                    }
+                    {
+                            (userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor') &&
+                            <DropdownMenuItem asChild>
+                                <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/dashboard/${userRole}`} className="flex items-center">
+                                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                                    Dashboard
+                                </Link>
+                            </DropdownMenuItem>
+                        }
                     <DropdownMenuItem onClick={handleLogout} className="flex items-center text-red-600">
                       <LogOut className="mr-2 h-4 w-4" />
                       Log out
