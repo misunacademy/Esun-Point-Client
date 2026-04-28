@@ -18,7 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { FaRegFileAlt } from 'react-icons/fa';
+import { FaCertificate, FaRegFileAlt } from 'react-icons/fa';
 
 export default function Navbar() {
   const [isHydrated, setIsHydrated] = useState(false); // ensure SSR/CSR markup match
@@ -126,19 +126,7 @@ export default function Navbar() {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-blue-400 group-hover:w-full transition-all duration-300 ease-out" />
                 </Link>
               ) : null}
-              {/* <div className='flex items-end justify-end space-x-4'>
-                <Link href={"/checkout"}>
-                  <Button variant="creative" className='w-full sm:w-auto px-6 py-2 h-auto text-sm' onClick={() => {
-                    // Use helper to ensure event is queued even if pixel isn't loaded yet
-                    import('@/lib/metaPixel').then(({ track }) => track('InitiateCheckout', {
-                      content_name: 'Graphic Design Course',
-                      content_type: 'course',
-                      value: 4000,
-                      currency: 'BDT',
-                    }));
-                  }}>Enroll Now</Button>
-                </Link>
-              </div> */}
+  
               <div className="flex items-center justify-end">
                 <Link href="/checkout" className="w-full sm:w-auto block" onClick={handleEnrollClick} aria-label="Enroll now">
                   {/* Spinning glowing border wrapper */}
@@ -214,6 +202,15 @@ export default function Navbar() {
                       </DropdownMenuItem>
                     }
                     {
+                      userRole === 'learner' && canSeeClasses && isEnrolled &&
+                      <DropdownMenuItem asChild>
+                        <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/my-classes/certificates`} className="">
+                          <FaCertificate className="mr-2 h-4 w-4" />
+                          Certificates
+                        </Link>
+                      </DropdownMenuItem>
+                    }
+                    {
                             (userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor') &&
                             <DropdownMenuItem asChild>
                                 <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/dashboard/${userRole}`} className="flex items-center">
@@ -231,7 +228,6 @@ export default function Navbar() {
               ) : null}
             </div>
             <div className="md:hidden px-3">
-              {/* <PhoneNavbar /> */}
               <MobileNavbar />
             </div>
           </div>

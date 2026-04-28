@@ -46,12 +46,7 @@ export default function MobileNavbar() {
                     isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
                 )}
             >
-                {/* <Link
-                    onClick={() => setIsOpen(!isOpen)}
-                    href="/"
-                    className="text-lg h-14 flex items-center border-b border-dark">
-                    Home
-                </Link> */}
+          
                 <Link
                     onClick={() => setIsOpen(!isOpen)}
                     href="/"
@@ -121,6 +116,13 @@ export default function MobileNavbar() {
                             <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/enrollment-posters`} className='text-lg h-14 flex items-center gap-2 border-b border-blue-500/20'>
                                 {/* <FaRegFileAlt className=" h-5 w-5 text-blue-400" /> */}
                                 Your Enrollment Posters
+                            </Link>
+                        }
+                        {
+                            userRole === 'learner' && canSeeClasses && isEnrolled &&
+                            <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/my-classes/certificates`} className='text-lg h-14 flex items-center gap-2 border-b border-blue-500/20'>
+                                {/* <FaRegFileAlt className=" h-5 w-5 text-blue-400" /> */}
+                                Certificates
                             </Link>
                         }
                             {(userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor') ? (
