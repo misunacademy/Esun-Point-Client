@@ -3,6 +3,9 @@ import { baseApi } from "./baseApi";
 
 export interface SettingsResponse {
   _id?: string;
+  popupEnabled?: boolean;
+  popupImageUrl?: string;
+  popupLink?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

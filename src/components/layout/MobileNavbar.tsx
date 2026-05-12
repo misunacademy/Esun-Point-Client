@@ -128,7 +128,7 @@ export default function MobileNavbar() {
                             {(userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor') ? (
                             <Link
                                 onClick={() => setIsOpen(!isOpen)}
-                                href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/dashboard/${userRole}`}
+                                href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/dashboard/${(userRole==='superadmin' || userRole==='admin') ? 'admin' : `${userRole}`}`}
                                 className="text-lg h-14 flex items-center border-b border-primary/20 font-bangla"
                             >
                                 Dashboard

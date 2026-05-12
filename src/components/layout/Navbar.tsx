@@ -126,7 +126,7 @@ export default function Navbar() {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-blue-400 group-hover:w-full transition-all duration-300 ease-out" />
                 </Link>
               ) : null}
-  
+
               <div className="flex items-center justify-end">
                 <Link href="/checkout" className="w-full sm:w-auto block" onClick={handleEnrollClick} aria-label="Enroll now">
                   {/* Spinning glowing border wrapper */}
@@ -211,14 +211,14 @@ export default function Navbar() {
                       </DropdownMenuItem>
                     }
                     {
-                            (userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor') &&
-                            <DropdownMenuItem asChild>
-                                <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/dashboard/${userRole}`} className="flex items-center">
-                                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                                    Dashboard
-                                </Link>
-                            </DropdownMenuItem>
-                        }
+                      (userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor') &&
+                      <DropdownMenuItem asChild>
+                        <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/dashboard/${(userRole==='superadmin' || userRole==='admin') ? 'admin' : `${userRole}`}`} className="flex items-center">
+                          <LayoutDashboard className="mr-2 h-4 w-4" />
+                          Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    }
                     <DropdownMenuItem onClick={handleLogout} className="flex items-center text-red-600">
                       <LogOut className="mr-2 h-4 w-4" />
                       Log out
