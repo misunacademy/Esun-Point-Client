@@ -211,7 +211,7 @@ export default function Navbar() {
                       </DropdownMenuItem>
                     }
                     {
-                      (userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor') &&
+                      (userRole === 'admin' || userRole === 'superadmin' || userRole === 'instructor' || userRole === 'employee') &&
                       <DropdownMenuItem asChild>
                         <Link href={`${process.env.NEXT_PUBLIC_MA_FRONTEND_URL}/dashboard/${(userRole==='superadmin' || userRole==='admin') ? 'admin' : `${userRole}`}`} className="flex items-center">
                           <LayoutDashboard className="mr-2 h-4 w-4" />
