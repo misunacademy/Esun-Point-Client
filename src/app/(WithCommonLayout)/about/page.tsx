@@ -1,7 +1,7 @@
 import { generateMetadata } from '@/lib/generateMetadata';
 import { Target, Eye, Users, ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
-import { ajeful, debrotto, mehedi, mithun, neyemur, nur, nur_2, puspita } from "@/assets/teamMembers/index";
+import { ajeful, debrotto, mehedi, mithun, neyemur, nur, nur_2, puspita,sakin } from "@/assets/teamMembers/index";
 import Link from "next/link";
 
 export const metadata = generateMetadata({
@@ -74,6 +74,14 @@ const teamMembers = [
         role: "Marketing Executive",
         company: "MISUN Academy",
         image: neyemur,
+
+    },
+
+    {
+        name: "𝐍𝐚𝐟𝐢𝐮𝐧 𝐒𝐚𝐤𝐢𝐧",
+        role: "Community Growth Manager",
+        company: "MISUN Academy",
+        image: sakin,
 
     },
 ];

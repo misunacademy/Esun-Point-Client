@@ -6,6 +6,10 @@ export interface SettingsResponse {
   popupEnabled?: boolean;
   popupImageUrl?: string;
   popupLink?: string;
+  maFacebookGroupLink?: string;
+  maWhatsappGroupLink?: string;
+  epFacebookGroupLink?: string;
+  epWhatsappGroupLink?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
