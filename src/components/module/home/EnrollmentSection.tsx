@@ -46,7 +46,7 @@ function CourseEnrollmentCard({ batch }: { batch: BatchResponse; }) {
 
     return (
         <FadeIn delay={0.1 + 0 * 0.08} direction="up" style={themeVars}>
-            <div style={themeVars} className="relative overflow-hidden rounded-[2rem] border border-primary/15 bg-[#060f0a]
+            <div style={themeVars} className="relative overflow-hidden rounded-[2rem] border border-primary/15 bg-[#060a12]
                 hover:border-primary/35 hover:shadow-[0_0_40px_hsl(var(--primary)/0.12)]
                 transition-all duration-500 group">
 
@@ -65,23 +65,6 @@ function CourseEnrollmentCard({ batch }: { batch: BatchResponse; }) {
 
                     {/* ── Course identity row ── */}
                     <div className="flex items-start gap-4">
-                        {/* Thumbnail */}
-                        {/* <div className="relative flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border border-primary/20
-                            shadow-[0_0_14px_hsl(156_70%_42%/0.15)] group-hover:border-primary/40 transition-colors">
-                            {course.thumbnailImage ? (
-                                <Image
-                                    src={course.thumbnailImage}
-                                    alt={course.title}
-                                    fill
-                                    className="object-cover"
-                                    sizes="64px"
-                                />
-                            ) : (
-                                <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                                    <BookOpen size={24} className="text-primary/60" />
-                                </div>
-                            )}
-                        </div> */}
 
                         {/* Title + batch badge */}
                         <div className="flex-1 min-w-0">
@@ -89,18 +72,10 @@ function CourseEnrollmentCard({ batch }: { batch: BatchResponse; }) {
                                 bg-primary/10 border border-primary/20 mb-2">
                                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
                                 <span className="text-[10px] font-semibold tracking-[0.15em] uppercase text-primary/80 font-bangla">
-                                    ব্যাচ-{String(batch.batchNumber).padStart(2, '0')}
+                                    Batch-{String(batch.title?.split(' ')[1]).padStart(2, '0')}
                                 </span>
                             </div>
-                            {/* <h3 className="text-white font-bold text-lg leading-tight font-bangla line-clamp-2
-                                group-hover:text-primary/90 transition-colors">
-                                {course.title}
-                            </h3> */}
-                            {/* {course.shortDescription && (
-                                <p className="text-white/45 text-xs mt-1 leading-relaxed font-bangla line-clamp-2">
-                                    {course.shortDescription}
-                                </p>
-                            )} */}
+                    
                         </div>
                     </div>
 
@@ -183,7 +158,7 @@ export const EnrollmentSection = () => {
 
     if (gdCourseLoading || gdCurrentLoading) {
         return (
-            <section className="relative py-20 px-4 bg-[#060f0a] font-bangla">
+            <section className="relative py-20 px-4 bg-[#060a12] font-bangla">
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                 <div className="max-w-4xl mx-auto text-center">
                     <p className="text-white/40 text-sm animate-pulse">লোড হচ্ছে...</p>
@@ -197,7 +172,7 @@ export const EnrollmentSection = () => {
         <section
         id='enroll-now'
             data-dark-section
-            className="relative py-24 px-4 bg-[#060f0a] overflow-hidden"
+            className="relative py-24 px-4 bg-[#060a12] overflow-hidden"
         >
             {/* ── Top edge ── */}
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />

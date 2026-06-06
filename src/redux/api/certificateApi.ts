@@ -32,6 +32,15 @@ export interface CertificateResponse {
   updatedAt: Date;
 }
 
+export interface VerifiedCertificate {
+  certificateId: string;
+  recipientName: string;
+  courseName: string;
+  batchName?: string;
+  issuedDate: string;
+  batchId?:any;
+}
+
 const certificateApi = baseApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
@@ -68,14 +77,14 @@ const certificateApi = baseApi.injectEndpoints({
     }),
 
     // Verify certificate (public)
-    verifyCertificate: build.query<{ data: { isValid: boolean; status: string; certificate?: any; reason?: string } }, string>({
+    verifyCertificate: build.query<{ data: { isValid: boolean; status: string; certificate?: VerifiedCertificate; reason?: string } }, string>({
       query: (certificateId) => ({
         url: `/certificates/verify/${certificateId}`,
       }),
     }),
 
     // Admin: Get all certificates (pending, approved, rejected)
-    getCertificates: build.query<{ data: CertificateResponse[] }, { status?: string }>({
+    getCertificates: build.query<{ data: CertificateResponse[]; meta?: { total: number; page: number; limit: number; totalPages: number } }, { status?: string; page?: number; limit?: number }>({
       query: (params) => ({
         url: "/certificates",
         params,
@@ -137,6 +146,7 @@ export const {
   useGetMyCertificatesQuery,
   useGetCertificateByEnrollmentQuery,
   useVerifyCertificateQuery,
+  useLazyVerifyCertificateQuery,
   useGetCertificatesQuery,
   useGetPendingCertificatesQuery,
   useUpdateCertificateMutation,

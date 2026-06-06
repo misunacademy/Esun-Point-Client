@@ -39,19 +39,15 @@ const baseQueryWithSessionHandling: BaseQueryFn<
         console.warn('[baseApi] 401 Unauthorized - session expired or invalid');
 
         // Better Auth handles sessions via HTTP-only cookies
-        // Sign out and redirect to centralized main-domain login
+        // Sign out and redirect to login
         await authServerApi.signOut();
 
         if (typeof window !== 'undefined') {
             toast.error('Your session has expired. Please login again.');
-            const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
-            if (mainFrontendUrl) {
-                const loginUrl = new URL('/auth/login', mainFrontendUrl);
-                loginUrl.searchParams.set('redirect_url', window.location.href);
-                window.location.href = loginUrl.toString();
-            } else {
-                window.location.href = '/';
-            }
+            const loginUrl = new URL('/auth', window.location.origin);
+            const redirectPath = `${window.location.pathname}${window.location.search}`;
+            loginUrl.searchParams.set('redirect_url', redirectPath);
+            window.location.href = loginUrl.toString();
         }
 
         return result;
