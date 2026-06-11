@@ -10,6 +10,7 @@ import {
 import Autoplay from 'embla-carousel-autoplay';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 import Link from 'next/link';
 import { studentFeedbacks } from '@/constants/studentFeedbacks';
 import { FadeIn } from '../../ui/FadeIn';
@@ -35,26 +36,10 @@ const successStories: SuccessStory[] = [
 ];
 
 export default function Feedback() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [api, setApi] = useState<CarouselApi>();
-  const [successApi, setSuccessApi] = useState<CarouselApi>();
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [videoTitles, setVideoTitles] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    if (!api) return;
-
-    const onSelect = () => {
-      setSelectedIndex(api.selectedScrollSnap());
-    };
-
-    api.on('select', onSelect);
-    onSelect();
-
-    return () => {
-      api.off('select', onSelect);
-    };
-  }, [api]);
 
   // fetch video titles via YouTube oEmbed once on mount
   useEffect(() => {
@@ -76,6 +61,7 @@ export default function Feedback() {
           console.error('Failed to fetch title for', story.videoId, err);
         });
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -180,16 +166,19 @@ export default function Feedback() {
                           className="absolute inset-0 w-full h-full border-0"
                         />
                       ) : (
-                        <div
-                          onClick={() => setPlayingVideoId(story.videoId)}
-                          className="w-full h-full cursor-pointer group"
-                        >
-                          {/* YouTube Thumbnail */}
-                          <img
-                            src={`https://i.ytimg.com/vi/${story.videoId}/mqdefault.jpg`}
-                            alt={videoTitles[story.videoId] || 'Success Story'}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
+                          <div
+                            onClick={() => setPlayingVideoId(story.videoId)}
+                            className="relative w-full h-full cursor-pointer group"
+                          >
+                            {/* YouTube Thumbnail */}
+                            <Image
+                              src={`https://i.ytimg.com/vi/${story.videoId}/mqdefault.jpg`}
+                              alt={videoTitles[story.videoId] || 'Success Story'}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 640px"
+                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                              unoptimized
+                            />
                           {/* Hover Overlay */}
                           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
 

@@ -199,6 +199,11 @@ const getTemplatePriority = (
 /*                                   Page                                     */
 /* -------------------------------------------------------------------------- */
 
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 3;
+const ZOOM_STEP = 0.1;
+const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+
 function CongratulationsPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -260,19 +265,12 @@ function CongratulationsPage() {
   } | null>(null);
   const previewImgRef = useRef<HTMLDivElement | null>(null);
 
-  const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
-
   const moveImage = (dx: number, dy: number) => {
     setImageOffset((prev) => ({
       x: clamp(prev.x + dx, -1, 1),
       y: clamp(prev.y + dy, -1, 1),
     }));
   };
-
-  // Zoom helpers - allow zoom-out (values < 1) so the image can be scaled down inside the circle
-  const MIN_ZOOM = 0.5; // 50%
-  const MAX_ZOOM = 3;
-  const ZOOM_STEP = 0.1;
 
   const zoomIn = () => setImageZoom((prev) => clamp(Number((prev + ZOOM_STEP).toFixed(2)), MIN_ZOOM, MAX_ZOOM));
   const zoomOut = () => setImageZoom((prev) => clamp(Number((prev - ZOOM_STEP).toFixed(2)), MIN_ZOOM, MAX_ZOOM));
@@ -731,6 +729,7 @@ function CongratulationsPage() {
                                 src={userImage}
                                 alt="Preview"
                                 fill
+                                sizes="96px"
                                 className="object-cover"
                               />
                               <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 hover:opacity-100 transition-opacity">

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authServerApi } from '@/lib/auth-server-api';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -95,7 +94,7 @@ export function useAuth() {
   /**
    * Subdomain registration must be handled on main domain.
    */
-  const signUp = async (_name: string, _email: string, _password: string) => {
+  const signUp = async () => {
     try {
       const loginUrl = buildMainLoginUrl();
       if (typeof window !== 'undefined') {
@@ -218,7 +217,7 @@ export function useAuth() {
       toast.error('Email verification failed');
       return { success: false, error: (error as Error).message };
     }
-  }, [router]);
+  }, [buildMainLoginUrl]);
 
   return {
     // Session data

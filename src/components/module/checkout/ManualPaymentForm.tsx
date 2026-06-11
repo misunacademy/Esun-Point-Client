@@ -27,7 +27,7 @@ interface ManualPaymentFormProps {
 }
 
 const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
-    manualCurrency,batch }: ManualPaymentFormProps) => {
+    batch }: ManualPaymentFormProps) => {
     const form = useForm<PaymentForm>({
         resolver: zodResolver(paymentSchema),
         defaultValues: {
@@ -47,7 +47,6 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
     const onSubmit = (data: PaymentForm) => {
         onPaymentComplete(data);
     };
-    const displayCurrency = paymentInfo.currency || 'BDT';
     const displayAmount = typeof manualAmount === 'number' ? manualAmount : paymentInfo.amount;
     const dynamicInstructions = paymentInfo.instructions.map((instruction) => {
         if (instruction.toLowerCase().includes('enter the exact amount')) {

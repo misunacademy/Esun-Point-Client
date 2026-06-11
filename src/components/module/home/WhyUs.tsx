@@ -7,7 +7,6 @@ import {
   BookOpen,
   Star,
   ArrowRight,
-  Users,
   Clock,
   Laptop,
   Search,

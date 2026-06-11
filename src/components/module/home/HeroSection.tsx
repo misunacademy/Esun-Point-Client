@@ -129,6 +129,7 @@ export default function HeroSection() {
                 src={instructor}
                 alt="Esun Point - English Instructor"
                 fill
+                sizes="(max-width: 640px) 280px, 550px"
                 style={{ objectFit: "contain", objectPosition: "bottom center" }}
                 priority
                 // drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]

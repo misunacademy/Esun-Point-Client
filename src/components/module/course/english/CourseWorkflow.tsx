@@ -1,5 +1,5 @@
 "use client"
-import { Assignment, Scic, SearchOnline, Session, SupportSession, SubmitAssignment, WeekCourse, Duration } from "@/assets/icons";
+import { Scic, SearchOnline, Session, SupportSession, SubmitAssignment, WeekCourse, Duration } from "@/assets/icons";
 import Container from "@/components/ui/container";
 import Clock from "@/assets/icons/Clock";
 import Link from "next/link";
