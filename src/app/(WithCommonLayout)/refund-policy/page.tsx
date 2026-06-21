@@ -74,8 +74,8 @@ export default function RefundPolicyPage() {
                         </ul>
                         <p className="mt-4">
                             Send your request to:{" "}
-                            <a href="mailto:team@misun-academy.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
-                                team@misun-academy.com
+                            <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
+                                misunacademybd@gmail.com
                             </a>
                         </p>
                     </div>
@@ -94,8 +94,8 @@ export default function RefundPolicyPage() {
                         <p className="text-white/80 font-semibold">By enrolling in our courses, you agree to this refund policy. We strive to provide the best learning experience and appreciate your cooperation.</p>
                         <p className="mt-3">
                             For any further questions, please contact:{" "}
-                            <a href="mailto:team@misun-academy.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
-                                team@misun-academy.com
+                            <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
+                                misunacademybd@gmail.com
                             </a>
                         </p>
                         <p className="mt-4 text-primary/70 font-semibold">— Team MISUN Academy</p>
