@@ -65,7 +65,7 @@ function EnrollmentFixedContent({ batch }: EnrollmentFixedContentProps) {
                 <Link
                     href="#enroll-now"
                     aria-label="এনরোলমেন্ট করুন"
-                    className="fixed left-[260px] bottom-[17px] z-50 group"
+                    className="fixed left-[260px] bottom-[17px] z-50 group hidden sm:block"
                 >
                     <span className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400/55 via-sky-400/45 to-indigo-500/55 blur-lg group-hover:blur-xl transition-all duration-300" />
                     <span className="absolute inset-[-7px] rounded-full border border-blue-200/60 animate-ping" />
