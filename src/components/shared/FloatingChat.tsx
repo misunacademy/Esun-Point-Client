@@ -52,7 +52,7 @@ export default function FloatingChat() {
     {
       id: "init-1",
       sender: "bot",
-      text: "স্বাগতম! আমি Aura, Misun Academy-এর আপনার AI সহায়ক। কিভাবে আপনাকে সাহায্য করতে পারি?",
+      text: "স্বাগতম! আমি Sun, Misun Academy-এর আপনার AI সহায়ক। কিভাবে আপনাকে সাহায্য করতে পারি?",
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -195,7 +195,7 @@ export default function FloatingChat() {
                   <div className="w-10 h-10 rounded-full border border-primary/20 relative overflow-hidden">
                     <Image
                       src="/images/chat-bubble-icon-white.png"
-                      alt="Aura Assistant Avatar"
+                      alt="Sun Assistant Avatar"
                       fill
                       sizes="40px"
                       className="object-cover"
@@ -205,7 +205,7 @@ export default function FloatingChat() {
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-white tracking-wide">
-                    Aura Assistant
+                    Sun Assistant
                   </h3>
                   <p className="text-[11px] text-primary font-medium">অনলাইন</p>
                 </div>
@@ -257,7 +257,7 @@ export default function FloatingChat() {
                     <div className="w-8 h-8 rounded-full border border-primary/20 relative overflow-hidden flex-shrink-0 mt-0.5">
                       <Image
                         src="/images/chat-bubble-icon-white.png"
-                        alt="Aura"
+                        alt="Sun"
                         fill
                         sizes="32px"
                         className="object-cover"
@@ -335,7 +335,7 @@ export default function FloatingChat() {
                   <div className="w-8 h-8 rounded-full border border-primary/20 relative overflow-hidden flex-shrink-0">
                     <Image
                       src="/images/chat-avatar.png"
-                      alt="Aura"
+                      alt="Sun"
                       fill
                       sizes="32px"
                       className="object-cover"
@@ -381,7 +381,7 @@ export default function FloatingChat() {
       <button
         onClick={handleToggle}
         className="fab-btn relative group outline-none cursor-pointer"
-        aria-label="Aura Assistant চালু করুন"
+        aria-label="Sun Assistant চালু করুন"
       >
         {/* Outer glow ring — expands outward on pulse */}
         <div className="absolute -inset-1 rounded-full fab-pulse-glow pointer-events-none"></div>
@@ -400,7 +400,7 @@ export default function FloatingChat() {
         <div className="w-16 h-16 rounded-full bg-[#111b2e] border-2 border-primary shadow-[0_0_8px_hsl(var(--primary)/0.2)] flex items-center justify-center overflow-hidden relative z-10 group-hover:scale-105 transition-transform duration-300">
           <Image
             src="/images/chat-bubble-icon-white.png"
-            alt="Aura Assistant চালু করুন"
+            alt="Sun Assistant চালু করুন"
             fill
             sizes="64px"
             priority

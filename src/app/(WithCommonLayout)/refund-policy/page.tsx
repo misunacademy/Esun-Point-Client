@@ -54,23 +54,23 @@ export default function RefundPolicyPage() {
                     <div className="absolute bottom-0 left-0 w-5 h-5 border-b border-l border-primary/25 rounded-bl-2xl" />
                     <div className="absolute bottom-0 right-0 w-5 h-5 border-b border-r border-primary/25 rounded-br-2xl" />
 
-                    <p className="text-white/75 border-l-2 border-primary/40 pl-4">We are committed to providing a transparent and fair refund process for all our students. Please read our policy carefully to understand your rights and our obligations.</p>
+                    <p className="text-white/75 border-l-2 border-primary/40 pl-4">Our refund policy is simple and transparent. We want you to join our courses with full confidence and clarity.</p>
 
                     <div className="border-t border-primary/15 pt-6">
-                        <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> Refund Eligibility</h2>
+                        <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> Refund Time Window</h2>
                         <p>
-                            Refund requests must be submitted within <strong className="text-white/85">7 days of enrollment or before the 2nd class</strong>, whichever comes first. Please note that no refund requests will be processed after this period.
+                            If you have purchased a course, you may submit a refund request within <strong className="text-white/85">24 hours of purchase</strong>. Refund requests submitted after this window will not be accepted.
                         </p>
                     </div>
 
                     <div className="border-t border-primary/15 pt-6">
                         <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> How to Request a Refund</h2>
-                        <p className="mb-4">To initiate a refund, please send an email to our support team with the following details:</p>
+                        <p className="mb-4">To initiate a refund, please send us an email with the following details:</p>
                         <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary/60">
-                            <li>Full Name and Registered Email</li>
-                            <li>Course Name</li>
-                            <li>Transaction ID & Receipt</li>
-                            <li>Reason for Refund</li>
+                            <li>Your full name and registered email address</li>
+                            <li>Course name</li>
+                            <li>Payment date and payment method</li>
+                            <li>Reason for refund</li>
                         </ul>
                         <p className="mt-4">
                             Send your request to:{" "}
@@ -81,19 +81,19 @@ export default function RefundPolicyPage() {
                     </div>
 
                     <div className="border-t border-primary/15 pt-6">
+                        <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> Review & Follow-up</h2>
+                        <p>After receiving your refund request, our team will typically reach out to you within <strong className="text-white/85">2 to 3 business days</strong>. Additional information may be requested if needed.</p>
+                    </div>
+
+                    <div className="border-t border-primary/15 pt-6">
                         <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> Processing & Timeline</h2>
-                        <p>Once your request is approved, the refund will be processed within <strong className="text-white/85">7 to 10 working days</strong>. The amount will be credited back to your original payment method.</p>
+                        <p>If your refund is approved, the amount will be processed within <strong className="text-white/85">5 to 10 business days</strong>. The refund will be returned to the same payment method used during the original transaction.</p>
                     </div>
 
                     <div className="border-t border-primary/15 pt-6">
-                        <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> Terms & Conditions</h2>
-                        <p>Refunds are only eligible for course fees. Service charges or platform fees incurred during payment are <strong className="text-white/85">non-refundable</strong>. MISUN Academy reserves the right to deny refund requests that do not meet our criteria.</p>
-                    </div>
-
-                    <div className="border-t border-primary/15 pt-6">
-                        <p className="text-white/80 font-semibold">By enrolling in our courses, you agree to this refund policy. We strive to provide the best learning experience and appreciate your cooperation.</p>
+                        <p className="text-white/80 font-semibold">Your satisfaction matters to us. Please review the course details carefully before enrolling and keep the refund window in mind.</p>
                         <p className="mt-3">
-                            For any further questions, please contact:{" "}
+                            📩 For further assistance, email us at:{" "}
                             <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
                                 misunacademybd@gmail.com
                             </a>
@@ -105,4 +105,4 @@ export default function RefundPolicyPage() {
         </div>
     );
 }
-//       
+//      
