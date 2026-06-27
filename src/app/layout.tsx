@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 import BackToTop from "@/components/shared/BackToTop";
-import FloatingChat from "@/components/shared/FloatingChat";
+// import FloatingChat from "@/components/shared/FloatingChat";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali"],
@@ -180,7 +180,7 @@ export default function RootLayout({
           {children}
 
           {/* Global Tech Support Chat widget */}
-          <FloatingChat />
+          {/* <FloatingChat /> */}
 
           {/* Global Back to Top Button */}
           <BackToTop variant="glass-glow" />
