@@ -1,16 +1,18 @@
-import Script from 'next/script';
+import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
-import Providers from '@/providers/Providers';
-import type { Metadata } from 'next';
-import { Hind_Siliguri } from 'next/font/google';
-import './globals.css';
+import Providers from "@/providers/Providers";
+import type { Metadata } from "next";
+import { Hind_Siliguri } from "next/font/google";
+import "./globals.css";
+import BackToTop from "@/components/shared/BackToTop";
+// import FloatingChat from "@/components/shared/FloatingChat";
 
 const hindSiliguri = Hind_Siliguri({
-  subsets: ['bengali'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-bangla',
-  display: 'swap',
+  subsets: ["bengali"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-bangla",
+  display: "swap",
   preload: false,
 });
 
@@ -19,53 +21,53 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'ESUN POINT — Professional English Communication Course',
-    template: '%s | ESUN POINT',
+    default: "ESUN POINT — Professional English Communication Course",
+    template: "%s | ESUN POINT",
   },
   description:
-    'ESUN POINT is an online learning platform focused on spoken English and professional communication skills to help learners grow confidently in career and daily life.',
+    "ESUN POINT is an online learning platform focused on spoken English and professional communication skills to help learners grow confidently in career and daily life.",
   keywords: [
-    'spoken english course bangladesh',
-    'professional english communication',
-    'esun point',
-    'online english course',
-    'english for career',
+    "spoken english course bangladesh",
+    "professional english communication",
+    "esun point",
+    "online english course",
+    "english for career",
   ],
-  authors: [{ name: 'MISUN Academy', url: BASE_URL }],
-  creator: 'MISUN Academy',
-  publisher: 'MISUN Academy',
+  authors: [{ name: "MISUN Academy", url: BASE_URL }],
+  creator: "MISUN Academy",
+  publisher: "MISUN Academy",
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
+    type: "website",
+    locale: "en_US",
     url: BASE_URL,
-    siteName: 'ESUN POINT',
-    title: 'ESUN POINT — Professional English Communication Course',
+    siteName: "ESUN POINT",
+    title: "ESUN POINT — Professional English Communication Course",
     description:
-      'Master spoken English and professional communication with ESUN POINT. Expert mentorship, live classes, and lifetime access.',
+      "Master spoken English and professional communication with ESUN POINT. Expert mentorship, live classes, and lifetime access.",
     images: [
       {
         url: `${BASE_URL}/preview/default-og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'ESUN POINT — Professional English Communication Course',
+        alt: "ESUN POINT — Professional English Communication Course",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'ESUN POINT — Professional English Communication Course',
+    card: "summary_large_image",
+    title: "ESUN POINT — Professional English Communication Course",
     description:
-      'Master spoken English and professional communication with ESUN POINT.',
+      "Master spoken English and professional communication with ESUN POINT.",
     images: [`${BASE_URL}/preview/default-og-image.png`],
   },
   alternates: {
@@ -87,10 +89,7 @@ export default function RootLayout({
         {/* Meta Pixel */}
         {pixelId && (
           <>
-            <Script
-              id="facebook-pixel"
-              strategy="afterInteractive"
-            >
+            <Script id="facebook-pixel" strategy="afterInteractive">
               {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -125,43 +124,44 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify([
               {
-                '@context': 'https://schema.org',
-                '@type': 'Organization',
-                name: 'MISUN Academy',
-                alternateName: 'ESUN POINT',
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "MISUN Academy",
+                alternateName: "ESUN POINT",
                 url: process.env.NEXT_PUBLIC_SITE_URL,
                 logo: `${process.env.NEXT_PUBLIC_SITE_URL}/preview/default-og-image.png`,
                 description:
-                  'ESUN POINT is an online learning platform offering professional English communication courses in Bangladesh.',
+                  "ESUN POINT is an online learning platform offering professional English communication courses in Bangladesh.",
                 address: {
-                  '@type': 'PostalAddress',
-                  streetAddress: '85, Sultan Ahmed Road, Moulavipara, Ward No. 27',
-                  addressLocality: 'Khulna',
-                  addressCountry: 'BD',
+                  "@type": "PostalAddress",
+                  streetAddress:
+                    "85, Sultan Ahmed Road, Moulavipara, Ward No. 27",
+                  addressLocality: "Khulna",
+                  addressCountry: "BD",
                 },
                 contactPoint: {
-                  '@type': 'ContactPoint',
-                  telephone: '+88-01778371211',
-                  contactType: 'customer service',
-                  email: 'misunacademybd@gmail.com',
-                  areaServed: 'BD',
-                  availableLanguage: ['Bengali', 'English'],
+                  "@type": "ContactPoint",
+                  telephone: "+88-01778371211",
+                  contactType: "customer service",
+                  email: "misunacademybd@gmail.com",
+                  areaServed: "BD",
+                  availableLanguage: ["Bengali", "English"],
                 },
                 sameAs: [
-                  'https://www.facebook.com/esunpoint',
-                  'https://www.youtube.com/@EsunPoint',
+                  "https://www.facebook.com/esunpoint",
+                  "https://www.youtube.com/@EsunPoint",
                 ],
               },
               {
-                '@context': 'https://schema.org',
-                '@type': 'WebSite',
-                name: 'ESUN POINT',
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "ESUN POINT",
                 url: process.env.NEXT_PUBLIC_SITE_URL,
                 description:
-                  'Professional English communication courses by MISUN Academy.',
+                  "Professional English communication courses by MISUN Academy.",
                 publisher: {
-                  '@type': 'Organization',
-                  name: 'MISUN Academy',
+                  "@type": "Organization",
+                  name: "MISUN Academy",
                 },
               },
             ]),
@@ -169,7 +169,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body className=''>
+      <body className="">
         <Providers>
           {/* Initialize GA tracking only if GA_ID is available */}
           {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
@@ -178,6 +178,12 @@ export default function RootLayout({
           <Analytics />
 
           {children}
+
+          {/* Global Tech Support Chat widget */}
+          {/* <FloatingChat /> */}
+
+          {/* Global Back to Top Button */}
+          <BackToTop variant="glass-glow" />
         </Providers>
       </body>
     </html>

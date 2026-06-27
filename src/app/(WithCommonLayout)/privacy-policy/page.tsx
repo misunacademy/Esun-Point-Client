@@ -64,8 +64,7 @@ export default function PrivacyPolicyPage() {
 
                     <p className="text-white/75 border-l-2 border-primary/40 pl-4">
                         Please read this privacy policy carefully. If you have any questions or concerns, please contact —{" "}
-                        <a href="mailto:team@misun-academy.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
-                            {/* team@misun-academy.com */}
+                        <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
                             misunacademybd@gmail.com
                         </a>
                         .
@@ -119,8 +118,8 @@ export default function PrivacyPolicyPage() {
                         <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> Contact Us</h2>
                         <p>
                             If you have any questions, feedback, or complaints, please email us —{" "}
-                            <a href="mailto:team@misun-academy.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
-                                {/* team@misun-academy.com */}
+                            <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
+                                {/* misunacademybd@gmail.com */}
                                 misunacademybd@gmail.com
                             </a>
                             .
