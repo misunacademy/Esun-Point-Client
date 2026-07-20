@@ -198,33 +198,6 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
                                 )}
                             />
 
-                            {/* <FormField
-                                control={form.control}
-                                name="amount"
-                                disabled
-                                render={({ field, fieldState }) => (
-                                    <FormItem>
-                                        <FormLabel>Amount Paid (TK) *</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="number"
-                                                placeholder="2867.24"
-                                                {...field}
-                                                className={cn(
-                                                    "h-12",
-                                                    fieldState.invalid
-                                                        ? "border-red-500 focus-visible:ring-red-500"
-                                                        : fieldState.isTouched && field.value
-                                                            ? "border-green-500 focus-visible:ring-green-500"
-                                                            : ""
-                                                )}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            /> */}
-
                             <div className="flex gap-3 pt-2">
                                 <button type="button" onClick={onBack}
                                     className="flex-1 flex items-center justify-center gap-2 border border-primary/25 text-white/60 hover:border-primary/50 hover:text-white/90 transition-all duration-200 rounded-xl py-2.5 text-sm font-medium cursor-pointer">
