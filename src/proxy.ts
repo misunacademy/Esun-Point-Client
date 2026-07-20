@@ -36,6 +36,7 @@ function hasBetterAuthSession(request: NextRequest): boolean {
 
   return false;
 }
+
 function isMaintenanceAllowlisted(pathname: string) {
   if (MAINTENANCE_ALLOWLIST_EXACT.has(pathname)) return true;
   return MAINTENANCE_ALLOWLIST_PREFIXES.some((prefix) => pathname.startsWith(prefix));
@@ -80,7 +81,32 @@ async function maybeRedirectToMaintenance(request: NextRequest) {
 
   return null;
 }
+
 export async function proxy(request: NextRequest) {
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+  const isDev = process.env.NODE_ENV === 'development';
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''};
+    style-src 'self' 'nonce-${nonce}';
+    img-src 'self' blob: data: https:;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    upgrade-insecure-requests;
+  `.replace(/\s{2,}/g, ' ').trim();
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-nonce', nonce);
+  requestHeaders.set('Content-Security-Policy', cspHeader);
+
+  const response = NextResponse.next({
+    request: { headers: requestHeaders },
+  });
+  response.headers.set('Content-Security-Policy', cspHeader);
+
   const { pathname, search, origin } = request.nextUrl;
   const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
 
@@ -89,39 +115,36 @@ export async function proxy(request: NextRequest) {
     return maintenanceResponse;
   }
 
-
-  //  Use BetterAuth helper (much more reliable than manual cookie check)
   const betterAuthSession = hasBetterAuthSession(request);
 
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev) {
     console.debug(`[proxy] Path: ${pathname} | Better Auth Session: ${betterAuthSession}`);
   }
 
-  // Protected route check (kept for clarity, though matcher already limits it)
   const isProtectedRoute = PROTECTED_PATHS.some((path) => pathname.startsWith(path));
 
   if (!isProtectedRoute || betterAuthSession) {
-    return NextResponse.next();
+    return response;
   }
 
   if (!mainFrontendUrl) {
-    console.error('Missing NEXT_PUBLIC_MA_FRONTEND_URL. Redirecting to local home to avoid fail-open on protected routes.');
+    console.error('Missing NEXT_PUBLIC_MA_FRONTEND_URL. Redirecting to local home.');
     return NextResponse.redirect(new URL('/', request.url));
   }
 
   try {
-    // Redirect to main domain auth with full return URL (subdomain -> main domain flow)
     const redirectBackTo = `${origin}${pathname}${search}`;
     const loginUrl = new URL('/auth/login', mainFrontendUrl);
     loginUrl.searchParams.set('redirect_url', redirectBackTo);
 
     return NextResponse.redirect(loginUrl);
   } catch {
-    console.error('Invalid NEXT_PUBLIC_MA_FRONTEND_URL. Redirecting to local home to avoid fail-open on protected routes.');
+    console.error('Invalid NEXT_PUBLIC_MA_FRONTEND_URL. Redirecting to local home.');
     return NextResponse.redirect(new URL('/', request.url));
   }
 }
 
 export const config = {
-  matcher: ['/checkout/:path*'],
+  matcher: ['/','/checkout/:path*','/courses','/about'],
+    // matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

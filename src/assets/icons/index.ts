@@ -1,13 +1,5 @@
-import Phone from './Phone';
-import Globe from './Globe';
-import Mail from './Mail';
 import Facebook from './Facebook';
-import Instagram from './Instagram';
 import YouTube from './YouTube';
-import LinkedIn from './LinkedIn';
-import Video from './Video';
-import Assignment from './Assignment';
-import LeftArrow from './LeftArrow';
 import Duration from './Duration';
 import SearchOnline from './SearchOnline';
 import Session from './Session';
@@ -17,16 +9,8 @@ import WeekCourse from './WeekCourse';
 import SubmitAssignment from './SubmitAssignment';
 
 export {
-  Phone,
-  Globe,
-  Mail,
   Facebook,
-  Instagram,
   YouTube,
-  LinkedIn,
-  Video,
-  Assignment,
-  LeftArrow,
   Duration,
   SearchOnline,
   Session,

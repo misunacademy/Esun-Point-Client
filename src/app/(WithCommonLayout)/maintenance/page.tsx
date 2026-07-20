@@ -3,6 +3,7 @@
 import { useGetSettingsQuery } from "@/redux/api/settingsApi";
 import Image from "next/image";
 import { Wrench, Clock } from "lucide-react";
+import { Skeleton } from 'boneyard-js/react';
 
 const FALLBACK_TITLE = "We’ll Be Back Soon";
 const FALLBACK_MESSAGE =
@@ -10,12 +11,14 @@ const FALLBACK_MESSAGE =
 
 	
 export default function MaintenancePage() {
-	const { data } = useGetSettingsQuery();
+	const { data, isLoading } = useGetSettingsQuery();
 
 	const maintenanceTitle = data?.data?.maintenanceTitle?.trim() || FALLBACK_TITLE;
 	const maintenanceMessage = data?.data?.maintenanceMessage?.trim() || FALLBACK_MESSAGE;
 
 	return (
+    <Skeleton name="maintenance-page" loading={isLoading}>
+    
 		<div className="relative min-h-screen overflow-hidden bg-[#060f0a] flex items-center justify-center">
 			{/* Classic Dot-grid background */}
 			<div
@@ -108,5 +111,6 @@ export default function MaintenancePage() {
 
 			</div>
 		</div>
+    </Skeleton>
 	);
 }

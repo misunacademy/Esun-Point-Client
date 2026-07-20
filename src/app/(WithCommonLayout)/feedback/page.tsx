@@ -6,6 +6,7 @@ import { BatchFilter } from "@/components/module/testimonial/BatchFilter";
 import { studentFeedbacks } from "@/constants/studentFeedbacks";
 import { GraduationCap, Users, Star, TrendingUp, Award, Heart } from "lucide-react";
 import Link from "next/link";
+import AnimatedButton from '@/components/shared/AnimatedButton';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -266,8 +267,8 @@ const Feedback = () => {
                         </h3>
 
                         <p className="text-white/50 mb-10 max-w-2xl mx-auto leading-relaxed text-base">
-                            MISUN Academy-র কম্প্রিহেনসিভ গ্রাফিক ডিজাইন প্রোগ্রাম-এ যুক্ত হয়ে আপনার ক্যারিয়ারে বিপ্লব আনুন।
-                            হাজারো সফল শিক্ষার্থীর মতো আপনিও হয়ে উঠুন একজন দক্ষ ডিজাইনার।
+                            MISUN Academy-র কম্প্রিহেনসিভ ইংরেজি কমিউনিকেশন প্রোগ্রাম-এ যুক্ত হয়ে আপনার ক্যারিয়ারে বিপ্লব আনুন।
+                            হাজারো সফল শিক্ষার্থীর মতো আপনিও হয়ে উঠুন একজন দক্ষ পেশাদার।
                         </p>
 
                         {/* Divider */}
@@ -283,20 +284,10 @@ const Feedback = () => {
 
                         {/* Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link href="/checkout">
-                                <div className="inline-block relative p-[1.5px] rounded-xl overflow-hidden">
-                                    <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_60%,hsl(156_70%_42%)_100%)]" />
-                                    <button className="relative inline-flex items-center gap-2 bg-gradient-to-r from-[#0d5c36] via-primary to-[#0a5f38]
-                                        hover:from-[#0f6e41] hover:via-[#18a06a] hover:to-[#0f6e41]
-                                        transition-all duration-300 text-white font-bold text-base
-                                        px-8 py-3.5 rounded-xl
-                                        shadow-[0_0_24px_hsl(156_70%_42%/0.4)] hover:shadow-[0_0_36px_hsl(156_70%_42%/0.6)]
-                                        cursor-pointer">
-                                        <Award className="w-4 h-4" />
-                                        এখনই ভর্তি হন
-                                    </button>
-                                </div>
-                            </Link>
+                            <AnimatedButton href="/checkout">
+                                <Award className="w-4 h-4" />
+                                এখনই ভর্তি হন
+                            </AnimatedButton>
 
                             <Link href="/courses">
                                 <button className="inline-flex items-center gap-2

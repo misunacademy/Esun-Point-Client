@@ -1,15 +1,11 @@
-import dynamic from 'next/dynamic';
 import HeroSection from '@/components/module/home/HeroSection';
 import BreadcrumbJsonLd from '@/components/seo/BreadcrumbJsonLd';
 import { generateMetadata } from '@/lib/generateMetadata';
 import EnrollmentFixed from '@/components/module/home/EnrollmentFixed';
-
-const WhyThisCourse = dynamic(() => import('@/components/module/home/WhyThisCourse'));
-const ProfessionalEnglish = dynamic(() => import('@/components/module/home/ProfessionalEnglish'));
-const WhyUs = dynamic(() => import('@/components/module/home/WhyUs'));
-const EnrollmentSection = dynamic(
-  () => import('@/components/module/home/EnrollmentSection').then((mod) => mod.EnrollmentSection)
-);
+import { EnrollmentSection } from '@/components/module/home/EnrollmentSection';
+import WhyThisCourse from '@/components/module/home/WhyThisCourse';
+import ProfessionalEnglish from '@/components/module/home/ProfessionalEnglish';
+import WhyUs from '@/components/module/home/WhyUs';
 
 export const metadata = generateMetadata({
   title: 'Professional English Course | ESUN POINT',
