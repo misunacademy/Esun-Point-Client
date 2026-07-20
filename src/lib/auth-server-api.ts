@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type AuthServerError = {
   code?: string;
   message: string;
 };
 
-export type AuthServerResult<T = any> = {
+export type AuthServerResult<T = unknown> = {
   data: T | null;
   error: AuthServerError | null;
   status: number;
@@ -48,18 +47,21 @@ const parseResponsePayload = async (response: Response) => {
   }
 };
 
-const buildError = (status: number, payload: any): AuthServerError => {
-  const code = payload?.code || payload?.error?.code;
-  const message =
-    payload?.message ||
-    payload?.error?.message ||
-    payload?.error ||
-    `Authentication request failed (${status})`;
+const buildError = (status: number, payload: Record<string, unknown> | null): AuthServerError => {
+  const errorField = payload?.error;
+  const errorObj = errorField && typeof errorField === 'object' ? errorField as Record<string, unknown> : null;
+  const code = String(payload?.code ?? errorObj?.code ?? '');
+  const message = String(
+    payload?.message ??
+    errorObj?.message ??
+    (typeof errorField === 'string' ? errorField : '') ??
+    `Authentication request failed (${status})`
+  );
 
   return { code, message };
 };
 
-const authServerRequest = async <T = any>(
+const authServerRequest = async <T = unknown>(
   path: string,
   init?: RequestInit
 ): Promise<AuthServerResult<T>> => {
@@ -85,7 +87,7 @@ const authServerRequest = async <T = any>(
   };
 };
 
-const absoluteRequest = async <T = any>(
+const absoluteRequest = async <T = unknown>(
   url: string,
   init?: RequestInit
 ): Promise<AuthServerResult<T>> => {
@@ -111,7 +113,7 @@ const absoluteRequest = async <T = any>(
   };
 };
 
-const jsonRequest = <T = any>(
+const jsonRequest = <T = unknown>(
   path: string,
   method: 'POST' | 'PATCH',
   body?: unknown
@@ -182,7 +184,7 @@ export const authServerApi = {
   updateUser: (body: Record<string, unknown>) =>
     jsonRequest('/update-user', 'PATCH', body),
 
-  listSessions: () => authServerRequest<any[]>('/list-sessions'),
+  listSessions: () => authServerRequest<unknown[]>('/list-sessions'),
 
   revokeSession: (token: string) =>
     jsonRequest('/revoke-session', 'POST', { token }),
