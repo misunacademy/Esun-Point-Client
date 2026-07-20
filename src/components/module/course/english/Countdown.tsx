@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import { useEffect, useMemo, useState } from 'react';
 import { useGetCurrentEnrollmentBatchQuery } from "@/redux/api/batchApi";
 import { useGetCourseBySlugQuery } from "@/redux/api/courseApi";
 import { intervalToDuration, isBefore, isAfter } from "date-fns";
 import { FadeIn } from '@/components/ui/FadeIn';
-import { BatchResponse } from '@/redux/api/batchApi';
+import { BatchResponse, CourseInfo } from '@/redux/api/batchApi';
+import { Skeleton } from 'boneyard-js/react';
 
 type TimeLeft = {
   months: number;
@@ -77,22 +79,19 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
   const { data: courseBySlug, isLoading: courseBySlugLoading } = useGetCourseBySlugQuery(
     courseSlug!, { skip: !courseSlug }
   );
-  const slugCourseId = courseSlug ? (courseBySlug?.data as any)?._id : undefined;
+  const slugCourseId = courseSlug ? (courseBySlug?.data as { _id?: string } | undefined)?._id : undefined;
 
   const { data: slugBatchRes, isLoading: slugBatchLoading } = useGetCurrentEnrollmentBatchQuery(
     { courseId: slugCourseId },
     { skip: !slugCourseId }
   );
 
-  // Resolve batch: if a batch is passed directly, use it; otherwise use slug-resolved batch
-  const batch = batchProp ?? (courseSlug ? (slugBatchRes?.data as any) : null);
+  const batch = batchProp ?? (courseSlug ? (slugBatchRes?.data as BatchResponse | null | undefined) : null);
 
-  // derive effective slug from either prop or batch info
   const effectiveSlug = useMemo(() => {
     if (courseSlug) return courseSlug;
-    // batch.courseId may be object with slug
-    if (batch && typeof batch.courseId === 'object' && (batch.courseId as any).slug) {
-      return (batch.courseId as any).slug as string;
+    if (batch && typeof batch.courseId === 'object' && 'slug' in batch.courseId) {
+      return (batch.courseId as CourseInfo).slug;
     }
     return undefined;
   }, [courseSlug, batch]);
@@ -168,10 +167,29 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
     ? (courseBySlugLoading || (!!slugCourseId && slugBatchLoading))
     : false;
 
-  if (isCountdownLoading) return null;
   if (!batch || !timeLeft || !label) return null;
 
   return (
+    <Skeleton
+      name="countdown"
+      loading={isCountdownLoading}
+      fixture={
+        <div className="mt-8 mb-4">
+          <div className="text-center space-y-6">
+            <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <p className="text-xs font-semibold uppercase text-primary/90">Enrollment ends in</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
+            </div>
+          </div>
+        </div>
+      }
+    >
     <FadeIn delay={0.1} className="mt-8 mb-4" style={themeVars}>
       <div className="text-center space-y-6">
         {/* Status badge */}
@@ -201,6 +219,7 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
         </div>
       </div>
     </FadeIn>
+    </Skeleton>
   );
 };
 
