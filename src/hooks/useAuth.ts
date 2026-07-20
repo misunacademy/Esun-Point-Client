@@ -79,7 +79,7 @@ export function useAuth() {
   /**
    * Subdomain login must be handled on main domain.
    */
-  const signIn = async (_email: string, _password: string, redirectUrl?: string) => {
+  const signIn = useCallback(async (_email: string, _password: string, redirectUrl?: string) => {
     try {
       const loginUrl = buildMainLoginUrl(redirectUrl);
       if (typeof window !== 'undefined') {
@@ -89,12 +89,9 @@ export function useAuth() {
     } catch (error) {
       return { success: false, error: (error as Error).message };
     }
-  };
+  }, [buildMainLoginUrl]);
 
-  /**
-   * Subdomain registration must be handled on main domain.
-   */
-  const signUp = async () => {
+  const signUp = useCallback(async () => {
     try {
       const loginUrl = buildMainLoginUrl();
       if (typeof window !== 'undefined') {
@@ -104,12 +101,9 @@ export function useAuth() {
     } catch (error) {
       return { success: false, error: (error as Error).message };
     }
-  };
+  }, [buildMainLoginUrl]);
 
-  /**
-   * Sign out
-   */
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     try {
       const result = await authServerApi.signOut();
       if (result.error) {
@@ -123,12 +117,9 @@ export function useAuth() {
       toast.error('Logout failed');
       return { success: false, error: (error as Error).message };
     }
-  };
+  }, [router]);
 
-  /**
-   * Sign in with Google
-   */
-  const signInWithGoogle = async (redirectUrl?: string) => {
+  const signInWithGoogle = useCallback(async (redirectUrl?: string) => {
     try {
       const loginUrl = buildMainLoginUrl(redirectUrl);
       if (typeof window !== 'undefined') {
@@ -138,12 +129,9 @@ export function useAuth() {
     } catch (error) {
       return { success: false, error: (error as Error).message };
     }
-  };
+  }, [buildMainLoginUrl]);
 
-  /**
-   * Forgot password - send reset email
-   */
-  const forgotPassword = async (email: string) => {
+  const forgotPassword = useCallback(async (email: string) => {
     try {
       const result = await authServerApi.requestPasswordReset({
         email,
@@ -163,12 +151,9 @@ export function useAuth() {
       toast.error(errorMsg);
       return { success: false, error: errorMsg };
     }
-  };
+  }, []);
 
-  /**
-   * Reset password with token
-   */
-  const resetPassword = async (newPassword: string, token: string) => {
+  const resetPassword = useCallback(async (newPassword: string, token: string) => {
     try {
       const result = await authServerApi.resetPassword({
         newPassword,
@@ -190,14 +175,8 @@ export function useAuth() {
       toast.error('Failed to reset password');
       return { success: false, error: (error as Error).message };
     }
-  };
+  }, [buildMainLoginUrl]);
 
-  /**
-   * Verify email with token
-   */
-  /**
-   * Verify email with token
-   */
   const verifyEmailToken = useCallback(async (token: string) => {
     try {
       const result = await authServerApi.verifyEmail(token);
@@ -219,15 +198,29 @@ export function useAuth() {
     }
   }, [buildMainLoginUrl]);
 
+  const updateUserProfile = useCallback(async (data: Partial<AuthUser>) => {
+    try {
+      const result = await authServerApi.updateUser(data as Record<string, unknown>);
+
+      if (result.error) {
+        return { success: false, error: result.error.message };
+      }
+
+      await refetchSession();
+
+      return { success: true, data: result.data };
+    } catch (error: unknown) {
+      return { success: false, error: (error as Error).message };
+    }
+  }, [refetchSession]);
+
   return {
-    // Session data
     user,
     session,
     isAuthenticated,
     isLoading,
     error,
 
-    // Auth actions
     signIn,
     signUp,
     signOut,
@@ -236,25 +229,8 @@ export function useAuth() {
     resetPassword,
     verifyEmail: verifyEmailToken,
 
-    // Manual session refresh
     refetchSession,
 
-    // User update with automatic session refresh
-    updateUserProfile: async (data: Partial<AuthUser>) => {
-      try {
-        const result = await authServerApi.updateUser(data as Record<string, unknown>);
-
-        if (result.error) {
-          return { success: false, error: result.error.message };
-        }
-
-        // Automatically refresh session to get updated user data
-        await refetchSession();
-
-        return { success: true, data: result.data };
-      } catch (error: unknown) {
-        return { success: false, error: (error as Error).message };
-      }
-    },
+    updateUserProfile,
   };
 }
