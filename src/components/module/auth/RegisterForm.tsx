@@ -124,6 +124,7 @@ const RegisterForm = (
                                         />
                                         <button
                                             type="button"
+                                            aria-label={showPassword ? "Hide password" : "Show password"}
                                             className="absolute right-3 top-1/2 -translate-y-1/2 text-white/35 hover:text-white/70 transition-colors"
                                             onClick={toggleShowPassword}
                                         >
@@ -152,6 +153,7 @@ const RegisterForm = (
                                         />
                                         <button
                                             type="button"
+                                            aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
                                             className="absolute right-3 top-1/2 -translate-y-1/2 text-white/35 hover:text-white/70 transition-colors"
                                             onClick={toggleShowConfirmPassword}
                                         >
