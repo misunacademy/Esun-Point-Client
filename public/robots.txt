@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://client-english-courrse.vercel.app
+Host: https://client2.mehedi2026x7k9.dpdns.org
 
 # Sitemaps
-Sitemap: https://client-english-courrse.vercel.app/sitemap.xml
+Sitemap: https://client2.mehedi2026x7k9.dpdns.org/sitemap.xml
