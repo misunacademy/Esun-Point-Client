@@ -1,5 +1,4 @@
 import { authServerApi } from '@/lib/auth-server-api';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AuthUser } from '@/types/auth';
@@ -11,7 +10,6 @@ import { getAuthErrorMessage } from '@/lib/auth-errors';
  * Subdomain must not perform local sign-in/sign-up flows.
  */
 export function useAuth() {
-  const router = useRouter();
   const [user, setUser] = useState<AuthUser | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -110,14 +108,15 @@ export function useAuth() {
         throw new Error(result.error.message);
       }
       setUser(undefined);
-      toast.success('Successfully logged out');
-      router.push('/');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
       return { success: true };
     } catch (error: unknown) {
       toast.error('Logout failed');
       return { success: false, error: (error as Error).message };
     }
-  }, [router]);
+  }, []);
 
   const signInWithGoogle = useCallback(async (redirectUrl?: string) => {
     try {
