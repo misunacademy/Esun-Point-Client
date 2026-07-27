@@ -12,6 +12,7 @@ import { useCurrentBatch } from '@/hooks/useCurrentBatch';
 import Spinner from './Spinner';
 import EnrollmentNotStartedDialog from './EnrollmentNotStartedDialog';
 import { Skeleton } from 'boneyard-js/react';
+import { Loader2 } from 'lucide-react';
 
 function CheckoutContent() {
   const router = useRouter();
@@ -65,25 +66,12 @@ function CheckoutContent() {
 
   if (authLoading || batchLoading) {
     return (
-      <Skeleton
-        name="checkout-page"
-        loading
-        fixture={
-          <div className="max-w-6xl mx-auto px-4 py-8">
-            <div className="grid lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white/5 rounded-2xl p-6 h-48" />
-                <div className="bg-white/5 rounded-2xl p-6 h-64" />
-              </div>
-              <div className="lg:col-span-1">
-                <div className="bg-white/5 rounded-2xl p-6 h-96" />
-              </div>
-            </div>
-          </div>
-        }
-      >
-        <div />
-      </Skeleton>
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-10 h-10 text-primary animate-spin" />
+          <p className="text-sm text-white/40 font-medium">Loading checkout...</p>
+        </div>
+      </div>
     );
   }
   if (!user) return null;

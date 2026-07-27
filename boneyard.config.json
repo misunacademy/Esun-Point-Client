@@ -1,14 +1,13 @@
 {
   "breakpoints": [375, 768, 1280],
   "out": "./src/bones",
-  "wait": 3000,
+  "wait": 8000,
   "color": "#f0f0f0",
   "darkColor": "#2a2a2a",
   "animate": "pulse",
   "speed": "1.8s",
   "routes": [
     "/",
-    "/courses",
     "/maintenance"
   ]
 }

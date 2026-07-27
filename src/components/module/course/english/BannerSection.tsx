@@ -49,6 +49,22 @@ const BannerSection = () => {
           </div>
         </section>
       }
+      fallback={
+        <section className="relative bg-[#060a12] overflow-hidden font-bangla">
+          <div className="relative z-10 flex flex-col items-center justify-center pt-24 md:pt-28 pb-24 px-4 space-y-6">
+            <div className="h-8 w-48 bg-primary/10 rounded-full animate-pulse" />
+            <div className="h-12 w-[600px] max-w-[90vw] bg-primary/10 rounded-lg animate-pulse" />
+            <div className="h-8 w-40 bg-primary/10 rounded-lg animate-pulse" />
+            <div className="h-4 w-[500px] max-w-[80vw] bg-primary/10 rounded animate-pulse" />
+            <div className="flex gap-3 sm:gap-4">
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+            </div>
+          </div>
+        </section>
+      }
     >
     <section className="relative bg-[#060a12] overflow-hidden font-bangla">
       <DotGrid className="opacity-[0.04]" />

@@ -10,7 +10,7 @@ export const EnrollmentSection = () => {
 
   return (
     <Skeleton
-      name="enrollment-section"
+      name="EnrollmentSection"
       loading={isLoading}
       fixture={
         <section className="relative overflow-hidden bg-[#060a12] py-24 px-4">
@@ -18,6 +18,22 @@ export const EnrollmentSection = () => {
             <div className="bg-primary/10 rounded-2xl p-8">
               <div className="bg-white/5 rounded-xl p-6">
                 <div className="bg-white/10 rounded-lg p-4" />
+              </div>
+            </div>
+          </div>
+        </section>
+      }
+      fallback={
+        <section className="relative overflow-hidden bg-[#060a12] py-24 px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-primary/10 rounded-2xl p-8 space-y-4">
+              <div className="bg-white/5 rounded-xl p-6">
+                <div className="bg-white/10 rounded-lg p-4" />
+              </div>
+              <div className="space-y-3 mt-6">
+                <div className="h-10 bg-white/5 rounded-xl" />
+                <div className="h-10 bg-white/5 rounded-xl w-3/4 mx-auto" />
+                <div className="h-10 bg-white/5 rounded-xl w-1/2 mx-auto" />
               </div>
             </div>
           </div>

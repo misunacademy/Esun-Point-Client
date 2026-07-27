@@ -78,9 +78,15 @@ export default function EnrollmentFixed() {
 
     return (
         <Skeleton
-            name="enrollment-fixed"
+            name="EnrollmentFixed"
             loading={isLoading}
             fixture={
+                <div className="fixed bottom-5 left-5 bg-[#071225]/90 rounded-md p-4 max-w-xs z-50 border border-blue-400/25">
+                    <div className="h-4 bg-white/10 rounded mb-2" />
+                    <div className="h-4 bg-white/10 rounded w-3/4" />
+                </div>
+            }
+            fallback={
                 <div className="fixed bottom-5 left-5 bg-[#071225]/90 rounded-md p-4 max-w-xs z-50 border border-blue-400/25">
                     <div className="h-4 bg-white/10 rounded mb-2" />
                     <div className="h-4 bg-white/10 rounded w-3/4" />

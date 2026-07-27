@@ -177,8 +177,6 @@ const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimest
     ? (courseBySlugLoading || (!!slugCourseId && slugBatchLoading))
     : false;
 
-  if (!batch || !timeLeft || !label) return null;
-
   return (
     <Skeleton
       name="countdown"
@@ -199,7 +197,24 @@ const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimest
           </div>
         </div>
       }
+      fallback={
+        <div className="mt-8 mb-4">
+          <div className="text-center space-y-6">
+            <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <p className="text-xs font-semibold uppercase text-primary/90">Loading...</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+            </div>
+          </div>
+        </div>
+      }
     >
+    {!batch || !timeLeft || !label ? null : (
     <FadeIn delay={0.1} className="mt-8 mb-4" style={themeVars}>
       <div className="text-center space-y-6">
         {/* Status badge */}
@@ -229,6 +244,7 @@ const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimest
         </div>
       </div>
     </FadeIn>
+    )}
     </Skeleton>
   );
 };
