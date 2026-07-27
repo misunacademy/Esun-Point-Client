@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
@@ -9,8 +9,6 @@ import { Hind_Siliguri } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import "@/bones/registry";
-import BackToTop from "@/components/shared/BackToTop";
-import FloatingChat from "@/components/shared/FloatingChat";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali"],
@@ -188,15 +186,9 @@ export default function RootLayout({
             {children}
           </LenisProvider>
 
-          {/* Global Tech Support Chat widget */}
-          <Suspense fallback={null}>
-            <FloatingChat />
-          </Suspense>
+          
 
-          {/* Global Back to Top Button */}
-          <Suspense fallback={null}>
-            <BackToTop variant="glass-glow" />
-          </Suspense>
+ 
         </Providers>
       </body>
     </html>

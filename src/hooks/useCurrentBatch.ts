@@ -14,6 +14,7 @@ interface UseCurrentBatchResult {
   course: CourseResponse | undefined;
   courseId: string | undefined;
   batch: BatchResponse | null | undefined;
+  serverTimestamp?: number;
   isLoading: boolean;
   isError: boolean;
 }
@@ -50,6 +51,7 @@ export function useCurrentBatch(options: UseCurrentBatchOptions = {}): UseCurren
     course: courseData?.data,
     courseId,
     batch,
+    serverTimestamp: currentRes?.serverTimestamp,
     isLoading: courseLoading || currentLoading || (fallbackToUpcoming && upcomingLoading),
     isError: courseError || currentError || (fallbackToUpcoming && upcomingError),
   };

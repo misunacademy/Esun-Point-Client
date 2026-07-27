@@ -13,7 +13,7 @@ import { Skeleton } from 'boneyard-js/react';
 const COURSE_SLUG = "english-for-professional-communication";
 
 const BannerSection = () => {
-  const { batch: resolvedBatch, isLoading } = useCurrentBatch({ courseSlug: COURSE_SLUG, fallbackToUpcoming: true });
+  const { batch: resolvedBatch, isLoading, serverTimestamp } = useCurrentBatch({ courseSlug: COURSE_SLUG, fallbackToUpcoming: true });
 
   const batchTitle = resolvedBatch?.title.split(' ')[1] ?? null;
   const enrollmentPeriod = {
@@ -75,7 +75,7 @@ const BannerSection = () => {
           Learn through speaking practice, presentation skills, email writing, and <strong>1:1</strong> mentorship under the guidance of Instructor <strong>Puspita Singha</strong>.
         </p>
 
-        <Countdown courseSlug={COURSE_SLUG} />
+        <Countdown courseSlug={COURSE_SLUG} serverTimestamp={serverTimestamp} />
 
         <div className="flex items-center gap-3 w-full max-w-xs mb-2 mt-2" aria-hidden="true">
           <div className="flex-1 h-px bg-gradient-to-r from-transparent to-blue-500/40" />

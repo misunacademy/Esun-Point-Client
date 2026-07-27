@@ -20,7 +20,7 @@ const getCourseInfo = (courseId: CourseInfo | string): CourseInfo | null => {
   return null;
 };
 
-function CourseEnrollmentCard({ batch }: { batch: BatchResponse | null }) {
+function CourseEnrollmentCard({ batch, serverTimestamp }: { batch: BatchResponse | null; serverTimestamp?: number }) {
   const course = batch ? getCourseInfo(batch.courseId) : null;
   const slug = course?.slug;
   const themeVars = useMemo(() => {
@@ -61,7 +61,7 @@ function CourseEnrollmentCard({ batch }: { batch: BatchResponse | null }) {
             </div>
           </div>
 
-          <Countdown batch={batch} courseSlug={course.slug} />
+          <Countdown batch={batch} courseSlug={course.slug} serverTimestamp={serverTimestamp} />
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-primary/10">
             <div className="flex gap-3 xs:gap-5">

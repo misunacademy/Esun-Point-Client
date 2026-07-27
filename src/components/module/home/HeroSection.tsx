@@ -29,7 +29,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-full container mx-auto px-4 max-w-7xl flex flex-col items-center">
 
         {/* ── Top Section: Heading & Text ── */}
-        <FadeIn delay={0.1} direction="up" className="text-center max-w-4xl mx-auto mb-12">
+        <FadeIn delay={0.1} direction="up" className="relative z-30 text-center max-w-4xl mx-auto mb-12">
 
           {/* Badge */}
           <div className="flex justify-center mb-6">
@@ -51,9 +51,9 @@ export default function HeroSection() {
             Strong communication is your most valuable asset. Build practical skills for workplace meetings, presentations, and interviews with expert guidance from <strong className="text-white font-medium">Esun Point</strong>.
           </p>
 
-                <AnimatedButton href="/checkout">
-                  Enroll Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </AnimatedButton>
+          <AnimatedButton href="/checkout">
+            Enroll Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </AnimatedButton>
         </FadeIn>
 
 
@@ -61,7 +61,7 @@ export default function HeroSection() {
         <FadeIn delay={0.3} direction="up" className="relative w-full max-w-5xl mx-auto mt-4 mb-20 flex justify-center">
 
           {/* The Instructor Image */}
-          <div className="relative z-10 w-[280px] sm:w-[350px] md:w-[550px] aspect-[3/4] transition-transform duration-700 hover:scale-[1.02] -mt-32 sm:-mt-56">
+          <div className="relative z-20 w-[280px] sm:w-[350px] md:w-[550px] aspect-[3/4] transition-transform duration-700 hover:scale-[1.02] -mt-32 sm:-mt-56">
             <div className="relative w-full h-full [mask-image:linear-gradient(to_bottom,black_90%,transparent)]">
               <Image
                 src={instructor}

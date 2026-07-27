@@ -24,7 +24,6 @@ export default function EnrollmentCheckout({ courseSlug }: EnrollmentCheckoutPro
   } = useEnrollment(courseSlug);
 
   const batchPrice = (resolvedBatch as BatchResponse)?.price;
-  const batchTitle = (resolvedBatch as BatchResponse)?.title;
   const enrollmentStartDate = (resolvedBatch as BatchResponse)?.enrollmentStartDate;
 
   return (
@@ -143,7 +142,7 @@ export default function EnrollmentCheckout({ courseSlug }: EnrollmentCheckoutPro
                     onPaymentComplete={handleManualPaymentComplete}
                     manualAmount={manualPaymentAmount}
                     manualCurrency={manualPaymentCurrency}
-                    batch={batchTitle?.split(' ')[1]}
+                    batch={(resolvedBatch as BatchResponse)?.batchNumber?.toString()?.padStart(2, '0')}
                   />
                 )}
               </div>

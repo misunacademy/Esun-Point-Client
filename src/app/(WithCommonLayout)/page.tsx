@@ -6,6 +6,9 @@ import { EnrollmentSection } from '@/components/module/home/EnrollmentSection';
 import WhyThisCourse from '@/components/module/home/WhyThisCourse';
 import ProfessionalEnglish from '@/components/module/home/ProfessionalEnglish';
 import WhyUs from '@/components/module/home/WhyUs';
+import FloatingChat from '@/components/shared/FloatingChat';
+import { Suspense } from 'react';
+import BackToTop from '@/components/shared/BackToTop';
 
 export const metadata = generateMetadata({
   title: 'Professional English Course | ESUN POINT',
@@ -39,6 +42,19 @@ export default function page() {
       <EnrollmentSection />
       {/* <Feedback /> */}
       <EnrollmentFixed />
+      {/* Global Tech Support Chat widget */}
+      {
+        process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
+          <Suspense fallback={null}>
+            <FloatingChat />
+          </Suspense>
+        )
+      }
+
+      {/* Global Back to Top Button */}
+      <Suspense fallback={null}>
+        <BackToTop variant="glass-glow" />
+      </Suspense>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useGetCurrentEnrollmentBatchQuery } from "@/redux/api/batchApi";
 import { useGetCourseBySlugQuery } from "@/redux/api/courseApi";
 import { intervalToDuration, isBefore, isAfter } from "date-fns";
@@ -57,6 +57,8 @@ interface CountdownProps {
   batch?: BatchResponse | null;
   /** OR pass a course slug to auto-resolve the current enrollment batch */
   courseSlug?: string;
+  /** Server timestamp for accurate clock-drift-free countdown */
+  serverTimestamp?: number;
 }
 
 // map of course slug → primary colors (HSL) used by CSS vars
@@ -71,9 +73,10 @@ const themeMap: Record<string, { primary: string; glow: string }> = {
   },
 };
 
-const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
+const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimestampProp }: CountdownProps = {}) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
   const [label, setLabel] = useState<string>('');
+  const clientReceivedAt = useRef<number>(0);
 
   // ── Course-slug path (course detail pages & BannerSection) ───────────────
   const { data: courseBySlug, isLoading: courseBySlugLoading } = useGetCourseBySlugQuery(
@@ -87,6 +90,7 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
   );
 
   const batch = batchProp ?? (courseSlug ? (slugBatchRes?.data as BatchResponse | null | undefined) : null);
+  const serverTimestamp = serverTimestampProp ?? slugBatchRes?.serverTimestamp;
 
   const effectiveSlug = useMemo(() => {
     if (courseSlug) return courseSlug;
@@ -113,8 +117,14 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
   useEffect(() => {
     if (!batch || !enrollmentStart || !enrollmentEnd) return;
 
+    if (clientReceivedAt.current === 0) {
+      clientReceivedAt.current = Date.now();
+    }
+
+    const offset = serverTimestamp ? serverTimestamp - clientReceivedAt.current : 0;
+
     const tick = () => {
-      const now = new Date();
+      const now = new Date(Date.now() + offset);
       const batchStatus = batch.status as string;
 
       let targetDate: Date | null = null;
@@ -161,7 +171,7 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
     tick(); // run immediately
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [batch, enrollmentStart, enrollmentEnd]);
+  }, [batch, enrollmentStart, enrollmentEnd, serverTimestamp]);
 
   const isCountdownLoading = courseSlug
     ? (courseBySlugLoading || (!!slugCourseId && slugBatchLoading))

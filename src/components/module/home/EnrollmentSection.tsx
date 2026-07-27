@@ -6,7 +6,7 @@ import CourseEnrollmentCard from './CourseEnrollmentCard';
 import { Skeleton } from 'boneyard-js/react';
 
 export const EnrollmentSection = () => {
-  const { batch, isLoading } = useCurrentBatch();
+  const { batch, isLoading, serverTimestamp } = useCurrentBatch();
 
   return (
     <Skeleton
@@ -58,7 +58,7 @@ export const EnrollmentSection = () => {
         </FadeIn>
 
         <div className="flex flex-col gap-6">
-          <CourseEnrollmentCard batch={batch ?? null} />
+          <CourseEnrollmentCard batch={batch ?? null} serverTimestamp={serverTimestamp} />
         </div>
       </div>
 
