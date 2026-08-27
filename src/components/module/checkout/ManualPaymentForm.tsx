@@ -131,7 +131,7 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
                                     <div className="w-5 h-5 bg-primary/15 border border-primary/30 text-primary rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
                                         {index + 1}
                                     </div>
-                                    <span className="text-sm text-white/55 leading-relaxed">{instruction.includes("MA")?`Add reference: 'MA-${batch}'`:instruction}</span>
+                                    <span className="text-sm text-white/55 leading-relaxed">{instruction.includes("EP")?`Add reference: 'EP-${batch}'`:instruction}</span>
                                 </li>
                             ))}
                         </ol>
@@ -197,33 +197,6 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
                                     </FormItem>
                                 )}
                             />
-
-                            {/* <FormField
-                                control={form.control}
-                                name="amount"
-                                disabled
-                                render={({ field, fieldState }) => (
-                                    <FormItem>
-                                        <FormLabel>Amount Paid (TK) *</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="number"
-                                                placeholder="2867.24"
-                                                {...field}
-                                                className={cn(
-                                                    "h-12",
-                                                    fieldState.invalid
-                                                        ? "border-red-500 focus-visible:ring-red-500"
-                                                        : fieldState.isTouched && field.value
-                                                            ? "border-green-500 focus-visible:ring-green-500"
-                                                            : ""
-                                                )}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            /> */}
 
                             <div className="flex gap-3 pt-2">
                                 <button type="button" onClick={onBack}

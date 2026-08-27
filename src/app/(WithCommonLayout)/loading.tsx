@@ -1,13 +1,12 @@
-export default function CommonLayoutLoading() {
-    return (
-        <div className="flex min-h-[60vh] items-center justify-center">
-            <div className="space-y-4 text-center">
-                <div className="relative h-16 w-16 mx-auto">
-                    <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
-                    <div className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
-                </div>
-                <p className="text-muted-foreground">পেজ লোড হচ্ছে...</p>
-            </div>
-        </div>
-    );
+import { Loader2 } from "lucide-react";
+
+export default function RouteLoading() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center bg-[#060f0a]">
+      <div className="flex flex-col items-center gap-4">
+        <Loader2 className="w-10 h-10 text-primary animate-spin" />
+        <p className="text-sm text-white/40 font-medium">Loading...</p>
+      </div>
+    </div>
+  );
 }

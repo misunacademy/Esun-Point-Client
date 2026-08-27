@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationControlsProps {
@@ -35,6 +37,7 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
             <button
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage <= 1}
+                aria-label="Previous page"
                 className={currentPage <= 1 ? btnDisabled : btnInactive}
             >
                 <ChevronLeft className="w-4 h-4" />
@@ -75,6 +78,7 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
             <button
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage >= totalPages}
+                aria-label="Next page"
                 className={currentPage >= totalPages ? btnDisabled : btnInactive}
             >
                 <span className="hidden sm:inline mr-1">পরবর্তী</span>

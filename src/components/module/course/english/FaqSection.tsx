@@ -33,11 +33,12 @@ const faqs = [
   },
 ];
 
+import { SectionBorder } from "@/components/shared/Decorative";
+
 const FaqSection = () => {
     return (
            <section className="relative bg-[#060a12] overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
+        <SectionBorder />
 
         <div className="relative z-10 py-20 container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-12">

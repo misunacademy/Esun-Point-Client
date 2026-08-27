@@ -1,3 +1,5 @@
+"use client";
+
 import { Filter, Users } from "lucide-react";
 
 interface BatchFilterProps {

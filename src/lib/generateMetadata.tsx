@@ -9,7 +9,7 @@ interface GenerateMetadataParams {
     noIndex?: boolean; // prevent indexing for private pages
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+import { SITE_URL as BASE_URL } from '@/lib/constants';
 const DEFAULT_IMAGE = 'default-og-image.png';
 const SITE_NAME = 'ESUN POINT';
 
