@@ -19,7 +19,7 @@ export const metadata = generateMetadata({
 
 const AboutUs = () => (
   <div className="min-h-screen bg-[#060a0f] font-bangla overflow-hidden">
-    <HeroSection />
+    {/* <HeroSection /> */}
     <TeamSection />
     <StorySection />
     <MissionSection />

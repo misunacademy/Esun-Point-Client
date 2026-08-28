@@ -1,13 +1,13 @@
 import { Users } from "lucide-react";
 import Image from "next/image";
-import { ajeful, debrotto, mehedi, mithun, neyemur, nur, nur_2, puspita, sakin } from "@/assets/teamMembers/index";
+import { ajeful, debrotto, mehedi, mithun, neyemur, rohan,ruponpaul, puspita, sakin } from "@/assets/teamMembers/index";
 
 const teamMembers = [
   { name: "Mithun Sarkar", role: "Founder & CEO", company: "MISUN Academy", image: mithun },
   { name: "Puspita Singha", role: "Lead Instructor, English For Professional Communication", company: "MISUN Academy", image: puspita },
   { name: "Debbroto Biswas", role: "Senior Visualizer", company: "MISUN Academy", image: debrotto },
-  { name: "Nurnobi Hossen Shagor", role: "Senior Visualizer", company: "MISUN Academy", image: nur },
-  { name: "MD.Nur Nobe Islam", role: "Video Editor", company: "MISUN Academy", image: nur_2 },
+  { name: "Rohan Khan", role: "Video Editor", company: "MISUN Academy", image: rohan },
+  { name: "Rupon Paul", role: "Graphic Designer", company: "MISUN Academy", image: ruponpaul },
   { name: "Ajeful Mallick", role: "Design And Social Media Coordinator", company: "MISUN Academy", image: ajeful },
   { name: "Mehedi Hasan", role: "Web Developer", company: "MISUN Academy", image: mehedi },
   { name: "S. M. Nayemur Rahman", role: "Marketing Executive", company: "MISUN Academy", image: neyemur },
@@ -16,7 +16,7 @@ const teamMembers = [
 
 export function TeamSection() {
   return (
-    <section className="relative bg-[#060a0f] overflow-hidden">
+    <section className="relative bg-[#060a0f] overflow-hidden mt-14">
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{ backgroundImage: "radial-gradient(circle, hsl(217 91% 60%) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
       <div className="absolute -top-10 right-1/3 w-96 h-96 bg-primary/6 rounded-full blur-[100px] pointer-events-none" />
