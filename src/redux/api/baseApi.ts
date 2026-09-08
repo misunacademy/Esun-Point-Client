@@ -43,10 +43,6 @@ const baseQueryWithSessionHandling: BaseQueryFn<
         toast.error(errorData?.message || "Access denied");
     }
     if (result?.error?.status === 401) {
-        console.warn('[baseApi] 401 Unauthorized - session expired or invalid');
-
-        // Better Auth handles sessions via HTTP-only cookies
-        // Sign out and redirect to login
         await authServerApi.signOut();
 
         if (typeof window !== 'undefined') {

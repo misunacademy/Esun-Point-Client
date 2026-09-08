@@ -71,7 +71,10 @@ export function useAuth() {
   }, [baseApiUrl]);
 
   useEffect(() => {
-    refetchSession();
+    const timer = setTimeout(() => {
+      refetchSession();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [refetchSession]);
 
   /**

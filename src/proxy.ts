@@ -85,7 +85,6 @@ async function maybeRedirectToMaintenance(request: NextRequest) {
 export async function proxy(request: NextRequest) {
   const { pathname, search, origin } = request.nextUrl;
   const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
-  const isDev = process.env.NODE_ENV === 'development';
 
   const maintenanceResponse = await maybeRedirectToMaintenance(request);
   if (maintenanceResponse) {
@@ -93,10 +92,6 @@ export async function proxy(request: NextRequest) {
   }
 
   const betterAuthSession = hasBetterAuthSession(request);
-
-  if (isDev) {
-    console.debug(`[proxy] Path: ${pathname} | Better Auth Session: ${betterAuthSession}`);
-  }
 
   const isProtectedRoute = PROTECTED_PATHS.some((path) => pathname.startsWith(path));
 
@@ -123,5 +118,4 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: ['/','/checkout/:path*','/courses','/about'],
-    // matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

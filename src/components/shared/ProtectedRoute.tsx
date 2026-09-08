@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import type { AuthUser } from '@/types/auth';
@@ -28,6 +28,10 @@ const roleHome: Record<Role, string> = {
   learner: '/my-classes',
 };
 
+const subscribeToMounted = () => () => undefined;
+const getMountedSnapshot = () => true;
+const getMountedServerSnapshot = () => false;
+
 export default function ProtectedRoute({
   children,
   requiredRoles,
@@ -37,9 +41,10 @@ export default function ProtectedRoute({
   const router = useRouter();
   const pathname = usePathname();
   const { user, isLoading } = useAuth();
+  const isMounted = useSyncExternalStore(subscribeToMounted, getMountedSnapshot, getMountedServerSnapshot);
 
   useEffect(() => {
-    if (isLoading) return;
+    if (!isMounted || isLoading) return;
 
     const role: Role = user?.role ?? 'learner';
 
@@ -61,13 +66,12 @@ export default function ProtectedRoute({
     }
 
     if (requiredRoles && requiredRoles.length > 0 && !requiredRoles.includes(role)) {
-      // Keep /dashboard/student as temporary legacy fallback until route removal.
       const destination = unauthorizedRedirectTo || roleHome[role] || '/my-classes';
       router.replace(destination);
     }
-  }, [isLoading, user, requiredRoles, router, pathname, unauthorizedRedirectTo]);
+  }, [isMounted, isLoading, user, requiredRoles, router, pathname, unauthorizedRedirectTo]);
 
-  if (isLoading || !user) {
+  if (!isMounted || isLoading || !user) {
     return <>{fallback}</>;
   }
 
