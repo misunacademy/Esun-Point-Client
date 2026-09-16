@@ -1,8 +1,12 @@
 
+import path from 'path';
 import type { NextConfig } from 'next';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.join(__dirname, '..'),
+  },
   reactStrictMode: true,
   reactCompiler: true,
   cacheComponents: true,

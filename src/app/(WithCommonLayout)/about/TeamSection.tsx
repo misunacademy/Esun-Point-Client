@@ -1,6 +1,6 @@
 import { Users } from "lucide-react";
 import Image from "next/image";
-import { ajeful, debrotto, mehedi, mithun, neyemur, rohan,ruponpaul, puspita, sakin } from "@/assets/teamMembers/index";
+import { ajeful, debrotto, mehedi, mithun, neyemur, rohan,ruponpaul, puspita, sakin,ananda } from "@/assets/teamMembers/index";
 
 const teamMembers = [
   { name: "Mithun Sarkar", role: "Founder & CEO", company: "MISUN Academy", image: mithun },
@@ -12,6 +12,7 @@ const teamMembers = [
   { name: "Mehedi Hasan", role: "Web Developer", company: "MISUN Academy", image: mehedi },
   { name: "S. M. Nayemur Rahman", role: "Marketing Executive", company: "MISUN Academy", image: neyemur },
   { name: "Nafiun Sakin", role: "Community Growth Manager", company: "MISUN Academy", image: sakin },
+  { name: "Ananda", role: "Accountant", company: "MISUN Academy", image: ananda },
 ];
 
 export function TeamSection() {

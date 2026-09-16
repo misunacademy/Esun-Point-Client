@@ -26,6 +26,7 @@ export function useEnrollment(courseSlug?: string) {
   const [agreed, setAgreed] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [enrollmentData, setEnrollmentData] = useState<EnrollmentForm | null>(null);
+  const [now] = useState(() => Date.now());
 
   const [enrollStudent] = useInitiateEnrollmentMutation();
   const [enrollStudentManual] = useEnrollStudentManualMutation();
@@ -45,9 +46,8 @@ export function useEnrollment(courseSlug?: string) {
 
   const isEnrollmentOpen = resolvedBatch
     ? (() => {
-        const now = Date.now();
-        const start = new Date((resolvedBatch as any).enrollmentStartDate).getTime();
-        const end = new Date((resolvedBatch as any).enrollmentEndDate).getTime();
+        const start = Date.parse(String((resolvedBatch as any).enrollmentStartDate || ""));
+        const end = Date.parse(String((resolvedBatch as any).enrollmentEndDate || ""));
         return now >= start && now <= end;
       })()
     : false;

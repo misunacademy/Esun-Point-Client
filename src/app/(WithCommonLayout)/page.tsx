@@ -37,10 +37,8 @@ export default function page() {
       <HeroSection />
       <WhyThisCourse />
       <ProfessionalEnglish />
-      {/* <EnglishSkills /> */}
       <WhyUs />
       <EnrollmentSection />
-      {/* <Feedback /> */}
       <EnrollmentFixed />
       {/* Global Tech Support Chat widget */}
       {
