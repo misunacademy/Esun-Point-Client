@@ -36,6 +36,7 @@ function hasBetterAuthSession(request: NextRequest): boolean {
 
   return false;
 }
+
 function isMaintenanceAllowlisted(pathname: string) {
   if (MAINTENANCE_ALLOWLIST_EXACT.has(pathname)) return true;
   return MAINTENANCE_ALLOWLIST_PREFIXES.some((prefix) => pathname.startsWith(prefix));
@@ -80,24 +81,23 @@ async function maybeRedirectToMaintenance(request: NextRequest) {
 
   return null;
 }
+
 export async function proxy(request: NextRequest) {
   const { pathname, search, origin } = request.nextUrl;
   const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
+  const isDev = process.env.NODE_ENV === 'development';
 
   const maintenanceResponse = await maybeRedirectToMaintenance(request);
   if (maintenanceResponse) {
     return maintenanceResponse;
   }
 
-
-  //  Use BetterAuth helper (much more reliable than manual cookie check)
   const betterAuthSession = hasBetterAuthSession(request);
 
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev) {
     console.debug(`[proxy] Path: ${pathname} | Better Auth Session: ${betterAuthSession}`);
   }
 
-  // Protected route check (kept for clarity, though matcher already limits it)
   const isProtectedRoute = PROTECTED_PATHS.some((path) => pathname.startsWith(path));
 
   if (!isProtectedRoute || betterAuthSession) {
@@ -105,23 +105,23 @@ export async function proxy(request: NextRequest) {
   }
 
   if (!mainFrontendUrl) {
-    console.error('Missing NEXT_PUBLIC_MA_FRONTEND_URL. Redirecting to local home to avoid fail-open on protected routes.');
+    console.error('Missing NEXT_PUBLIC_MA_FRONTEND_URL. Redirecting to local home.');
     return NextResponse.redirect(new URL('/', request.url));
   }
 
   try {
-    // Redirect to main domain auth with full return URL (subdomain -> main domain flow)
     const redirectBackTo = `${origin}${pathname}${search}`;
     const loginUrl = new URL('/auth/login', mainFrontendUrl);
     loginUrl.searchParams.set('redirect_url', redirectBackTo);
 
     return NextResponse.redirect(loginUrl);
   } catch {
-    console.error('Invalid NEXT_PUBLIC_MA_FRONTEND_URL. Redirecting to local home to avoid fail-open on protected routes.');
+    console.error('Invalid NEXT_PUBLIC_MA_FRONTEND_URL. Redirecting to local home.');
     return NextResponse.redirect(new URL('/', request.url));
   }
 }
 
 export const config = {
-  matcher: ['/checkout/:path*'],
+  matcher: ['/','/checkout/:path*','/courses','/about'],
+    // matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

@@ -3,7 +3,7 @@ import instructor from '@/assets/images/instructor.png';
 import hero_section from '@/assets/images/hero_back.png';
 import { Globe, Video, UserCheck, Clock, MessageCircle, Mic, ArrowRight, Sparkles } from 'lucide-react';
 import { FadeIn } from '@/components/ui/FadeIn';
-import Link from 'next/link';
+import AnimatedButton from '@/components/shared/AnimatedButton';
 
 export default function HeroSection() {
 
@@ -26,18 +26,10 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Radial Gradient Glows */}
-      {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.15)_0%,transparent_70%)] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_bottom,rgba(59,130,246,0.1)_0%,transparent_70%)] pointer-events-none" /> */}
-
-      {/* Grid Pattern */}
-      {/* <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_40%,#000_60%,transparent_100%)] pointer-events-none" /> */}
-
-
       <div className="relative z-10 w-full container mx-auto px-4 max-w-7xl flex flex-col items-center">
 
         {/* ── Top Section: Heading & Text ── */}
-        <FadeIn delay={0.1} direction="up" className="text-center max-w-4xl mx-auto mb-12">
+        <FadeIn delay={0.1} direction="up" className="relative z-30 text-center max-w-4xl mx-auto mb-12">
 
           {/* Badge */}
           <div className="flex justify-center mb-6">
@@ -59,71 +51,17 @@ export default function HeroSection() {
             Strong communication is your most valuable asset. Build practical skills for workplace meetings, presentations, and interviews with expert guidance from <strong className="text-white font-medium">Esun Point</strong>.
           </p>
 
-          {/* Call to Action */}
-          {/* <div className="flex justify-center">
-            <Link href="/enroll">
-              <button className="relative group rounded-full cursor-pointer z-50 p-[2px] overflow-hidden transition-all duration-300 hover:scale-105 bg-blue-500/30">
-
-                Animated Gradient Border
-                <span className="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,#38bdf8,#1e40af,#38bdf8)] animate-spin-slow"></span>
-
-                Inner Button
-                <span className="relative flex items-center gap-3 px-10 py-4 bg-[#081426] rounded-full ">
-                  <span className="text-white font-semibold text-lg">
-                    Enroll Now
-                  </span>
-
-                  <ArrowRight className="w-5 h-5 text-cyan-400 transition-transform group-hover:translate-x-1" />
-                </span>
-
-              </button>
-            </Link>
-          </div> */}
-        
-                <Link href="/checkout" className="w-full sm:w-auto block" aria-label="Enroll now">
-          <div className="relative inline-flex p-[1.5px] rounded-full overflow-hidden
-                              shadow-[0_4px_24px_rgba(59,130,246,0.35)]
-                              hover:shadow-[0_8px_36px_rgba(59,130,246,0.60)]
-                              hover:scale-105 hover:-translate-y-0.5
-                              active:scale-95 active:translate-y-0
-                              transition-all duration-300 ease-out z-50">
-            {/* Rotating conic-gradient border */}
-            <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,hsl(217_91%_60%)_25%,hsl(217_85%_70%)_50%,hsl(217_91%_60%)_75%,transparent_100%)]" />
-            <button className="group relative overflow-hidden
-                                inline-flex items-center gap-2
-                                px-10 py-4 cursor-pointer
-                                text-sm font-bold tracking-wide rounded-full
-                                bg-gradient-to-r from-blue-700 via-blue-500 to-blue-600
-                                text-white
-                                hover:from-blue-600 hover:via-blue-400 hover:to-blue-600
-                                transition-all duration-300 ease-out">
-              <span className="text-white font-semibold text-lg">
-                Enroll Now
-              </span>
-
-              <ArrowRight className="w-5 h-5 hover:text-cyan-400 transition-transform group-hover:translate-x-1" />
-              {/* Shine sweep */}
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-            </button>
-          </div>
-                </Link>
+          <AnimatedButton href="/checkout">
+            Enroll Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </AnimatedButton>
         </FadeIn>
 
 
         {/* ── Center Section: Main Visual ── */}
         <FadeIn delay={0.3} direction="up" className="relative w-full max-w-5xl mx-auto mt-4 mb-20 flex justify-center">
 
-          {/* Massive Background Glow behind the center visual */}
-          {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none" /> */}
-
-          {/* Rotating Globe Element (Center Background) */}
-          {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] aspect-square flex items-center justify-center opacity-30 mix-blend-screen -z-10">
-             <Globe className="w-full h-full text-blue-400 animate-[spin_60s_linear_infinite]" strokeWidth={0.5} />
-             <div className="absolute inset-0 border-[1px] border-dashed border-cyan-500/30 rounded-full animate-[spin_30s_linear_infinite_reverse]" />
-          </div> */}
-
           {/* The Instructor Image */}
-          <div className="relative z-10 w-[280px] sm:w-[350px] md:w-[550px] aspect-[3/4] transition-transform duration-700 hover:scale-[1.02] -mt-32 sm:-mt-56">
+          <div className="relative z-20 w-[280px] sm:w-[350px] md:w-[550px] aspect-[3/4] transition-transform duration-700 hover:scale-[1.02] -mt-32 sm:-mt-56">
             <div className="relative w-full h-full [mask-image:linear-gradient(to_bottom,black_90%,transparent)]">
               <Image
                 src={instructor}

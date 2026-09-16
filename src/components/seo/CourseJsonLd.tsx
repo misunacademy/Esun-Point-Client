@@ -4,7 +4,7 @@
 
 import Script from 'next/script';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+import { SITE_URL as BASE_URL } from '@/lib/constants';
 
 export default function CourseJsonLd() {
     const courseSchema = {

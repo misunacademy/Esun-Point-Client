@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp, ArrowUpToLine, ChevronUp, Layers } from "lucide-react";
+import { useLenis } from "lenis/react";
 
 interface BackToTopProps {
   variant?: "glass-glow" | "minimal-stroke" | "3d-orbit" | "ghost-ring";
@@ -13,12 +14,13 @@ export default function BackToTop({
   variant = "glass-glow",
   threshold = 200,
 }: BackToTopProps) {
+  const lenis = useLenis();
   const [isVisible, setIsVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const winScroll = lenis?.animatedScroll ?? document.documentElement.scrollTop;
       const height =
         document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
@@ -35,17 +37,17 @@ export default function BackToTop({
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    // Initial call to set visibility/progress if page loaded scrolled
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [threshold]);
+  }, [threshold, lenis]);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   // SVG Circumference calculations: 2 * Math.PI * radius

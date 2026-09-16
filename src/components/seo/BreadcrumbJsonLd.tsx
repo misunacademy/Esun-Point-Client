@@ -2,10 +2,12 @@
 
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
+import { SITE_URL } from '@/lib/constants';
 
 const BreadcrumbJsonLd = () => {
     const pathname = usePathname();
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!;
+
+    const baseUrl = SITE_URL;
 
     // Map routes to breadcrumb names and URLs
     const breadcrumbMap: { [key: string]: { name: string; item: string } } = {

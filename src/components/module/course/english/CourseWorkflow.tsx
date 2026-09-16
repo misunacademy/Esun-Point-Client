@@ -1,9 +1,9 @@
-"use client"
 import { Scic, SearchOnline, Session, SupportSession, SubmitAssignment, WeekCourse, Duration } from "@/assets/icons";
 import Container from "@/components/ui/container";
 import Clock from "@/assets/icons/Clock";
 import Link from "next/link";
 import WorkflowCard from "./WorkFlowCard";
+import { DotGrid, SectionBorder } from "@/components/shared/Decorative";
 
 
 // ─── English course workflow steps ───────────────────────────────────────────
@@ -68,20 +68,10 @@ const englishWorkflowSteps = [
 
 const CourseWorkflow = () => {
   return (<section className="relative bg-[#060a12] overflow-hidden">
-    {/* Dot-grid texture */}
-    <div
-      className="absolute inset-0 opacity-[0.04] pointer-events-none"
-      style={{
-        backgroundImage: "radial-gradient(circle, hsl(217 91% 60%) 1px, transparent 1px)",
-        backgroundSize: "32px 32px",
-      }}
-    />
-    {/* Ambient glows */}
+    <DotGrid className="opacity-[0.04]" />
     <div className="absolute -top-20 right-1/4 w-96 h-96 bg-blue-500/7 rounded-full blur-3xl pointer-events-none" />
     <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-    {/* Edge separators */}
-    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
-    <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
+    <SectionBorder />
 
     <Container className="relative z-10 pb-20 pt-16 max-w-7xl mx-auto">
       <div className="p-4">

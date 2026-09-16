@@ -2,24 +2,15 @@ import Container from "@/components/ui/container";
 import Image from "next/image";
 import { instructor } from "@/assets/images";
 import Link from "next/link";
+import { DotGrid, AmbientGlow, SectionBorder } from "@/components/shared/Decorative";
 
 const InstructorSection = () => {
     return (
          <section className="relative bg-[#060a12] overflow-hidden">
-        {/* Dot-grid */}
-        <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{
-            backgroundImage: "radial-gradient(circle, hsl(217 91% 60%) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-          }}
-        />
-        {/* Glows */}
-        <div className="absolute -top-24 left-1/4 w-[500px] h-[500px] bg-blue-500/6 rounded-full blur-[120px] pointer-events-none" />
+        <DotGrid className="opacity-[0.04]" />
+        <AmbientGlow className="-top-24 left-1/4" color="bg-blue-500/6" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-        {/* Edge separators */}
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
+        <SectionBorder />
 
         <Container className="relative z-10 py-20 max-w-7xl mx-auto">
           {/* Badge */}

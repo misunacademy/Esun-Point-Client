@@ -283,6 +283,26 @@ body {
   }
 }
 
+/* ── Footer shimmer line ── */
+@keyframes shimmer-line {
+  0%   { left: -10rem; }
+  100% { left: 110%; }
+}
+
+/* ── WhyThisCourse floating decorations ── */
+@keyframes floatLeft {
+  0%   { transform: translateY(0px) rotate(-4deg) scale(1); }
+  35%  { transform: translateY(-18px) rotate(2deg) scale(1.03); }
+  70%  { transform: translateY(-8px) rotate(-6deg) scale(0.98); }
+  100% { transform: translateY(0px) rotate(-4deg) scale(1); }
+}
+@keyframes floatRight {
+  0%   { transform: translateY(0px) rotate(8deg) scale(1); }
+  40%  { transform: translateY(-14px) rotate(-4deg) scale(1.05); }
+  75%  { transform: translateY(-5px) rotate(12deg) scale(0.97); }
+  100% { transform: translateY(0px) rotate(8deg) scale(1); }
+}
+
 /* Horizontal Glow Effect */
 .glow-border-horizontal::after {
   content: "";
@@ -303,4 +323,28 @@ body {
   /* Blue Glow */
   box-shadow: 0 0 8px rgba(37, 99, 235, 0.8);
   animation: glow-move-vertical 2s linear infinite alternate;
+}
+
+/* ── Custom scrollbar with brand blue ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
 }

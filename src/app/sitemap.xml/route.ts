@@ -1,4 +1,4 @@
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+import { SITE_URL } from '@/lib/constants';
 
 const URLS = [
     '/',

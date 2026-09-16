@@ -69,16 +69,11 @@ export function track(eventName: string, params?: Record<string, any>, options?:
   _queueOrRun(() => (window as any).fbq("track", eventName, params || {}, options || {}));
 }
 
-export function trackCustom(eventName: string, params?: Record<string, any>) {
-  _queueOrRun(() => (window as any).fbq("trackCustom", eventName, params || {}));
-}
-
 export function trackPageView() { track("PageView"); }
 
 const metaPixel = {
   initPixel,
   track,
-  trackCustom,
   trackPageView,
 };
 

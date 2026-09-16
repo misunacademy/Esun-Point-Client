@@ -1,12 +1,14 @@
+
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
 import Providers from "@/providers/Providers";
+import { LenisProvider } from "@/providers/LenisProvider";
 import type { Metadata } from "next";
 import { Hind_Siliguri } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
-import BackToTop from "@/components/shared/BackToTop";
-// import FloatingChat from "@/components/shared/FloatingChat";
+import "@/bones/registry";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali"],
@@ -16,7 +18,7 @@ const hindSiliguri = Hind_Siliguri({
   preload: false,
 });
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+import { SITE_URL as BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -170,6 +172,9 @@ export default function RootLayout({
         />
       </head>
       <body className="">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:outline-none">
+          Skip to main content
+        </a>
         <Providers>
           {/* Initialize GA tracking only if GA_ID is available */}
           {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
@@ -177,13 +182,13 @@ export default function RootLayout({
           {/* Vercel Analytics (optional) */}
           <Analytics />
 
-          {children}
+          <LenisProvider>
+            {children}
+          </LenisProvider>
 
-          {/* Global Tech Support Chat widget */}
-          {/* <FloatingChat /> */}
+          
 
-          {/* Global Back to Top Button */}
-          <BackToTop variant="glass-glow" />
+ 
         </Providers>
       </body>
     </html>

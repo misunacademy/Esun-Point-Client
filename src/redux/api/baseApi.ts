@@ -1,39 +1,46 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import {
-    BaseQueryApi,
     BaseQueryFn,
-    DefinitionType,
     FetchArgs,
+    FetchBaseQueryError,
     createApi,
     fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "sonner";
 import { authServerApi } from '@/lib/auth-server-api';
 
+function getCSRFToken(): string | null {
+    if (typeof document === 'undefined') return null;
+    const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : null;
+}
+
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
     credentials: "include",
     prepareHeaders: (headers) => {
-
+        const csrfToken = getCSRFToken();
+        if (csrfToken) {
+            headers.set("X-CSRF-Token", csrfToken);
+        }
         return headers;
     },
 });
 
 const baseQueryWithSessionHandling: BaseQueryFn<
     FetchArgs,
-    BaseQueryApi,
-    DefinitionType
-> = async (args, api, extraOptions): Promise<any> => {
+    unknown,
+    FetchBaseQueryError
+> = async (args, api, extraOptions) => {
     const result = await baseQuery(args, api, extraOptions);
 
     if (result?.error?.status === 404) {
-        //@ts-ignore
-        toast.error(result.error.data.message || "Something went wrong");
+        const errorData = result.error.data as { message?: string } | undefined;
+        toast.error(errorData?.message || "Something went wrong");
     }
     if (result?.error?.status === 403) {
-        //@ts-ignore
-        toast.error(result.error.data.message);
+        const errorData = result.error.data as { message?: string } | undefined;
+        toast.error(errorData?.message || "Access denied");
     }
     if (result?.error?.status === 401) {
         console.warn('[baseApi] 401 Unauthorized - session expired or invalid');

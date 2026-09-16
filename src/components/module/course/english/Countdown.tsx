@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useMemo, useState } from 'react';
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useGetCurrentEnrollmentBatchQuery } from "@/redux/api/batchApi";
 import { useGetCourseBySlugQuery } from "@/redux/api/courseApi";
 import { intervalToDuration, isBefore, isAfter } from "date-fns";
 import { FadeIn } from '@/components/ui/FadeIn';
-import { BatchResponse } from '@/redux/api/batchApi';
+import { BatchResponse, CourseInfo } from '@/redux/api/batchApi';
+import { Skeleton } from 'boneyard-js/react';
 
 type TimeLeft = {
   months: number;
@@ -55,6 +57,8 @@ interface CountdownProps {
   batch?: BatchResponse | null;
   /** OR pass a course slug to auto-resolve the current enrollment batch */
   courseSlug?: string;
+  /** Server timestamp for accurate clock-drift-free countdown */
+  serverTimestamp?: number;
 }
 
 // map of course slug → primary colors (HSL) used by CSS vars
@@ -69,30 +73,29 @@ const themeMap: Record<string, { primary: string; glow: string }> = {
   },
 };
 
-const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
+const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimestampProp }: CountdownProps = {}) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
   const [label, setLabel] = useState<string>('');
+  const clientReceivedAt = useRef<number>(0);
 
   // ── Course-slug path (course detail pages & BannerSection) ───────────────
   const { data: courseBySlug, isLoading: courseBySlugLoading } = useGetCourseBySlugQuery(
     courseSlug!, { skip: !courseSlug }
   );
-  const slugCourseId = courseSlug ? (courseBySlug?.data as any)?._id : undefined;
+  const slugCourseId = courseSlug ? (courseBySlug?.data as { _id?: string } | undefined)?._id : undefined;
 
   const { data: slugBatchRes, isLoading: slugBatchLoading } = useGetCurrentEnrollmentBatchQuery(
     { courseId: slugCourseId },
     { skip: !slugCourseId }
   );
 
-  // Resolve batch: if a batch is passed directly, use it; otherwise use slug-resolved batch
-  const batch = batchProp ?? (courseSlug ? (slugBatchRes?.data as any) : null);
+  const batch = batchProp ?? (courseSlug ? (slugBatchRes?.data as BatchResponse | null | undefined) : null);
+  const serverTimestamp = serverTimestampProp ?? slugBatchRes?.serverTimestamp;
 
-  // derive effective slug from either prop or batch info
   const effectiveSlug = useMemo(() => {
     if (courseSlug) return courseSlug;
-    // batch.courseId may be object with slug
-    if (batch && typeof batch.courseId === 'object' && (batch.courseId as any).slug) {
-      return (batch.courseId as any).slug as string;
+    if (batch && typeof batch.courseId === 'object' && 'slug' in batch.courseId) {
+      return (batch.courseId as CourseInfo).slug;
     }
     return undefined;
   }, [courseSlug, batch]);
@@ -114,8 +117,14 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
   useEffect(() => {
     if (!batch || !enrollmentStart || !enrollmentEnd) return;
 
+    if (clientReceivedAt.current === 0) {
+      clientReceivedAt.current = Date.now();
+    }
+
+    const offset = serverTimestamp ? serverTimestamp - clientReceivedAt.current : 0;
+
     const tick = () => {
-      const now = new Date();
+      const now = new Date(Date.now() + offset);
       const batchStatus = batch.status as string;
 
       let targetDate: Date | null = null;
@@ -162,16 +171,50 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
     tick(); // run immediately
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [batch, enrollmentStart, enrollmentEnd]);
+  }, [batch, enrollmentStart, enrollmentEnd, serverTimestamp]);
 
   const isCountdownLoading = courseSlug
     ? (courseBySlugLoading || (!!slugCourseId && slugBatchLoading))
     : false;
 
-  if (isCountdownLoading) return null;
-  if (!batch || !timeLeft || !label) return null;
-
   return (
+    <Skeleton
+      name="countdown"
+      loading={isCountdownLoading}
+      fixture={
+        <div className="mt-8 mb-4">
+          <div className="text-center space-y-6">
+            <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <p className="text-xs font-semibold uppercase text-primary/90">Enrollment ends in</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
+            </div>
+          </div>
+        </div>
+      }
+      fallback={
+        <div className="mt-8 mb-4">
+          <div className="text-center space-y-6">
+            <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <p className="text-xs font-semibold uppercase text-primary/90">Loading...</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
+            </div>
+          </div>
+        </div>
+      }
+    >
+    {!batch || !timeLeft || !label ? null : (
     <FadeIn delay={0.1} className="mt-8 mb-4" style={themeVars}>
       <div className="text-center space-y-6">
         {/* Status badge */}
@@ -201,6 +244,8 @@ const Countdown = ({ batch: batchProp, courseSlug }: CountdownProps = {}) => {
         </div>
       </div>
     </FadeIn>
+    )}
+    </Skeleton>
   );
 };
 
