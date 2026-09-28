@@ -1,9 +1,10 @@
 
 import Script from "next/script";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
 import Providers from "@/providers/Providers";
 import { LenisProvider } from "@/providers/LenisProvider";
+import ConsentAwareTracking from "@/components/analytics/ConsentAwareTracking";
+import ConsentBanner from "@/components/analytics/ConsentBanner";
 import type { Metadata } from "next";
 import { Hind_Siliguri } from "next/font/google";
 import "lenis/dist/lenis.css";
@@ -88,35 +89,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={hindSiliguri.variable}>
       <head>
-        {/* Meta Pixel */}
-        {pixelId && (
-          <>
-            <Script id="facebook-pixel" strategy="afterInteractive">
-              {`
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${pixelId}');
-            fbq('track', 'PageView');
-          `}
-            </Script>
-            <noscript>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                height="1"
-                width="1"
-                style={{ display: "none" }}
-                src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
-                alt=""
-              />
-            </noscript>
-          </>
-        )}
         {/* Load GA script only if GA_ID is available */}
 
         {/* Organization + WebSite JSON-LD Structured Data */}
@@ -176,11 +148,13 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Providers>
-          {/* Initialize GA tracking only if GA_ID is available */}
-          {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
+          {/* Marketing tracking (Pixel + GA) loads only after opt-in */}
+          <ConsentAwareTracking pixelId={pixelId} gaId={GA_ID} />
+          <ConsentBanner />
 
-          {/* Vercel Analytics (optional) */}
-          <Analytics />
+          {/* Vercel Analytics (Vercel hosting only — the script 404s on
+              self-hosted/Docker deployments) */}
+          {process.env.VERCEL ? <Analytics /> : null}
 
           <LenisProvider>
             {children}

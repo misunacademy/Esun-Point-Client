@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* Lightweight Meta Pixel helper — safe to call before the pixel script loads. */
+/* Lightweight Meta Pixel helper — safe to call before the pixel script loads.
+ * All tracking is consent-gated: no-ops until the visitor opts in. */
+
+import { hasGrantedConsent } from './consent';
 
 export function initPixel(pixelId?: string) {
   try {
     if (typeof window === "undefined" || !pixelId) return;
+    if (!hasGrantedConsent()) return;
 
     if ((window as any).fbq) {
       return;
@@ -56,6 +60,7 @@ function _queueOrRun(fn: () => void) {
 }
 
 export function track(eventName: string, params?: Record<string, any>, options?: Record<string, any>) {
+  if (!hasGrantedConsent()) return;
   _queueOrRun(() => (window as any).fbq("track", eventName, params || {}, options || {}));
 }
 

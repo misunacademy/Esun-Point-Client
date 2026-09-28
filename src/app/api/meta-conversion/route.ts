@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { z } from "zod";
 
-// Input validation schema
 const conversionEventSchema = z.object({
   eventName: z.string().default("Purchase"),
   email: z.string().email().optional().or(z.literal("")),
@@ -11,11 +10,36 @@ const conversionEventSchema = z.object({
   eventId: z.string().optional(),
 });
 
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 30;
+const hits = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(key: string): boolean {
+  const now = Date.now();
+  const entry = hits.get(key);
+  if (!entry || now > entry.resetAt) {
+    hits.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > RATE_MAX;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    const ip =
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      req.headers.get("x-real-ip") ||
+      "unknown";
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { success: false, message: "Too many requests" },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
 
-    // Validate input
     const validatedData = conversionEventSchema.safeParse(body);
 
     if (!validatedData.success) {
@@ -37,9 +61,9 @@ export async function POST(req: NextRequest) {
       eventId,
     } = validatedData.data;
 
-    // Hash email (required by Meta) if present
-    const hashedEmail = email
-      ? crypto.createHash("sha256").update(email).digest("hex")
+    const normalizedEmail = email?.trim().toLowerCase();
+    const hashedEmail = normalizedEmail
+      ? crypto.createHash("sha256").update(normalizedEmail).digest("hex")
       : undefined;
 
     const payload = {
@@ -47,11 +71,11 @@ export async function POST(req: NextRequest) {
         {
           event_name: eventName,
           event_time: Math.floor(Date.now() / 1000),
-          event_id: eventId, //  deduplication
+          event_id: eventId,
           action_source: "website",
           user_data: {
             em: hashedEmail ? [hashedEmail] : undefined,
-            client_ip_address: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "",
+            client_ip_address: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || undefined,
             client_user_agent: req.headers.get("user-agent"),
           },
           custom_data: {
@@ -74,10 +98,13 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await fetch(
-      `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${capiToken}`,
+      `https://graph.facebook.com/v21.0/${pixelId}/events`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${capiToken}`,
+        },
         body: JSON.stringify(payload),
       }
     );
@@ -85,10 +112,10 @@ export async function POST(req: NextRequest) {
     const result = await response.json();
 
     if (!response.ok) {
-      console.error("Meta API error:", result);
+      console.error("Meta API error:", response.status);
       return NextResponse.json(
-        { success: false, message: "Failed to send event to Meta", error: result },
-        { status: response.status }
+        { success: false, message: "Failed to send event to Meta" },
+        { status: 502 }
       );
     }
 
