@@ -5,10 +5,48 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CheckCircle2, Clock, AlertCircle, Loader2 } from 'lucide-react';
 import Congratulations from '@/components/module/payment/congratulations';
+import { useVerifyMyPaymentQuery } from '@/redux/api/paymentApi';
+
+type StatusKey = 'success' | 'pending' | 'review' | 'failed';
 
 function PaymentStatusContent() {
     const searchParams = useSearchParams();
-    const status = searchParams?.get('status') || 'failed';
+    const claimed = searchParams?.get('status') || 'failed';
+    const transactionId = searchParams?.get('t');
+    const claimedSuccess = claimed === 'success';
+
+    // Success must be proven, not claimed: ?status=success is trivially
+    // spoofable, so a claimed success with no transaction (or a failed server
+    // verification) renders as failed. Genuine gateway callbacks carry ?t=.
+    const { data: verifyRaw, isLoading: verifying } = useVerifyMyPaymentQuery(
+        transactionId ?? '',
+        { skip: !claimedSuccess || !transactionId },
+    );
+    const verified = (verifyRaw as { data?: { verified?: boolean } } | undefined)?.data?.verified === true;
+    const stillVerifying = claimedSuccess && !!transactionId && !verifyRaw && verifying;
+    const status: StatusKey = claimedSuccess
+        ? (verified ? 'success' : (stillVerifying ? 'pending' : 'failed'))
+        : (claimed as StatusKey);
+
+    if (stillVerifying) {
+        return (
+            <div className="container mx-auto p-4 min-h-screen flex flex-col items-center justify-center">
+                <Card className="max-w-md mx-auto">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                            Verifying payment…
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Alert>
+                            <AlertDescription>Confirming your payment with the server. Please wait.</AlertDescription>
+                        </Alert>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
 
     const getStatusContent = () => {
         switch (status) {
