@@ -1,5 +1,11 @@
 import { useState, useCallback } from "react";
 
+const getCSRFToken = (): string | null => {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]*)/);
+  return match ? decodeURIComponent(match[1]) : null;
+};
+
 export interface Message {
   id: string;
   sender: "user" | "bot";
@@ -37,17 +43,27 @@ export function useChat(messages: Message[], setMessages: React.Dispatch<React.S
       setIsTyping(true);
 
       try {
+        // Server accepts user turns only (assistant history is untrusted
+        // client input — a jailbreak vector). Send recent genuine user turns.
         const conversation = [
-          ...messages.slice(1).map((m) => ({
-            role: m.sender === "user" ? ("user" as const) : ("assistant" as const),
-            content: m.text,
-          })),
+          ...messages
+            .slice(1)
+            .filter((m) => m.sender === "user")
+            .slice(-10)
+            .map((m) => ({
+              role: "user" as const,
+              content: m.text,
+            })),
           { role: "user" as const, content: text.trim() },
         ];
 
+        const csrfToken = getCSRFToken();
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/chat`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
+          },
           credentials: "include",
           body: JSON.stringify({ messages: conversation }),
         });

@@ -12,8 +12,8 @@ import { phonePe } from "@/assets/images";
 import { paymentInfo } from "@/constants/enrollment";
 
 const paymentSchema = z.object({
-    senderNumber: z.string().min(10, "Please enter a valid phone number"),
-    transactionId: z.string().min(5, "Please enter a valid transaction ID"),
+    senderNumber: z.string().regex(/^[+\d][\d\s-]{9,19}$/, "Please enter a valid phone number"),
+    transactionId: z.string().trim().min(5, "Please enter a valid transaction ID").max(100),
 });
 
 type PaymentForm = z.infer<typeof paymentSchema>;
@@ -23,11 +23,12 @@ interface ManualPaymentFormProps {
     onPaymentComplete: (data: { senderNumber: string; transactionId: string }) => void;
     manualAmount?: number;
     manualCurrency?: string;
+    isSubmitting?: boolean;
     batch:string
 }
 
-const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
-    batch }: ManualPaymentFormProps) => {
+const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount, manualCurrency = 'INR',
+    isSubmitting = false, batch }: ManualPaymentFormProps) => {
     const form = useForm<PaymentForm>({
         resolver: zodResolver(paymentSchema),
         defaultValues: {
@@ -38,19 +39,36 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
 
     const [copied, setCopied] = useState(false);
 
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+    const copyToClipboard = async (text: string) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch {
+            // Clipboard API unavailable (non-secure context): select manually.
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            } catch {
+                // Last resort: user copies by hand.
+            }
+            document.body.removeChild(ta);
+        }
     };
 
     const onSubmit = (data: PaymentForm) => {
         onPaymentComplete(data);
     };
     const displayAmount = typeof manualAmount === 'number' ? manualAmount : paymentInfo.amount;
+    const currencyLabel = manualCurrency || paymentInfo.currency;
     const dynamicInstructions = paymentInfo.instructions.map((instruction) => {
         if (instruction.toLowerCase().includes('enter the exact amount')) {
-            return `Enter the exact amount: INR ${displayAmount.toLocaleString('en-IN')}`;
+            return `Enter the exact amount: ${currencyLabel} ${displayAmount.toLocaleString('en-US')}`;
         }
         return instruction;
     });
@@ -117,7 +135,7 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
                     <div className="flex justify-center">
                         <div className="relative overflow-hidden rounded-xl bg-red-500/8 border border-red-500/25 px-6 py-2.5">
                             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
-                            <span className="font-bold text-red-400 text-lg">Amount: INR {displayAmount.toLocaleString('en-IN')}</span>
+                            <span className="font-bold text-red-400 text-lg">Amount: {currencyLabel} {displayAmount.toLocaleString('en-US')}</span>
                         </div>
                     </div>
 
@@ -209,10 +227,10 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount,
                                     <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_35%,rgba(255,255,255,0.8)_50%,transparent_65%)]" />
                                     <button
                                         type="submit"
-                                        disabled={!form.formState.isValid}
+                                        disabled={!form.formState.isValid || isSubmitting}
                                         className="relative w-full bg-primary hover:bg-blue-600 disabled:cursor-not-allowed transition-colors duration-300 text-white font-bold py-2.5 rounded-[10px] text-sm shadow-md"
                                     >
-                                        Submit Payment Info
+                                        {isSubmitting ? 'Submitting…' : 'Submit Payment Info'}
                                     </button>
                                 </div>
                             </div>

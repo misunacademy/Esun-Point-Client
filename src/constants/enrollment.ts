@@ -3,7 +3,9 @@
 export const paymentInfo = {
     phoneNumber: "+91 9123944746",
     recipientName: "Khokon Sarkar",
-    amount: 2000,
+    // Fallback display only — the server's batch.manualPaymentPrice is the
+    // source of truth (currently 2289). Keep in sync when it changes.
+    amount: 2289,
     currency: "INR",
     instructions: [
         "Open your PhonePe app",

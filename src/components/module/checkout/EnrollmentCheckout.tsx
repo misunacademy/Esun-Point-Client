@@ -142,7 +142,8 @@ export default function EnrollmentCheckout({ courseSlug }: EnrollmentCheckoutPro
                     onPaymentComplete={handleManualPaymentComplete}
                     manualAmount={manualPaymentAmount}
                     manualCurrency={manualPaymentCurrency}
-                    batch={(resolvedBatch as BatchResponse)?.batchNumber?.toString()?.padStart(2, '0')}
+                    isSubmitting={isProcessing}
+                    batch={(resolvedBatch as BatchResponse)?.batchNumber?.toString()?.padStart(2, '0') ?? 'N/A'}
                   />
                 )}
               </div>
