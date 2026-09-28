@@ -15,24 +15,29 @@ const Feedback = () => {
     const [selectedBatch, setSelectedBatch] = useState("all");
 
     const batchInfo = useMemo(() => {
+        // Skip malformed CSV rows (missing batch/name/testimonial) instead of
+        // rendering an "undefined" bucket and empty cards.
+        const valid = studentFeedbacks.filter(
+            (f) => f.batch && f.name && f.testimonial
+        );
         const batches: string[] = [
             ...new Set(
-                studentFeedbacks
+                valid
                     .map(feedback => feedback.batch)
                     .filter((batch): batch is string => batch !== undefined)
             ),
         ].sort((a, b) => b.localeCompare(a));
-        const counts = studentFeedbacks.reduce((acc, feedback) => {
+        const counts = valid.reduce((acc, feedback) => {
             acc[feedback.batch!] = (acc[feedback.batch!] || 0) + 1;
             return acc;
         }, {} as Record<string, number>);
-        return { batches, counts };
+        return { batches, counts, valid };
     }, []);
 
     const filteredTestimonials = useMemo(() => {
-        if (selectedBatch === "all") return [...studentFeedbacks].reverse();
-        return studentFeedbacks.filter(feedback => feedback.batch === selectedBatch);
-    }, [selectedBatch]);
+        if (selectedBatch === "all") return [...batchInfo.valid].reverse();
+        return batchInfo.valid.filter(feedback => feedback.batch === selectedBatch);
+    }, [selectedBatch, batchInfo]);
 
     const paginatedTestimonials = useMemo(() => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;

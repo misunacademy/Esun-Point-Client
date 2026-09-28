@@ -13,7 +13,7 @@ import { Skeleton } from 'boneyard-js/react';
 const COURSE_SLUG = "english-for-professional-communication";
 
 const BannerSection = () => {
-  const { batch: resolvedBatch, isLoading, serverTimestamp } = useCurrentBatch({ courseSlug: COURSE_SLUG, fallbackToUpcoming: true });
+  const { batch: resolvedBatch, isLoading, isError, serverTimestamp } = useCurrentBatch({ courseSlug: COURSE_SLUG, fallbackToUpcoming: true });
 
   const batchTitle = resolvedBatch?.title.split(' ')[1] ?? null;
   const enrollmentPeriod = {
@@ -35,6 +35,30 @@ const BannerSection = () => {
       content_ids: ["english-professional-comm-misun-2024"],
     });
   }, []);
+
+  // API failure must read as an error, not an empty page (fee "--",
+  // vanishing countdown). Skeleton covers loading; this covers failure.
+  if (!isLoading && isError && !resolvedBatch) {
+    return (
+      <section className="relative bg-[#060a12] overflow-hidden font-bangla">
+        <div className="relative z-10 flex flex-col items-center justify-center pt-24 md:pt-28 pb-24 px-4 space-y-4">
+          <h1 className="font-bold text-2xl md:text-3xl text-center text-white/90">
+            English For Professional Communication
+          </h1>
+          <p className="text-sm text-white/50 text-center max-w-md">
+            Course information is temporarily unavailable. Please check your connection and refresh the page.
+          </p>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="rounded-xl border border-primary/25 px-5 py-2.5 text-sm font-medium text-white/80 hover:border-primary/50 hover:text-white"
+          >
+            Try again
+          </button>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <Skeleton
@@ -106,7 +130,7 @@ const BannerSection = () => {
         <div className="relative my-6 p-[1.5px] rounded-xl overflow-hidden">
           <div className="relative rounded-xl px-8 py-4 font-bold text-xl text-white shadow-[0_0_24px_hsl(217_91%_60%/0.4)]">
             Course Fee: Only <span className="text-blue-400 font-bold">
-              {resolvedBatch?.price ? resolvedBatch.price.toLocaleString('en-IN') : '--'}
+              {resolvedBatch?.price ? resolvedBatch.price.toLocaleString('en-US') : '--'}
             </span> BDT
           </div>
         </div>
