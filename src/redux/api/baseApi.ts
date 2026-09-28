@@ -8,6 +8,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "sonner";
 import { authServerApi } from '@/lib/auth-server-api';
+import { getLoginHref } from '@/lib/auth-urls';
 
 function getCSRFToken(): string | null {
     if (typeof document === 'undefined') return null;
@@ -43,14 +44,20 @@ const baseQueryWithSessionHandling: BaseQueryFn<
         toast.error(errorData?.message || "Access denied");
     }
     if (result?.error?.status === 401) {
-        await authServerApi.signOut();
+        // This app has no /auth pages — auth lives on the MA frontend.
+        // Never build a same-origin /auth URL (would 404); redirect to the MA
+        // login with the full current EP URL so login can send the user back.
+        try {
+            await authServerApi.signOut();
+        } catch {
+            // Sign-out failing must not block the redirect.
+        }
+        // Purge cached data so the next user never sees the previous user's.
+        api.dispatch(baseApi.util.resetApiState());
 
         if (typeof window !== 'undefined') {
             toast.error('Your session has expired. Please login again.');
-            const loginUrl = new URL('/auth', window.location.origin);
-            const redirectPath = `${window.location.pathname}${window.location.search}`;
-            loginUrl.searchParams.set('redirect_url', redirectPath);
-            window.location.href = loginUrl.toString();
+            window.location.href = getLoginHref(window.location.href);
         }
 
         return result;

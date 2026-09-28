@@ -1,4 +1,6 @@
 import { authServerApi } from '@/lib/auth-server-api';
+import { baseApi } from '@/redux/api/baseApi';
+import { store } from '@/redux/store';
 import { toast } from 'sonner';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AuthUser } from '@/types/auth';
@@ -62,8 +64,9 @@ export function useAuth() {
       setError(null);
       return nextUser || null;
     } catch (err) {
+      // Transient blip (500/timeout/offline): keep the last known user and
+      // surface the error — never render a logged-in user as logged-out.
       setError(err as Error);
-      setUser(undefined);
       return null;
     } finally {
       setIsLoading(false);
@@ -111,6 +114,7 @@ export function useAuth() {
         throw new Error(result.error.message);
       }
       setUser(undefined);
+      store.dispatch(baseApi.util.resetApiState());
       if (typeof window !== 'undefined') {
         window.location.href = '/';
       }
@@ -135,9 +139,11 @@ export function useAuth() {
 
   const forgotPassword = useCallback(async (email: string) => {
     try {
+      // Reset UI lives on MA (this app has no /reset-password page).
+      const maBase = process.env.NEXT_PUBLIC_MA_FRONTEND_URL || 'https://www.misun-academy.com';
       const result = await authServerApi.requestPasswordReset({
         email,
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/reset-password`,
+        redirectTo: `${maBase}/reset-password`,
       });
 
       if (result.error) {
@@ -202,7 +208,16 @@ export function useAuth() {
 
   const updateUserProfile = useCallback(async (data: Partial<AuthUser>) => {
     try {
-      const result = await authServerApi.updateUser(data as Record<string, unknown>);
+      // Client-side allowlist (server enforces input:false too): never
+      // forward role/status even if a caller passes a full user object.
+      const { name, image, phone, address, avatar } = data;
+      const result = await authServerApi.updateUser({
+        ...(name !== undefined ? { name } : {}),
+        ...(image !== undefined ? { image } : {}),
+        ...(phone !== undefined ? { phone } : {}),
+        ...(address !== undefined ? { address } : {}),
+        ...(avatar !== undefined ? { avatar } : {}),
+      } as Record<string, unknown>);
 
       if (result.error) {
         return { success: false, error: result.error.message };

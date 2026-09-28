@@ -1,8 +1,11 @@
 const MA_FRONTEND_URL = process.env.NEXT_PUBLIC_MA_FRONTEND_URL || '';
 const EP_FRONTEND_URL = process.env.NEXT_PUBLIC_EP_FRONTEND_URL || '';
 
-export function getLoginHref(): string {
-  const redirectBackUrl = EP_FRONTEND_URL;
+export function getLoginHref(redirectBack?: string): string {
+  // Fail safe: without a configured MA origin there is no login to link to
+  // (a same-origin /auth/login would 404 on this app).
+  if (!MA_FRONTEND_URL) return '/';
+  const redirectBackUrl = redirectBack ?? EP_FRONTEND_URL;
   return `${MA_FRONTEND_URL}/auth/login?redirect_url=${encodeURIComponent(redirectBackUrl)}`;
 }
 
@@ -28,7 +31,10 @@ export function getCertificatesHref(): string {
 }
 
 export function getGraphicDesignHref(): string {
-  return `${MA_FRONTEND_URL}/`;
+  // The graphic-design course lives on MA; never link a bare origin here
+  // (a missing env would produce an "undefined" href).
+  if (!MA_FRONTEND_URL) return '/courses';
+  return `${MA_FRONTEND_URL}/courses/complete-graphic-design-with-freelancing`;
 }
 
 export function canSeeClasses(role: string | undefined | null): boolean {
