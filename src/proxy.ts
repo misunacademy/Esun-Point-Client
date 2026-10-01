@@ -24,6 +24,11 @@ const BETTER_AUTH_COOKIE_KEYS = [
 ] as const;
 
 function hasBetterAuthSession(request: NextRequest): boolean {
+  // Best-effort presence check only: HttpOnly/SameSite session cookies issued
+  // for the API domain are invisible here, so a missing cookie must redirect
+  // to MA login (which bounces straight back when the session is valid).
+  // Never treat a present-but-unverified cookie as proof of identity —
+  // real auth is enforced by requireAuth on the API + ProtectedRoute.
   if (getSessionCookie(request)) {
     return true;
   }
@@ -76,6 +81,8 @@ async function maybeRedirectToMaintenance(request: NextRequest) {
       return NextResponse.redirect(url);
     }
   } catch {
+    // Fail-open by design: if the API is unreachable we must not 500 the
+    // whole storefront. Maintenance simply stays off until reachable again.
     return null;
   }
 
@@ -117,5 +124,7 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/','/checkout/:path*','/courses','/about'],
+  // Cover every app route for the maintenance gate (checkout guard is
+  // path-checked inside proxy); exclude API/static/assets explicitly.
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.*|.*\\..*).*)'],
 };

@@ -19,8 +19,10 @@ interface UseCurrentBatchResult {
   isError: boolean;
 }
 
+export const DEFAULT_COURSE_SLUG = 'english-for-professional-communication';
+
 export function useCurrentBatch(options: UseCurrentBatchOptions = {}): UseCurrentBatchResult {
-  const { courseSlug = 'english-for-professional-communication', fallbackToUpcoming = false } = options;
+  const { courseSlug = DEFAULT_COURSE_SLUG, fallbackToUpcoming = false } = options;
 
   const { data: courseData, isLoading: courseLoading, isError: courseError } = useGetCourseBySlugQuery(courseSlug);
   const courseId = courseData?.data?._id;

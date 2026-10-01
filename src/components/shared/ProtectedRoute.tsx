@@ -3,6 +3,7 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { getDashboardHref, getMyClassesHref } from '@/lib/auth-urls';
 import type { AuthUser } from '@/types/auth';
 
 type Role = AuthUser['role'];
@@ -20,13 +21,9 @@ const defaultFallback = (
   </div>
 );
 
-const roleHome: Record<Role, string> = {
-  superadmin: '/dashboard/admin',
-  admin: '/dashboard/admin',
-  instructor: '/dashboard/admin',
-  employee: '/dashboard/admin',
-  learner: '/my-classes',
-};
+// This app has no /dashboard or /my-classes pages — role homes live on MA.
+const roleHome = (role: Role): string =>
+  role === 'learner' ? getMyClassesHref() : getDashboardHref(role);
 
 const subscribeToMounted = () => () => undefined;
 const getMountedSnapshot = () => true;
@@ -46,9 +43,11 @@ export default function ProtectedRoute({
   useEffect(() => {
     if (!isMounted || isLoading) return;
 
-    const role: Role = user?.role ?? 'learner';
+    const role: Role | undefined = user?.role ?? undefined;
 
-    if (!user) {
+    if (!user || !role) {
+      // No session OR a malformed session without a role: never default to
+      // learner — send back through MA login.
       const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
       const currentUrl = typeof window !== 'undefined'
         ? window.location.href
@@ -65,9 +64,10 @@ export default function ProtectedRoute({
       return;
     }
 
-    if (requiredRoles && requiredRoles.length > 0 && !requiredRoles.includes(role)) {
-      const destination = unauthorizedRedirectTo || roleHome[role] || '/my-classes';
-      router.replace(destination);
+    if (requiredRoles && requiredRoles.length > 0 && (!role || !requiredRoles.includes(role))) {
+      const destination = unauthorizedRedirectTo || (role ? roleHome(role) : '/');
+      // Cross-app destination — full navigation, not next/router.
+      window.location.assign(destination);
     }
   }, [isMounted, isLoading, user, requiredRoles, router, pathname, unauthorizedRedirectTo]);
 

@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useInitiateEnrollmentMutation, useEnrollStudentManualMutation } from '@/redux/api/enrollmentApi';
-import { useCurrentBatch } from './useCurrentBatch';
+import { useCurrentBatch, DEFAULT_COURSE_SLUG } from './useCurrentBatch';
 
 const enrollmentSchema = z.object({
   batchId: z.string().min(1, "Please select a batch"),
@@ -37,24 +37,27 @@ export function useEnrollment(courseSlug?: string) {
     defaultValues: { batchId: "", paymentMethod: undefined },
   });
 
-  const { course: resolvedCourse, batch: resolvedBatch, isLoading: batchLoading } = useCurrentBatch({
-    courseSlug: courseSlug ?? 'english-for-professional-communication',
+  const { course: resolvedCourse, batch: resolvedBatch, isLoading: batchLoading, serverTimestamp } = useCurrentBatch({
+    courseSlug: courseSlug ?? DEFAULT_COURSE_SLUG,
     fallbackToUpcoming: true,
   });
 
-  const isDataLoading = !!courseSlug && batchLoading;
+  const isDataLoading = batchLoading;
 
   const isEnrollmentOpen = resolvedBatch
     ? (() => {
         const start = Date.parse(String((resolvedBatch as any).enrollmentStartDate || ""));
         const end = Date.parse(String((resolvedBatch as any).enrollmentEndDate || ""));
-        return now >= start && now <= end;
+        const nowMs = typeof serverTimestamp === 'number' ? serverTimestamp : now;
+        return nowMs >= start && nowMs <= end;
       })()
     : false;
 
   const manualPaymentAmount = typeof (resolvedBatch as any)?.manualPaymentPrice === 'number'
     ? (resolvedBatch as any).manualPaymentPrice : 0;
-  const manualPaymentCurrency = (resolvedBatch as any)?.currency || 'BDT';
+  // Manual channel on this app is always PhonePe India (INR) — never the
+  // batch gateway currency (BDT). Server derives the same way.
+  const manualPaymentCurrency = 'INR';
 
   useEffect(() => {
     if (!form.getValues('batchId') && (resolvedBatch as any)?._id) {
@@ -73,7 +76,8 @@ export function useEnrollment(courseSlug?: string) {
       toast.success("Redirecting to SSLCommerz...", {
         description: "You'll be redirected to complete your payment securely.",
       });
-      router.push(res.data.paymentUrl);
+      // External gateway URL — must be a full navigation, not next/router.
+      window.location.href = res.data.paymentUrl;
     } catch (error: unknown) {
       const paymentError = error as PaymentError;
       toast.error(paymentError?.data?.message || "Payment initiation failed. Please try again.");

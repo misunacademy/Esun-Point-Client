@@ -11,9 +11,10 @@ export function fmtDate(iso: string | Date | undefined): string {
   });
 }
 
-export function isWindowOpen(start: string | Date | undefined, end: string | Date | undefined): boolean {
+export function isWindowOpen(start: string | Date | undefined, end: string | Date | undefined, nowMs?: number): boolean {
   if (!start || !end) return false;
-  const now = Date.now();
+  // Pass server time when available — client clocks skew enrollment windows.
+  const now = typeof nowMs === 'number' ? nowMs : Date.now();
   return now >= new Date(start).getTime() && now <= new Date(end).getTime();
 }
 
