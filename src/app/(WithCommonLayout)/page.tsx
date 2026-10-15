@@ -6,7 +6,6 @@ import { EnrollmentSection } from '@/components/module/home/EnrollmentSection';
 import WhyThisCourse from '@/components/module/home/WhyThisCourse';
 import ProfessionalEnglish from '@/components/module/home/ProfessionalEnglish';
 import WhyUs from '@/components/module/home/WhyUs';
-import FloatingChat from '@/components/shared/FloatingChat';
 import { Suspense } from 'react';
 import BackToTop from '@/components/shared/BackToTop';
 
@@ -40,14 +39,6 @@ export default function page() {
       <WhyUs />
       <EnrollmentSection />
       <EnrollmentFixed />
-      {/* Global Tech Support Chat widget (dev only) */}
-      {
-        process.env.NODE_ENV === "development" && (
-          <Suspense fallback={null}>
-            <FloatingChat />
-          </Suspense>
-        )
-      }
 
       {/* Global Back to Top Button */}
       <Suspense fallback={null}>

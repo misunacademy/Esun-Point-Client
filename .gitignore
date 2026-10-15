@@ -5,3 +5,4 @@ dist
 .vercel
 AGENTS.md
 .turbo
+.env*.local
