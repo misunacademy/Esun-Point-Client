@@ -1,9 +1,54 @@
 "use client";
 import { useState } from "react";
 import { Play, ChevronDown, ChevronUp } from "lucide-react";
+import { useGetSettingsQuery } from "@/redux/api/settingsApi";
+
+const DEFAULT_VIDEO_URL = "https://www.youtube.com/embed/pCpgeeQsXPE";
+
+export function toYouTubeEmbedUrl(rawUrl: string | undefined | null): string {
+  const value = rawUrl?.trim();
+  if (!value) return "";
+
+  try {
+    const url = new URL(value);
+
+    const idPattern = /^[A-Za-z0-9_-]{11}$/;
+    if (url.hostname === "youtu.be") {
+      const id = url.pathname.slice(1).split("/")[0];
+      if (id && idPattern.test(id)) return `https://www.youtube.com/embed/${id}`;
+      return "";
+    }
+
+    if (url.hostname.endsWith("youtube.com")) {
+      if (url.pathname.startsWith("/embed/")) {
+        const id = url.pathname.split("/")[2];
+        if (id && idPattern.test(id)) return `https://www.youtube.com/embed/${id}`;
+        return "";
+      }
+      if (url.pathname.startsWith("/shorts/")) {
+        const id = url.pathname.split("/")[2];
+        if (id && idPattern.test(id)) return `https://www.youtube.com/embed/${id}`;
+        return "";
+      }
+      const v = url.searchParams.get("v");
+      if (v && idPattern.test(v)) return `https://www.youtube.com/embed/${v}`;
+      return "";
+    }
+  } catch {
+  }
+
+  // Non-YouTube input is rejected: embedding it verbatim would turn a
+  // mistyped CMS URL into an arbitrary iframe.
+  return "";
+}
 
 export function PaymentTutorial() {
   const [showTutorial, setShowTutorial] = useState(false);
+  const { data } = useGetSettingsQuery();
+  const videoUrl =
+    toYouTubeEmbedUrl(data?.data?.epPaymentTutorialVideoUrl) ||
+    toYouTubeEmbedUrl(data?.data?.maPaymentTutorialVideoUrl) ||
+    DEFAULT_VIDEO_URL;
 
   return (
     <div className="rounded-xl border border-primary/20 bg-primary/5 overflow-hidden">
@@ -32,7 +77,7 @@ export function PaymentTutorial() {
           <div className="aspect-video bg-black rounded-lg overflow-hidden mt-3">
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/pCpgeeQsXPE"
+              src={videoUrl}
               title="Payment Tutorial"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

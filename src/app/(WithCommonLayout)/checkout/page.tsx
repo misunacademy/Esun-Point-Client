@@ -7,8 +7,9 @@ import EnrollmentCheckout from '@/components/module/checkout/EnrollmentCheckout'
 import BreadcrumbJsonLd from '@/components/seo/BreadcrumbJsonLd';
 import { v4 as uuid } from "uuid";
 import { track } from '@/lib/metaPixel';
+import { hasGrantedConsent } from '@/lib/consent';
 import { isWindowOpen } from '@/lib/date-utils';
-import { useCurrentBatch } from '@/hooks/useCurrentBatch';
+import { useCurrentBatch, DEFAULT_COURSE_SLUG } from '@/hooks/useCurrentBatch';
 import Spinner from './Spinner';
 import EnrollmentNotStartedDialog from './EnrollmentNotStartedDialog';
 import { Skeleton } from 'boneyard-js/react';
@@ -17,19 +18,19 @@ import { Loader2 } from 'lucide-react';
 function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const courseSlug = searchParams.get('course') ?? 'english-for-professional-communication';
+  const courseSlug = searchParams.get('course') ?? DEFAULT_COURSE_SLUG;
 
   const { user, isLoading: authLoading } = useAuth();
   const hasTracked = useRef(false);
 
-  const { course, batch: currentBatch, isLoading: batchLoading } = useCurrentBatch({
+  const { course, batch: currentBatch, isLoading: batchLoading, serverTimestamp } = useCurrentBatch({
     courseSlug,
     fallbackToUpcoming: true,
   });
 
   const enrollmentStart = currentBatch?.enrollmentStartDate;
   const enrollmentEnd = currentBatch?.enrollmentEndDate;
-  const enrollmentRunning = isWindowOpen(enrollmentStart, enrollmentEnd);
+  const enrollmentRunning = isWindowOpen(enrollmentStart, enrollmentEnd, serverTimestamp);
 
   const courseFee = currentBatch?.price ?? course?.price ?? 3000;
   const courseTitle = course?.title ?? 'MISUN Academy Course Enrollment';
@@ -39,9 +40,13 @@ function CheckoutContent() {
   useEffect(() => {
     if (!user?.email) return;
     if (hasTracked.current) return;
+    // Marketing events require opt-in consent (track() also no-ops).
+    if (!hasGrantedConsent()) return;
     hasTracked.current = true;
+    // Checkout view = InitiateCheckout, NOT Purchase. Firing Purchase here
+    // inflates ROAS and wastes CAPI; Purchase fires after verified payment.
     const eventId = uuid();
-    track('Purchase', {
+    track('InitiateCheckout', {
       value: courseFee,
       currency: 'BDT',
       content_name: courseTitle,
@@ -51,7 +56,7 @@ function CheckoutContent() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        eventName: "Purchase",
+        eventName: "InitiateCheckout",
         email: user.email,
         value: courseFee,
         currency: "BDT",

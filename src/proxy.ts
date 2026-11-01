@@ -24,6 +24,11 @@ const BETTER_AUTH_COOKIE_KEYS = [
 ] as const;
 
 function hasBetterAuthSession(request: NextRequest): boolean {
+  // Best-effort presence check only: HttpOnly/SameSite session cookies issued
+  // for the API domain are invisible here, so a missing cookie must redirect
+  // to MA login (which bounces straight back when the session is valid).
+  // Never treat a present-but-unverified cookie as proof of identity —
+  // real auth is enforced by requireAuth on the API + ProtectedRoute.
   if (getSessionCookie(request)) {
     return true;
   }
@@ -76,6 +81,8 @@ async function maybeRedirectToMaintenance(request: NextRequest) {
       return NextResponse.redirect(url);
     }
   } catch {
+    // Fail-open by design: if the API is unreachable we must not 500 the
+    // whole storefront. Maintenance simply stays off until reachable again.
     return null;
   }
 
@@ -85,7 +92,6 @@ async function maybeRedirectToMaintenance(request: NextRequest) {
 export async function proxy(request: NextRequest) {
   const { pathname, search, origin } = request.nextUrl;
   const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
-  const isDev = process.env.NODE_ENV === 'development';
 
   const maintenanceResponse = await maybeRedirectToMaintenance(request);
   if (maintenanceResponse) {
@@ -93,10 +99,6 @@ export async function proxy(request: NextRequest) {
   }
 
   const betterAuthSession = hasBetterAuthSession(request);
-
-  if (isDev) {
-    console.debug(`[proxy] Path: ${pathname} | Better Auth Session: ${betterAuthSession}`);
-  }
 
   const isProtectedRoute = PROTECTED_PATHS.some((path) => pathname.startsWith(path));
 
@@ -122,6 +124,7 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/','/checkout/:path*','/courses','/about'],
-    // matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  // Cover every app route for the maintenance gate (checkout guard is
+  // path-checked inside proxy); exclude API/static/assets explicitly.
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.*|.*\\..*).*)'],
 };

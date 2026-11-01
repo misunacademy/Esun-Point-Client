@@ -119,7 +119,6 @@ export default function PrivacyPolicyPage() {
                         <p>
                             If you have any questions, feedback, or complaints, please email us —{" "}
                             <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
-                                {/* misunacademybd@gmail.com */}
                                 misunacademybd@gmail.com
                             </a>
                             .

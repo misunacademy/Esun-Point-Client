@@ -4,3 +4,5 @@ dist
 .next
 .vercel
 AGENTS.md
+.turbo
+.env*.local

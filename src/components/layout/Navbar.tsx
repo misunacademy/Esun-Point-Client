@@ -23,7 +23,7 @@ export default function Navbar() {
     <header
       ref={navbarRef}
       role="banner"
-      className="fixed text-white top-0 z-[999] w-full transition-all duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] bg-[#040a07] backdrop-blur-xl border-b border-blue-500/20 shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+      className="fixed text-white top-0 z-[999] w-full transition-all duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] bg-[#040a07] backdrop-blur-sm md:backdrop-blur-xl border-b border-blue-500/20 shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
     >
       <Container className="relative z-50 max-w-7xl mx-auto">
         <nav className="h-16 flex items-center justify-between" role="navigation" aria-label="Main navigation">
@@ -31,8 +31,8 @@ export default function Navbar() {
             <Image
               src={MisunLogo}
               alt="Misun Academy"
-              width={100}
-              height={100}
+              width={240}
+              height={30}
               priority
               fetchPriority="high"
               className="h-8 w-auto pl-4 md:pl-0"
@@ -43,8 +43,14 @@ export default function Navbar() {
               {isHydrated && <NavLinks />}
             </div>
             <div className="flex items-center justify-end gap-3">
-              <AnimatedEnrollButton />
-              {isHydrated && <UserDropdownMenu />}
+              <div className="hidden sm:block">
+                <AnimatedEnrollButton />
+              </div>
+              {isHydrated && (
+                <div className="hidden sm:block">
+                  <UserDropdownMenu />
+                </div>
+              )}
             </div>
             <div className="md:hidden px-3">
               <MobileNavbar />
