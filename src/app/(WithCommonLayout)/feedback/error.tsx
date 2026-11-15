@@ -6,7 +6,7 @@ export default function FeedbackError({ error, reset }: { error: Error & { diges
   useEffect(() => { console.error('Feedback error:', error); }, [error]);
 
   return (
-    <div className="min-h-screen bg-[#060f0a] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="max-w-md text-center space-y-6">
         <h1 className="text-2xl font-bold text-white/90">Feedback Error</h1>
         <p className="text-white/50">Could not load student feedback. Please try again.</p>

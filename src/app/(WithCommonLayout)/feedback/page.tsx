@@ -57,10 +57,10 @@ const Feedback = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#060f0a]">
+        <div className="min-h-screen bg-surface font-bangla">
 
             {/* ── HERO ── */}
-            <section className="relative overflow-hidden bg-[#060f0a]">
+            <section className="relative overflow-hidden bg-surface">
                 {/* Dot-grid */}
                 <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
                     style={{ backgroundImage: "radial-gradient(circle, hsl(217 91% 60%) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
@@ -78,7 +78,7 @@ const Feedback = () => {
                     <div className="flex justify-center mb-8">
                         <div className="relative p-[1.5px] rounded-full overflow-hidden">
                             <span className="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_60%,hsl(156_70%_42%)_100%)]" />
-                            <div className="relative w-20 h-20 rounded-full bg-[#060f0a] flex items-center justify-center">
+                            <div className="relative w-20 h-20 rounded-full bg-surface flex items-center justify-center">
                                 <GraduationCap className="w-9 h-9 text-primary" />
                             </div>
                         </div>
@@ -90,7 +90,7 @@ const Feedback = () => {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
                         </span>
-                        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary/90">শিক্ষার্থীদের মতামত</span>
+                        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary">শিক্ষার্থীদের মতামত</span>
                     </div>
 
                     <h1 className="text-4xl md:text-6xl font-bold leading-[140%] mb-6">
@@ -111,7 +111,7 @@ const Feedback = () => {
                             { icon: <Award className="w-6 h-6 text-orange-400" />, value: "৯৪%", label: "কর্মসংস্থান" },
                         ].map((stat, i) => (
                             <div key={i} className="group relative overflow-hidden rounded-2xl
-                                bg-[#060f0a] border border-primary/15 px-5 py-6
+                                bg-surface border border-primary/15 px-5 py-6
                                 transition-all duration-300 hover:border-primary/35 hover:-translate-y-0.5
                                 hover:shadow-[0_4px_24px_hsl(156_70%_42%/0.15)]">
                                 <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-primary/40 rounded-tl-2xl" />
@@ -119,7 +119,7 @@ const Feedback = () => {
                                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <div className="flex justify-center mb-2">{stat.icon}</div>
                                 <div className="text-2xl md:text-3xl font-black bg-gradient-to-r from-white via-white/95 to-white/80 bg-clip-text text-transparent">{stat.value}</div>
-                                <div className="text-xs text-white/40 uppercase tracking-widest mt-1">{stat.label}</div>
+                                <div className="text-xs text-white/60 uppercase tracking-widest mt-1">{stat.label}</div>
                             </div>
                         ))}
                     </div>
@@ -127,7 +127,7 @@ const Feedback = () => {
             </section>
 
             {/* ── CONTENT ── */}
-            <section className="relative bg-[#060f0a]">
+            <section className="relative bg-surface overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                 <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -141,7 +141,7 @@ const Feedback = () => {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
                             </span>
-                            <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary/90">রিভিউ</span>
+                            <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary">রিভিউ</span>
                         </div>
 
                         <h2 className="text-3xl lg:text-4xl font-bold leading-[140%]">
@@ -150,13 +150,13 @@ const Feedback = () => {
                         </h2>
 
                         {/* Live stats row */}
-                        <div className="flex justify-center items-center gap-4 mt-6 flex-wrap">
+                        <div role="status" aria-live="polite" className="flex justify-center items-center gap-4 mt-6 flex-wrap">
                             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/15">
                                 <Heart className="w-3.5 h-3.5 text-rose-400" />
-                                <span className="text-xs text-white/55">মোট পর্যালোচনা: <strong className="text-white/80">{filteredTestimonials.length}</strong></span>
+                                <span className="text-xs text-white/70">মোট পর্যালোচনা: <strong className="text-white/90">{filteredTestimonials.length}</strong></span>
                             </div>
                             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/15">
-                                <span className="text-xs text-white/55">পৃষ্ঠা <strong className="text-primary">{currentPage}</strong> / {totalPages}</span>
+                                <span className="text-xs text-white/70">পৃষ্ঠা <strong className="text-primary">{currentPage}</strong> / {totalPages}</span>
                             </div>
                         </div>
 
@@ -209,10 +209,10 @@ const Feedback = () => {
                             </>
                         ) : (
                             <div className="text-center py-20">
-                                <div className="relative overflow-hidden rounded-2xl bg-[#060f0a] border border-primary/15 w-24 h-24 flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_hsl(156_70%_42%/0.12)]">
+                                <div className="relative overflow-hidden rounded-2xl bg-surface border border-primary/15 w-24 h-24 flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_hsl(156_70%_42%/0.12)]">
                                     <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-primary/40 rounded-tl-2xl" />
                                     <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-primary/40 rounded-tr-2xl" />
-                                    <Users className="w-10 h-10 text-primary/40" />
+                                    <Users className="w-10 h-10 text-primary" />
                                 </div>
                                 <h3 className="text-lg font-semibold text-white/70 mb-2">কোনো পর্যালোচনা পাওয়া যায়নি</h3>
                                 <p className="text-white/35 text-sm">নির্বাচিত ব্যাচে কোনো শিক্ষার্থীর মতামত নেই।</p>
@@ -223,7 +223,7 @@ const Feedback = () => {
             </section>
 
             {/* ── CTA ── */}
-            <section className="relative bg-[#060f0a] overflow-hidden">
+            <section className="relative bg-surface overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                 <div className="absolute -top-10 left-1/4 w-[400px] h-[400px] bg-primary/7 rounded-full blur-[100px] pointer-events-none" />
                 <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -250,7 +250,7 @@ const Feedback = () => {
                         <div className="flex justify-center mb-6">
                             <div className="relative p-[1.5px] rounded-full overflow-hidden">
                                 <span className="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_60%,hsl(156_70%_42%)_100%)]" />
-                                <div className="relative w-16 h-16 rounded-full bg-[#060f0a] flex items-center justify-center">
+                                <div className="relative w-16 h-16 rounded-full bg-surface flex items-center justify-center">
                                     <GraduationCap className="w-7 h-7 text-primary" />
                                 </div>
                             </div>
@@ -262,7 +262,7 @@ const Feedback = () => {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
                             </span>
-                            <span className="text-xs font-semibold uppercase text-primary/90">এখনই যোগ দিন</span>
+                            <span className="text-xs font-semibold uppercase text-primary">এখনই যোগ দিন</span>
                         </div>
 
                         <h3 className="text-2xl md:text-4xl font-bold leading-[145%] mb-5">
@@ -294,15 +294,17 @@ const Feedback = () => {
                                 এখনই ভর্তি হন
                             </AnimatedButton>
 
-                            <Link href="/courses">
-                                <button className="inline-flex items-center gap-2
-                                    bg-[#060f0a] border border-primary/30 text-white/70
+                            <Link
+                                href="/course-details"
+                                className="inline-flex items-center gap-2
+                                    bg-surface border border-primary/30 text-white/70
                                     hover:border-primary/60 hover:text-white
                                     transition-all duration-300
-                                    px-8 py-3.5 rounded-xl text-base font-semibold cursor-pointer">
-                                    <Heart className="w-4 h-4 text-primary/70" />
-                                    বিস্তারিত জানুন
-                                </button>
+                                    px-8 py-3.5 rounded-xl text-base font-semibold cursor-pointer
+                                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                            >
+                                <Heart className="w-4 h-4 text-primary" />
+                                বিস্তারিত জানুন
                             </Link>
                         </div>
 
