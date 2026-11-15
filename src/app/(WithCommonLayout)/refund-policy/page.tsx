@@ -2,7 +2,7 @@
 import { generateMetadata } from '@/lib/generateMetadata';
 
 export const metadata = generateMetadata({
-    title: 'Refund Policy | ESUN POINT',
+    title: 'Refund Policy',
     description:
         'Understand the ESUN POINT refund policy. Learn about eligibility criteria, how to request a refund, and our processing timeline for course fee returns.',
     keywords: [
@@ -16,7 +16,7 @@ export const metadata = generateMetadata({
 
 export default function RefundPolicyPage() {
     return (
-        <div className="min-h-screen bg-[#060f0a] relative overflow-hidden pt-20">
+        <div className="min-h-screen bg-surface relative overflow-hidden pt-20">
             {/* Dot-grid */}
             <div
                 className="absolute inset-0 opacity-[0.04] pointer-events-none"
@@ -36,7 +36,7 @@ export default function RefundPolicyPage() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
                         </span>
-                        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary/90">ESUN POINT</span>
+                        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary">ESUN POINT</span>
                     </div>
                     <h1 className="text-4xl font-bold mb-3">
                         <span className="bg-gradient-to-r from-white via-white/95 to-white/80 bg-clip-text text-transparent">Refund </span>
@@ -46,7 +46,7 @@ export default function RefundPolicyPage() {
                 </div>
 
                 {/* Card */}
-                <div className="relative overflow-hidden rounded-2xl bg-[#0a1610] border border-primary/20 shadow-[0_0_80px_hsl(156_70%_42%/0.12)] p-8 md:p-10 leading-8 space-y-6 text-white/70 font-bangla">
+                <div className="relative overflow-hidden rounded-2xl bg-[#0a1610] border border-primary/20 shadow-[0_0_80px_hsl(156_70%_42%/0.12)] p-8 md:p-10 leading-8 space-y-6 text-white/70">
                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                    <div className="absolute -top-6 left-0 w-5 h-5 border-t border-l border-primary/40 rounded-tl-2xl" />
@@ -66,7 +66,7 @@ export default function RefundPolicyPage() {
                     <div className="border-t border-primary/15 pt-6">
                         <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> How to Request a Refund</h2>
                         <p className="mb-4">To initiate a refund, please send us an email with the following details:</p>
-                        <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary/60">
+                        <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary">
                             <li>Your full name and registered email address</li>
                             <li>Course name</li>
                             <li>Payment date and payment method</li>
@@ -74,7 +74,7 @@ export default function RefundPolicyPage() {
                         </ul>
                         <p className="mt-4">
                             Send your request to:{" "}
-                            <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
+                            <a href="mailto:misunacademybd@gmail.com" className="text-primary hover:text-primary underline underline-offset-2 transition-colors">
                                 misunacademybd@gmail.com
                             </a>
                         </p>
@@ -94,11 +94,11 @@ export default function RefundPolicyPage() {
                         <p className="text-white/80 font-semibold">Your satisfaction matters to us. Please review the course details carefully before enrolling and keep the refund window in mind.</p>
                         <p className="mt-3">
                             📩 For further assistance, email us at:{" "}
-                            <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
+                            <a href="mailto:misunacademybd@gmail.com" className="text-primary hover:text-primary underline underline-offset-2 transition-colors">
                                 misunacademybd@gmail.com
                             </a>
                         </p>
-                        <p className="mt-4 text-primary/70 font-semibold">— Team MISUN Academy</p>
+                        <p className="mt-4 text-primary font-semibold">— Team MISUN Academy</p>
                     </div>
                 </div>
             </div>

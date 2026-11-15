@@ -2,7 +2,7 @@
 import { generateMetadata } from '@/lib/generateMetadata';
 
 export const metadata = generateMetadata({
-    title: 'Privacy Policy | ESUN POINT',
+    title: 'Privacy Policy',
     description:
         'Read the ESUN POINT privacy policy to understand how MISUN Academy collects, uses, and protects your personal information when you use our platform and courses.',
     keywords: [
@@ -16,7 +16,7 @@ export const metadata = generateMetadata({
 
 export default function PrivacyPolicyPage() {
     return (
-        <div className="min-h-screen bg-[#060f0a] relative overflow-hidden pt-20">
+        <div className="min-h-screen bg-surface relative overflow-hidden pt-20">
             {/* Dot-grid */}
             <div
                 className="absolute inset-0 opacity-[0.04] pointer-events-none"
@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
                         </span>
-                        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary/90">ESUN POINT</span>
+                        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary">ESUN POINT</span>
                     </div>
                     <h1 className="text-4xl font-bold mb-3">
                         <span className="bg-gradient-to-r from-white via-white/95 to-white/80 bg-clip-text text-transparent">Privacy </span>
@@ -46,7 +46,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 {/* Card */}
-                <div className="relative overflow-hidden rounded-2xl bg-[#0a1610] border border-primary/20 shadow-[0_0_80px_hsl(156_70%_42%/0.12)] p-8 md:p-10 leading-8 space-y-6 text-white/70 font-bangla">
+                <div className="relative overflow-hidden rounded-2xl bg-[#0a1610] border border-primary/20 shadow-[0_0_80px_hsl(156_70%_42%/0.12)] p-8 md:p-10 leading-8 space-y-6 text-white/70">
                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                   <div className="absolute -top-6 left-0 w-5 h-5 border-t border-l border-primary/40 rounded-tl-2xl" />
@@ -64,7 +64,7 @@ export default function PrivacyPolicyPage() {
 
                     <p className="text-white/75 border-l-2 border-primary/40 pl-4">
                         Please read this privacy policy carefully. If you have any questions or concerns, please contact —{" "}
-                        <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
+                        <a href="mailto:misunacademybd@gmail.com" className="text-primary hover:text-primary underline underline-offset-2 transition-colors">
                             misunacademybd@gmail.com
                         </a>
                         .
@@ -73,8 +73,8 @@ export default function PrivacyPolicyPage() {
                     <div className="border-t border-primary/15 pt-6">
                         <h2 className="text-xl font-semibold text-white/90 mb-4 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> Which information do we collect?</h2>
 
-                        <h3 className="text-base font-semibold text-primary/80 mt-5 mb-2">1. Information you provide to us</h3>
-                        <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary/60">
+                        <h3 className="text-base font-semibold text-primary mt-5 mb-2">1. Information you provide to us</h3>
+                        <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary">
                             <li>Personal identity information: Name, email, mobile number, address, password, etc.</li>
                             <li>Transaction-related information: Card number, payment gateway data, etc.</li>
                             <li>Social media information: Information received through Facebook or Google login.</li>
@@ -83,8 +83,8 @@ export default function PrivacyPolicyPage() {
                             Please ensure that the information you provide to us is true, complete, and up-to-date. It is your responsibility to inform us immediately of any changes.
                         </p>
 
-                        <h3 className="text-base font-semibold text-primary/80 mt-5 mb-2">2. Automatically collected information</h3>
-                        <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary/60">
+                        <h3 className="text-base font-semibold text-primary mt-5 mb-2">2. Automatically collected information</h3>
+                        <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary">
                             <li>Your device and operating system</li>
                             <li>Browser type</li>
                             <li>IP address</li>
@@ -95,7 +95,7 @@ export default function PrivacyPolicyPage() {
 
                     <div className="border-t border-primary/15 pt-6">
                         <h2 className="text-xl font-semibold text-white/90 mb-4 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> How do we use your information?</h2>
-                        <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary/60">
+                        <ul className="list-disc pl-6 space-y-1.5 text-white/60 marker:text-primary">
                             <li>Providing courses and services</li>
                             <li>Improving user experience</li>
                             <li>Providing security and technical support</li>
@@ -118,7 +118,7 @@ export default function PrivacyPolicyPage() {
                         <h2 className="text-xl font-semibold text-white/90 mb-3 flex items-center gap-2"><span className="w-1 h-5 rounded-full bg-primary/70 inline-block"></span> Contact Us</h2>
                         <p>
                             If you have any questions, feedback, or complaints, please email us —{" "}
-                            <a href="mailto:misunacademybd@gmail.com" className="text-primary/80 hover:text-primary underline underline-offset-2 transition-colors">
+                            <a href="mailto:misunacademybd@gmail.com" className="text-primary hover:text-primary underline underline-offset-2 transition-colors">
                                 misunacademybd@gmail.com
                             </a>
                             .
@@ -127,7 +127,7 @@ export default function PrivacyPolicyPage() {
 
                     <div className="border-t border-primary/15 pt-6">
                         <p className="text-white/80 font-semibold">Your trust is our inspiration. Welcome and congratulations to MISUN Academy!</p>
-                        <p className="text-primary/70 font-semibold mt-1">— Team MISUN Academy</p>
+                        <p className="text-primary font-semibold mt-1">— Team MISUN Academy</p>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 import { generateMetadata } from '@/lib/generateMetadata';
 
 export const metadata = generateMetadata({
-    title: 'Terms & Conditions | ESUN POINT',
+    title: 'Terms & Conditions',
     description:
         'Read the ESUN POINT terms and conditions. Understand your rights and responsibilities as a student, including course content usage, account policies, and community guidelines.',
     keywords: [
@@ -16,7 +16,7 @@ export const metadata = generateMetadata({
 
 export default function TermsAndConditionsPage() {
     return (
-        <div className="min-h-screen bg-[#060f0a] relative overflow-hidden pt-20">
+        <div className="min-h-screen bg-surface relative overflow-hidden pt-20">
             {/* Dot-grid */}
             <div
                 className="absolute inset-0 opacity-[0.04] pointer-events-none"
@@ -36,7 +36,7 @@ export default function TermsAndConditionsPage() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
                         </span>
-                        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary/90">ESUN POINT</span>
+                        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary">ESUN POINT</span>
                     </div>
                     <h1 className="text-4xl font-bold mb-3">
                         <span className="bg-gradient-to-r from-white via-white/95 to-white/80 bg-clip-text text-transparent">Terms &amp; </span>
@@ -46,7 +46,7 @@ export default function TermsAndConditionsPage() {
                 </div>
 
                 {/* Card */}
-                <div className="relative overflow-hidden rounded-2xl bg-[#0a1610] border border-primary/20 shadow-[0_0_80px_hsl(156_70%_42%/0.12)] p-8 md:p-10 leading-8 space-y-6 text-white/70 font-bangla">
+                <div className="relative overflow-hidden rounded-2xl bg-[#0a1610] border border-primary/20 shadow-[0_0_80px_hsl(156_70%_42%/0.12)] p-8 md:p-10 leading-8 space-y-6 text-white/70">
                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                     <div className="absolute -top-6 left-0 w-5 h-5 border-t border-l border-primary/40 rounded-tl-2xl" />
@@ -77,7 +77,7 @@ export default function TermsAndConditionsPage() {
                                 { title: "Expected compliance with law:", body: "Lawful and respectful use is expected from all users of MISUN Academy. Necessary legal action may be taken if any illegal activity is detected." },
                             ].map((item, i) => (
                                 <li key={i} className="flex gap-4">
-                                    <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 border border-primary/25 flex items-center justify-center text-xs font-bold text-primary/80 mt-0.5">{i + 1}</span>
+                                    <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 border border-primary/25 flex items-center justify-center text-xs font-bold text-primary mt-0.5">{i + 1}</span>
                                     <div>
                                         <strong className="text-white/85">{item.title}</strong>
                                         <br />
@@ -94,11 +94,11 @@ export default function TermsAndConditionsPage() {
                         </div>
                         <div className="flex items-center gap-3 flex-wrap">
                             <span className="text-white/45 text-sm">📩 Contact:</span>
-                            <a href="mailto:misunacademybd@gmail.com" className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primary/90 text-sm font-medium hover:bg-primary/20 hover:border-primary/40 transition-all">
+                            <a href="mailto:misunacademybd@gmail.com" className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primary text-sm font-medium hover:bg-primary/20 hover:border-primary/40 transition-all">
                                 misunacademybd@gmail.com
                             </a>
                         </div>
-                        <p className="mt-5 text-primary/70 font-semibold text-sm">— Team MISUN Academy</p>
+                        <p className="mt-5 text-primary font-semibold text-sm">— Team MISUN Academy</p>
                     </div>
                 </div>
             </div>
