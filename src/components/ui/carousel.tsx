@@ -288,13 +288,13 @@ const CarouselPrevious2 = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        'absolute bottom-4 left-1/2 -translate-x-1/2 h-10 w-10 rounded-full bg-white shadow-md flex items-center justify-center transition-opacity',
+        'absolute bottom-4 left-1/2 -translate-x-1/2 h-10 w-10 rounded-full bg-surface-deep border border-white/20 shadow-md flex items-center justify-center transition-opacity',
         className
       )}
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft className="h-5 w-5 text-gray-800" />
+      <ArrowLeft className="h-5 w-5 text-white" />
       <span className="sr-only">Previous slide</span>
     </Button>
   ) : null; // Return null to hide the button
