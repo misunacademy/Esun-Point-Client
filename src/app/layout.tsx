@@ -10,13 +10,14 @@ import { Hind_Siliguri } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import "@/bones/registry";
+import LocaleLangSetter from "@/components/shared/LocaleLangSetter";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-bangla",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 import { SITE_URL as BASE_URL } from '@/lib/constants';
@@ -144,7 +145,8 @@ export default function RootLayout({
         />
       </head>
       <body className="">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:outline-none">
+        <LocaleLangSetter />
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[var(--z-tooltip)] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:outline-none">
           Skip to main content
         </a>
         <Providers>

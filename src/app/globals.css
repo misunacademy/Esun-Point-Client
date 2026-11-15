@@ -4,59 +4,8 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --background-secondary: 0 0% 95%;
-    --foreground: 20 14.3% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
-    --primary: 217 91% 60%;
-    /* #3b82f6 in HSL */
-    --primary-foreground: 0 0% 100%;
-    /* #ffffff */
-    --primary-glow: 217 85% 75%;
-    --secondary: 222 32% 10%;
-    /* #101828 in HSL */
-    --secondary-foreground: 0 0% 100%;
-    /* #ffffff */
-    --muted: 9 100% 96%;
-    --muted-foreground: 25 5.3% 44.7%;
-    --accent: 9 100% 96%;
-    --accent-foreground: 24 9.8% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 10, 100%, 61%;
-    --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    /* Creative gradients for graphic design */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-creative: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)), hsl(115, 96%, 33%));
-    --gradient-glow: radial-gradient(circle, hsl(var(--primary-glow) / 0.3), transparent);
-
-    /* Animation variables */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-creative: 0 20px 40px -12px hsl(var(--primary) / 0.25);
-    --shadow-glow: 0 0 30px hsl(var(--primary-glow) / 0.5);
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
     --background: 20 14.3% 4.1%;
-    --background-secondary: 0 0% 95%;
+    --background-secondary: 20 14.3% 8%;
     --foreground: 60 9.1% 97.8%;
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
@@ -66,6 +15,8 @@
     /* #3b82f6 in HSL */
     --primary-foreground: 0 0% 100%;
     /* #ffffff */
+    --primary-glow: 217 85% 75%;
+    --primary-strong: 221 83% 53%;
     --secondary: 222 32% 10%;
     /* #101828 in HSL */
     --secondary-foreground: 0 0% 100%;
@@ -79,11 +30,25 @@
     --border: 12 6.5% 15.1%;
     --input: 12 6.5% 15.1%;
     --ring: 20.5 90.2% 48.2%;
+    --radius: 0.5rem;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    /* Brand surfaces — single source of truth for page/panel backgrounds */
+    --surface: 147 43% 4%;
+    --surface-darker: 150 43% 3%;
+    --surface-deep: 220 50% 5%;
+    /* Creative gradients for graphic design */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-creative: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)), hsl(115, 96%, 33%));
+    --gradient-glow: radial-gradient(circle, hsl(var(--primary-glow) / 0.3), transparent);
+
+    /* Animation variables */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-creative: 0 20px 40px -12px hsl(var(--primary) / 0.25);
+    --shadow-glow: 0 0 30px hsl(var(--primary-glow) / 0.5);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -92,6 +57,17 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Layering scale — every fixed/overlay element must use these */
+    --z-navbar: 100;
+    --z-floating: 200;
+    --z-overlay: 300;
+    --z-modal: 400;
+    --z-toast: 500;
+    --z-tooltip: 600;
+
+    /* Height of the consent banner so bottom-fixed widgets can clear it */
+    --consent-banner-h: 0px;
   }
 }
 
@@ -137,9 +113,41 @@
   font-display: swap;
 }
 
-/* Apply the font globally */
+@font-face {
+  font-family: 'Bangla Sangam';
+  src: local('Bangla Sangam'), local('Bangsans'), local('Mukti Narrow'), local('Solomie'), local('Siyamrupi');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
   font-family: 'Mona Sans', sans-serif;
+}
+
+.font-bangla {
+  font-family: var(--font-bangla), 'Noto Sans Bengali', 'Bangla Sangam', sans-serif;
+}
+
+/* Fluid typography utilities */
+.text-hero {
+  font-size: clamp(2rem, 8vw, 5rem);
+  line-height: 1.1;
+}
+
+.text-section-title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.text-body {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.text-caption {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.4;
 }
 
 
@@ -175,24 +183,7 @@ body {
   font-size: clamp(1.8rem, 5vw, 2rem);
 }
 
-.icon-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  /* Adjust as needed */
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  /* Light grey border */
-  border-radius: 4px;
-  /* Rounded corners */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  /* Subtle shadow */
-  background-color: white;
-  /* Background color */
-  width: 100px;
-  /* Adjust as needed */
-}
+/* Removed unused .icon-container class - see components/ui/... for icon patterns */
 
 @keyframes glow-move-horizontal {
   0% {
@@ -323,6 +314,85 @@ body {
   /* Blue Glow */
   box-shadow: 0 0 8px rgba(37, 99, 235, 0.8);
   animation: glow-move-vertical 2s linear infinite alternate;
+}
+
+/* ── Pulsing enrollment CTA ── */
+.pulse-enroll-button {
+  --pulse-color: 59, 130, 246;
+  position: relative;
+  isolation: isolate;
+  border: 2px solid rgba(var(--pulse-color), 0.9);
+  background: linear-gradient(to right, #1d4ed8, hsl(217 91% 60%), #1d4ed8);
+  animation: button-border-pulse 2.4s ease-in-out infinite;
+}
+
+.pulse-enroll-button::before,
+.pulse-enroll-button::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(var(--pulse-color), 0.8);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  animation: multiple-ring-wave 2.4s ease-out infinite;
+}
+
+.pulse-enroll-button::after {
+  animation-delay: 1.2s;
+}
+
+@keyframes button-border-pulse {
+  0%,
+  100% {
+    border-color: rgba(var(--pulse-color), 0.45);
+    box-shadow: 0 0 4px rgba(var(--pulse-color), 0.08);
+  }
+
+  50% {
+    border-color: rgba(var(--pulse-color), 1);
+    box-shadow: 0 0 16px rgba(var(--pulse-color), 0.3);
+  }
+}
+
+@keyframes multiple-ring-wave {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.85;
+  }
+
+  70% {
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-enroll-button,
+  .pulse-enroll-button::before,
+  .pulse-enroll-button::after {
+    animation: none;
+  }
+}
+
+/* ── Bottom fixed panels ── */
+[data-floating-panel] {
+  bottom: calc(5.5rem + var(--consent-banner-h, 0px));
+}
+
+@media (min-width: 640px) {
+  [data-floating-panel] {
+    bottom: calc(1rem + var(--consent-banner-h, 0px));
+  }
 }
 
 /* ── Custom scrollbar with brand blue ── */
