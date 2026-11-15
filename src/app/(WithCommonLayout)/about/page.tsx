@@ -5,7 +5,7 @@ import { MissionSection } from './MissionSection';
 import { CtaSection } from './CtaSection';
 
 export const metadata = generateMetadata({
-  title: 'About Us | ESUN POINT',
+  title: 'About Us',
   description:
     'Learn about ESUN POINT and the MISUN Academy team. Our mission is to provide professional English communication training that builds confident, career-ready learners in Bangladesh and beyond.',
   keywords: [
@@ -17,7 +17,8 @@ export const metadata = generateMetadata({
 });
 
 const AboutUs = () => (
-  <div className="min-h-screen bg-[#060a0f] font-bangla overflow-hidden">
+  <div className="min-h-screen bg-surface overflow-hidden">
+    <h1 className="sr-only">About ESUN POINT and the MISUN Academy team</h1>
     <TeamSection />
     <StorySection />
     <MissionSection />

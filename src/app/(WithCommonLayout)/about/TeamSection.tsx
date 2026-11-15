@@ -17,7 +17,7 @@ const teamMembers = [
 
 export function TeamSection() {
   return (
-    <section className="relative bg-[#060a0f] overflow-hidden mt-14">
+    <section className="relative bg-surface overflow-hidden mt-14">
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{ backgroundImage: "radial-gradient(circle, hsl(217 91% 60%) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
       <div className="absolute -top-10 right-1/3 w-96 h-96 bg-primary/6 rounded-full blur-[100px] pointer-events-none" />
@@ -28,7 +28,7 @@ export function TeamSection() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25 mb-6">
             <Users className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary/90">Our Team</span>
+            <span className="text-xs font-semibold tracking-[0.15em] uppercase text-primary">Our Team</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold leading-[140%]">
             <span className="bg-gradient-to-r from-white via-white/95 to-white/80 bg-clip-text text-transparent">Meet Our </span>
@@ -52,7 +52,7 @@ export function TeamSection() {
                 <span className="absolute inset-0 animate-[spin_12s_linear_infinite_reverse] bg-[conic-gradient(from_180deg,transparent_70%,hsl(217_85%_70%/0.4),transparent)]" />
               </div>
 
-              <div className="relative z-10 rounded-2xl bg-[#060a0f] border border-primary/15 p-8 text-center transition-all duration-500 group-hover:border-primary/40 h-full">
+              <div className="relative z-10 rounded-2xl bg-surface border border-primary/15 p-8 text-center transition-all duration-500 group-hover:border-primary/40 h-full">
                 <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
                   <span className="absolute -left-[120%] top-0 h-full w-[60%] bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 group-hover:left-[120%] transition-all duration-1000 ease-out" />
                 </div>
@@ -62,7 +62,7 @@ export function TeamSection() {
                   <div className="relative p-[2px] rounded-full overflow-hidden w-36 h-36 shadow-[0_0_30px_hsl(217_70%_42%/0.2)]">
                     <span className="absolute inset-[-100%] animate-[spin_6s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_50%,hsl(217_70%_42%/0.8),transparent)]" />
                     <span className="absolute inset-[-100%] animate-[spin_10s_linear_infinite_reverse] bg-[conic-gradient(from_180deg,transparent_70%,hsl(217_85%_70%/0.4),transparent)]" />
-                    <div className="relative rounded-full overflow-hidden w-full h-full bg-[#060a0f] p-[2px]">
+                    <div className="relative rounded-full overflow-hidden w-full h-full bg-surface p-[2px]">
                       <div className="relative rounded-full overflow-hidden w-full h-full">
                         <Image src={member.image} alt={member.name} fill sizes="144px"
                           className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110" />
@@ -74,7 +74,7 @@ export function TeamSection() {
                 <h3 className="text-xl font-bold text-white/90 transition-all duration-300 group-hover:text-white group-hover:tracking-wide mb-1">
                   {member.name}
                 </h3>
-                <p className="text-sm font-semibold text-primary/80 mb-1">{member.role}</p>
+                <p className="text-sm font-semibold text-primary mb-1">{member.role}</p>
                 <p className="text-xs text-white/40">{member.company}</p>
               </div>
             </div>

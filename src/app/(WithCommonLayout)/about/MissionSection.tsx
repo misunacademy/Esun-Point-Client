@@ -9,7 +9,7 @@ const missionItems = [
 
 export function MissionSection() {
   return (
-    <section className="relative bg-[#060a0f] overflow-hidden">
+    <section className="relative bg-surface overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
@@ -38,7 +38,7 @@ export function MissionSection() {
                 <span className="bg-gradient-to-r from-white via-white/95 to-white/80 bg-clip-text text-transparent">Our </span>
                 <span className="bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent">Mission</span>
               </h3>
-              <p className="text-primary/70 text-sm font-semibold mt-2 tracking-wide uppercase">Skill First, Career Next.</p>
+              <p className="text-primary text-sm font-semibold mt-2 tracking-wide uppercase">Skill First, Career Next.</p>
             </div>
 
             <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mb-8" />

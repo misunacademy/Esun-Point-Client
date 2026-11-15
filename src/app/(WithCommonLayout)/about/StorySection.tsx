@@ -1,6 +1,6 @@
 export function StorySection() {
   return (
-    <section className="relative bg-[#060a0f] overflow-hidden">
+    <section className="relative bg-surface overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       <div className="absolute -top-10 left-1/3 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -13,7 +13,7 @@ export function StorySection() {
           </h2>
         </div>
 
-        <div className="relative overflow-hidden rounded-3xl bg-[#060a0f] border border-primary/15 p-8 md:p-12 shadow-[0_0_60px_hsl(217_70%_42%/0.10)]">
+        <div className="relative overflow-hidden rounded-3xl bg-surface border border-primary/15 p-8 md:p-12 shadow-[0_0_60px_hsl(217_70%_42%/0.10)]">
           <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-primary/50 rounded-tl-3xl" />
           <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-primary/50 rounded-tr-3xl" />
           <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-primary/50 rounded-bl-3xl" />
