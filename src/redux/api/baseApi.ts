@@ -9,6 +9,7 @@ import {
 import { toast } from "sonner";
 import { authServerApi } from '@/lib/auth-server-api';
 import { getLoginHref } from '@/lib/auth-urls';
+import { getUserSnapshot } from '@/lib/auth-session';
 
 function getCSRFToken(): string | null {
     if (typeof document === 'undefined') return null;
@@ -44,6 +45,13 @@ const baseQueryWithSessionHandling: BaseQueryFn<
         toast.error(errorData?.message || "Access denied");
     }
     if (result?.error?.status === 401) {
+        // Only a session that actually existed may be treated as expired.
+        // A 401 for an anonymous visitor (public endpoint, session probe)
+        // must not sign them out or bounce them to the MA login.
+        if (!getUserSnapshot()) {
+            return result;
+        }
+
         // This app has no /auth pages — auth lives on the MA frontend.
         // Never build a same-origin /auth URL (would 404); redirect to the MA
         // login with the full current EP URL so login can send the user back.
