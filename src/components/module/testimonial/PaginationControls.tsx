@@ -27,12 +27,12 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
     const visiblePages = getVisiblePages();
 
     const btnBase = "inline-flex items-center justify-center h-9 min-w-[36px] px-3 rounded-xl text-sm font-medium transition-all duration-200 border";
-    const btnInactive = `${btnBase} bg-[#060f0a] border-primary/20 text-white/55 hover:border-primary/45 hover:text-white/85`;
+    const btnInactive = `${btnBase} bg-surface border-primary/20 text-white/55 hover:border-primary/45 hover:text-white/85`;
     const btnActive = `${btnBase} bg-gradient-to-r from-[#0d5c36] via-primary to-[#0a5f38] border-transparent text-white shadow-[0_0_14px_hsl(156_70%_42%/0.4)]`;
-    const btnDisabled = `${btnBase} bg-[#060f0a] border-primary/10 text-white/20 cursor-not-allowed`;
+    const btnDisabled = `${btnBase} bg-surface border-primary/10 text-white/20 cursor-not-allowed`;
 
     return (
-        <div className="flex items-center justify-center gap-1.5 mt-12">
+        <nav aria-label="Testimonials pagination" className="flex items-center justify-center gap-1.5 mt-12 flex-wrap">
             {/* Prev */}
             <button
                 onClick={() => onPageChange(currentPage - 1)}
@@ -57,7 +57,10 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
                 {visiblePages.map((page) => (
                     <button
                         key={page}
+                        type="button"
                         onClick={() => onPageChange(page)}
+                        aria-current={page === currentPage ? "page" : undefined}
+                        aria-label={`Page ${page}`}
                         className={page === currentPage ? btnActive : btnInactive}
                     >
                         {page}
@@ -76,6 +79,7 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
 
             {/* Next */}
             <button
+                type="button"
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage >= totalPages}
                 aria-label="Next page"
@@ -84,6 +88,6 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
                 <span className="hidden sm:inline mr-1">পরবর্তী</span>
                 <ChevronRight className="w-4 h-4" />
             </button>
-        </div>
+        </nav>
     );
 };

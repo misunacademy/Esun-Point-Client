@@ -14,7 +14,7 @@ export const TestimonialCard = ({ name, batch, studentId, testimonial, postLink,
     return (
         <div
             className="group relative overflow-hidden rounded-2xl
-                bg-[#060f0a] border border-primary/15
+                bg-surface border border-primary/15
                 p-6 h-full flex flex-col
                 transition-all duration-300 hover:-translate-y-1
                 hover:border-primary/40 hover:shadow-[0_8px_32px_hsl(156_70%_42%/0.18)]
@@ -44,10 +44,10 @@ export const TestimonialCard = ({ name, batch, studentId, testimonial, postLink,
                             {name}
                         </h3>
                         <div className="flex items-center gap-2 flex-wrap">
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/25 text-xs font-semibold text-primary/90">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/25 text-xs font-semibold text-primary">
                                 {batch} ব্যাচ
                             </span>
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10 text-[10px] text-white/35">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-surface-deep/40 border border-white/10 text-[10px] text-white/60">
                                 ID: {studentId}
                             </span>
                         </div>
@@ -61,13 +61,14 @@ export const TestimonialCard = ({ name, batch, studentId, testimonial, postLink,
                                         href={postLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        aria-label={`See ${name}'s Facebook post`}
                                         className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center
                                             bg-primary/8 border border-primary/15
-                                            text-white/40 hover:text-[#1877F2]
+                                            text-white/60 hover:text-[#1877F2]
                                             hover:bg-[#1877F2]/10 hover:border-[#1877F2]/30
                                             transition-all duration-200"
                                     >
-                                        <Facebook className="w-4 h-4" />
+                                        <Facebook className="w-4 h-4" aria-hidden="true" />
                                     </a>
                                 </TooltipTrigger>
                                 <TooltipContent side="top" className="bg-[#0d2b1c] border-primary/20 text-white/80 text-xs">
@@ -83,11 +84,11 @@ export const TestimonialCard = ({ name, batch, studentId, testimonial, postLink,
 
                 {/* Testimonial */}
                 <blockquote className="flex-1 relative">
-                    <span className="absolute -left-1 -top-2 text-primary/50 text-2xl leading-none select-none">&ldquo;</span>
-                    <p className="pl-3 text-sm text-white/55 leading-relaxed font-bangla group-hover:text-white/70 transition-colors duration-300">
+                    <span className="absolute -left-1 -top-2 text-primary text-2xl leading-none select-none">&ldquo;</span>
+                    <p className="pl-3 text-sm text-white/70 leading-relaxed font-bangla group-hover:text-white/85 transition-colors duration-300">
                         {testimonial}
                     </p>
-                    <span className="text-primary/50 text-xl leading-none select-none">&rdquo;</span>
+                    <span className="text-primary text-xl leading-none select-none">&rdquo;</span>
                 </blockquote>
 
                 {/* Bottom accent on hover */}
