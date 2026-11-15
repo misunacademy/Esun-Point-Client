@@ -1,26 +1,57 @@
+'use client';
+
+import { useCallback, useEffect, useMemo, useSyncExternalStore } from 'react';
 import { authServerApi } from '@/lib/auth-server-api';
 import { baseApi } from '@/redux/api/baseApi';
 import { store } from '@/redux/store';
 import { toast } from 'sonner';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AuthUser } from '@/types/auth';
 import { getAuthErrorMessage } from '@/lib/auth-errors';
+import {
+  clearSession,
+  fetchSessionUser,
+  getErrorSnapshot,
+  getLoadingSnapshot,
+  getServerErrorSnapshot,
+  getServerLoadingSnapshot,
+  getServerSessionSnapshot,
+  getServerUserSnapshot,
+  getSessionSnapshot,
+  getUserSnapshot,
+  subscribeToSession,
+} from '@/lib/auth-session';
 
 /**
  * Subdomain auth hook.
  * Session source is centralized backend GET /api/v1/auth/me.
- * Subdomain must not perform local sign-in/sign-up flows.
+ * The session lives in a shared store so every consumer on a page
+ * reuses one request instead of firing its own.
  */
 export function useAuth() {
-  const [user, setUser] = useState<AuthUser | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const user = useSyncExternalStore(
+    subscribeToSession,
+    getUserSnapshot,
+    getServerUserSnapshot
+  );
+  const session = useSyncExternalStore(
+    subscribeToSession,
+    getSessionSnapshot,
+    getServerSessionSnapshot
+  );
+  const error = useSyncExternalStore(
+    subscribeToSession,
+    getErrorSnapshot,
+    getServerErrorSnapshot
+  );
+  const isLoading = useSyncExternalStore(
+    subscribeToSession,
+    getLoadingSnapshot,
+    getServerLoadingSnapshot
+  );
 
-  const baseApiUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-  const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
-
-  const session = useMemo(() => (user ? { user } : null), [user]);
   const isAuthenticated = !!user;
+
+  const mainFrontendUrl = process.env.NEXT_PUBLIC_MA_FRONTEND_URL;
 
   const buildMainLoginUrl = useCallback((redirectUrl?: string) => {
     if (!mainFrontendUrl) {
@@ -33,52 +64,12 @@ export function useAuth() {
   }, [mainFrontendUrl]);
 
   const refetchSession = useCallback(async () => {
-    if (!baseApiUrl) {
-      setUser(undefined);
-      setError(new Error('Missing NEXT_PUBLIC_BASE_API_URL'));
-      setIsLoading(false);
-      return null;
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(`${baseApiUrl}/auth/me`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-
-      if (response.status === 401) {
-        setUser(undefined);
-        setError(null);
-        setIsLoading(false);
-        return null;
-      }
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch auth user: ${response.status}`);
-      }
-
-      const payload = await response.json();
-      const nextUser = payload?.data?.user as AuthUser | undefined;
-      setUser(nextUser);
-      setError(null);
-      return nextUser || null;
-    } catch (err) {
-      // Transient blip (500/timeout/offline): keep the last known user and
-      // surface the error — never render a logged-in user as logged-out.
-      setError(err as Error);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [baseApiUrl]);
+    return fetchSessionUser(true);
+  }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      refetchSession();
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [refetchSession]);
+    fetchSessionUser();
+  }, []);
 
   /**
    * Subdomain login must be handled on main domain.
@@ -113,7 +104,7 @@ export function useAuth() {
       if (result.error) {
         throw new Error(result.error.message);
       }
-      setUser(undefined);
+      clearSession();
       store.dispatch(baseApi.util.resetApiState());
       if (typeof window !== 'undefined') {
         window.location.href = '/';
@@ -139,7 +130,6 @@ export function useAuth() {
 
   const forgotPassword = useCallback(async (email: string) => {
     try {
-      // Reset UI lives on MA (this app has no /reset-password page).
       const maBase = process.env.NEXT_PUBLIC_MA_FRONTEND_URL || 'https://www.misun-academy.com';
       const result = await authServerApi.requestPasswordReset({
         email,
@@ -178,9 +168,9 @@ export function useAuth() {
       if (typeof window !== 'undefined') {
         window.location.assign(buildMainLoginUrl());
       }
-      return { success: true };
+      return { success: true, error: null };
     } catch (error: unknown) {
-      toast.error('Failed to reset password');
+      toast.error('Password reset failed');
       return { success: false, error: (error as Error).message };
     }
   }, [buildMainLoginUrl]);
@@ -199,7 +189,7 @@ export function useAuth() {
       if (typeof window !== 'undefined') {
         window.location.assign(buildMainLoginUrl());
       }
-      return { success: true };
+      return { success: true, error: null };
     } catch (error: unknown) {
       toast.error('Email verification failed');
       return { success: false, error: (error as Error).message };
@@ -208,8 +198,6 @@ export function useAuth() {
 
   const updateUserProfile = useCallback(async (data: Partial<AuthUser>) => {
     try {
-      // Client-side allowlist (server enforces input:false too): never
-      // forward role/status even if a caller passes a full user object.
       const { name, image, phone, address, avatar } = data;
       const result = await authServerApi.updateUser({
         ...(name !== undefined ? { name } : {}),
@@ -231,7 +219,7 @@ export function useAuth() {
     }
   }, [refetchSession]);
 
-  return {
+  return useMemo(() => ({
     user,
     session,
     isAuthenticated,
@@ -249,5 +237,20 @@ export function useAuth() {
     refetchSession,
 
     updateUserProfile,
-  };
+  }), [
+    user,
+    session,
+    isAuthenticated,
+    isLoading,
+    error,
+    signIn,
+    signUp,
+    signOut,
+    signInWithGoogle,
+    forgotPassword,
+    resetPassword,
+    verifyEmailToken,
+    refetchSession,
+    updateUserProfile,
+  ]);
 }
