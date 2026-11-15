@@ -2,7 +2,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Payment | ESUN POINT',
+    title: 'Payment',
     description: 'ESUN POINT payment processing page.',
     robots: {
         index: false,
