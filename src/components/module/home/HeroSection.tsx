@@ -4,50 +4,39 @@ import hero_section from '@/assets/images/hero_back.png';
 import { Globe, Video, UserCheck, Clock, MessageCircle, Mic, ArrowRight, Sparkles } from 'lucide-react';
 import { FadeIn } from '@/components/ui/FadeIn';
 import AnimatedButton from '@/components/shared/AnimatedButton';
+import { HeroFeatureCard } from './HeroFeatureCard';
 
 export default function HeroSection() {
-
   return (
-    <div
-      className="relative min-h-screen overflow-hidden flex items-center justify-center pt-24 pb-16"
-      style={{
-        backgroundColor: '#0a1526', // Deep elegant navy
-      }}
-    >
-      {/* ── Background Overlays ── */}
+    <div className="relative min-h-screen overflow-hidden flex items-center justify-center pt-24 pb-16 bg-surface-deep">
       <div className="absolute inset-0 pointer-events-none">
         <Image
           src={hero_section}
           alt=""
+          role="presentation"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-cover opacity-90"
         />
       </div>
 
       <div className="relative z-10 w-full container mx-auto px-4 max-w-7xl flex flex-col items-center">
-
-        {/* ── Top Section: Heading & Text ── */}
-        <FadeIn delay={0.1} direction="up" className="relative z-30 text-center max-w-4xl mx-auto mb-12">
-
-          {/* Badge */}
+        <FadeIn delay={0.1} direction="up" className="relative z-30 text-center max-w-4xl mx-auto mb-10">
           <div className="flex justify-center mb-6">
             <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-cyan-400 text-sm font-semibold tracking-wide backdrop-blur-sm">
               <Sparkles size={16} /> Global Standard English Course
             </span>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.15] font-sans">
+          <h1 className="text-hero font-bold tracking-tight text-white mb-6 leading-[1.15]">
             Master English <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent pb-2">
               With Confidence
             </span>
           </h1>
 
-          {/* Subheading */}
-          <p className="text-blue-100/70 text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto font-light mb-8">
+          <p className="text-blue-100/75 text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mx-auto font-light mb-8">
             Strong communication is your most valuable asset. Build practical skills for workplace meetings, presentations, and interviews with expert guidance from <strong className="text-white font-medium">Esun Point</strong>.
           </p>
 
@@ -56,34 +45,24 @@ export default function HeroSection() {
           </AnimatedButton>
         </FadeIn>
 
-
-        {/* ── Center Section: Main Visual ── */}
-        <FadeIn delay={0.3} direction="up" className="relative w-full max-w-5xl mx-auto mt-4 mb-20 flex justify-center">
-
-          {/* The Instructor Image */}
-          <div className="relative z-20 w-[280px] sm:w-[350px] md:w-[550px] aspect-[3/4] transition-transform duration-700 hover:scale-[1.02] -mt-32 sm:-mt-56">
-            <div className="relative w-full h-full [mask-image:linear-gradient(to_bottom,black_90%,transparent)]">
+        <FadeIn delay={0.3} direction="up" className="relative w-full max-w-5xl mx-auto mt-2 mb-16 flex justify-center">
+          <div className="relative z-20 w-[240px] min-[400px]:w-[280px] sm:w-[350px] md:w-[520px] aspect-[3/4] transition-transform duration-700 hover:scale-[1.02] -mt-10 sm:-mt-24 md:-mt-44">
+            <div className="relative w-full h-full [mask-image:linear-gradient(to_bottom,black_88%,transparent)]">
               <Image
                 src={instructor}
                 alt="Esun Point - English Instructor"
                 fill
-                sizes="(max-width: 640px) 280px, 550px"
+                sizes="(max-width: 640px) 280px, 520px"
                 style={{ objectFit: "contain", objectPosition: "bottom center" }}
                 priority
-                // drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]
-                className=""
               />
             </div>
-            {/* Name Plate */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full whitespace-nowrap shadow-2xl">
-              <p className="text-white font-bold text-sm">Esun Point <span className="text-cyan-400 font-normal ml-2">Lead Instructor</span></p>
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md border border-white/10 px-5 py-1.5 rounded-full whitespace-nowrap shadow-2xl">
+              <p className="text-white font-bold text-xs sm:text-sm">Esun Point <span className="text-cyan-400 font-normal ml-2">Lead Instructor</span></p>
             </div>
           </div>
 
-          {/* Floating UI Elements (Absolute Positioning around the center) */}
-
-          {/* Left Floating Card */}
-          <div className="hidden md:flex absolute top-1/4 left-[5%] xl:left-0 bg-[#0a1526]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl items-center gap-4 animate-[bounce_6s_infinite_ease-in-out]">
+          <div className="hidden md:flex absolute top-1/4 left-[5%] xl:left-0 bg-surface-deep/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl items-center gap-4 animate-[bounce_6s_infinite_ease-in-out]">
             <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/30">
               <Globe size={20} />
             </div>
@@ -93,8 +72,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Floating Card */}
-          <div className="hidden md:flex absolute top-1/3 right-[5%] xl:right-0 bg-[#0a1526]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl items-center gap-4 animate-[bounce_5s_infinite_ease-in-out_1s]">
+          <div className="hidden md:flex absolute top-1/3 right-[5%] xl:right-0 bg-surface-deep/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl items-center gap-4 animate-[bounce_5s_infinite_ease-in-out_1s]">
             <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/30">
               <Mic size={20} />
             </div>
@@ -104,53 +82,36 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Mobile Floating Icons */}
-          <div className="md:hidden absolute top-[20%] left-[5%] w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/30 shadow-xl animate-[bounce_6s_infinite_ease-in-out]">
-            <Globe size={20} />
+          <div className="md:hidden absolute top-[5%] left-[2%] w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/30 shadow-xl animate-[bounce_6s_infinite_ease-in-out]">
+            <Globe size={18} />
           </div>
-          <div className="md:hidden absolute top-[15%] right-[5%] w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/30 shadow-xl animate-[bounce_5s_infinite_ease-in-out_1s]">
-            <MessageCircle size={20} />
+          <div className="md:hidden absolute top-[8%] right-[2%] w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/30 shadow-xl animate-[bounce_5s_infinite_ease-in-out_1s]">
+            <MessageCircle size={18} />
           </div>
-
         </FadeIn>
 
-
-        {/* ── Bottom Section: Core Features ── */}
         <FadeIn delay={0.5} direction="up" className="w-full max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-
-            {/* Feature 1 */}
-            <div className="bg-white/[0.02] border border-white/5 backdrop-blur-sm p-6 rounded-3xl transition-colors hover:bg-white/[0.04] hover:border-white/10 text-center flex flex-col items-center">
-              <div className="w-14 h-14 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
-                <UserCheck size={24} />
-              </div>
-              <h3 className="text-white font-bold text-lg mb-2">Expert Mentorship</h3>
-              <p className="text-white/50 text-sm leading-relaxed">Personalized step-by-step guidance to build your confidence and refine your English skills.</p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="bg-white/[0.02] border border-white/5 backdrop-blur-sm p-6 rounded-3xl transition-colors hover:bg-white/[0.04] hover:border-white/10 text-center flex flex-col items-center relative overflow-hidden">
-              {/* Highlight Glow inside this specific card to make it pop slightly more */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-cyan-500/5 blur-xl pointer-events-none" />
-              <div className="w-14 h-14 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4 relative z-10">
-                <Video size={24} />
-              </div>
-              <h3 className="text-white font-bold text-lg mb-2 relative z-10">Interactive live Classes</h3>
-              <p className="text-white/50 text-sm leading-relaxed relative z-10">Engage in real-time practice sessions focusing on workplace communication scenarios.</p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="bg-white/[0.02] border border-white/5 backdrop-blur-sm p-6 rounded-3xl transition-colors hover:bg-white/[0.04] hover:border-white/10 text-center flex flex-col items-center">
-              <div className="w-14 h-14 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
-                <Clock size={24} />
-              </div>
-              <h3 className="text-white font-bold text-lg mb-2">Lifetime Access</h3>
-              <p className="text-white/50 text-sm leading-relaxed">Review course recordings and access updated learning materials whenever you need them.</p>
-            </div>
-
+            <HeroFeatureCard
+              icon={<UserCheck size={24} />}
+              title="Expert Mentorship"
+              description="Personalized step-by-step guidance to build your confidence and refine your English skills."
+              accent="blue"
+            />
+            <HeroFeatureCard
+              icon={<Video size={24} />}
+              title="Interactive Live Classes"
+              description="Engage in real-time practice sessions focusing on workplace communication scenarios."
+              accent="cyan"
+            />
+            <HeroFeatureCard
+              icon={<Clock size={24} />}
+              title="Lifetime Access"
+              description="Review course recordings and access updated learning materials whenever you need them."
+              accent="indigo"
+            />
           </div>
         </FadeIn>
-
       </div>
     </div>
   );

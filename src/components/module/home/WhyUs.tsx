@@ -12,13 +12,13 @@ import { stats } from '@/constants/whyUs';
 
 const WhyChooseSection = () => {
   return (
-    <section className="relative bg-[#060a12] overflow-hidden mb-0 py-24">
+    <section className="relative bg-surface-deep overflow-hidden mb-0 py-24">
       <SectionBorder position="top" />
       <DotGrid className="opacity-[0.18]" />
       <AmbientGlow className="top-[-80px] left-1/2 -translate-x-1/2" color="bg-blue-500/12" size="w-[560px] h-[280px]" blur="blur-[110px]" />
-      <div className="absolute top-1/3 left-[5%] w-[300px] h-[220px] bg-blue-500/7 rounded-full blur-[90px] pointer-events-none" />
-      <div className="absolute top-1/3 right-[5%] w-[280px] h-[200px] bg-blue-500/6 rounded-full blur-[80px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[480px] h-[220px] bg-blue-500/8 rounded-full blur-[100px] pointer-events-none" />
+      <AmbientGlow className="top-1/3 left-[5%]" color="bg-blue-500/10" size="w-[300px] h-[220px]" blur="blur-[90px]" />
+      <AmbientGlow className="top-1/3 right-[5%]" color="bg-blue-500/10" size="w-[280px] h-[200px]" blur="blur-[80px]" />
+      <AmbientGlow className="bottom-0 left-1/2 -translate-x-1/2" color="bg-blue-500/10" size="w-[480px] h-[220px]" blur="blur-[100px]" />
 
       <div className="container relative max-w-7xl mx-auto px-4">
         <FadeIn className="text-center mb-14">
@@ -54,7 +54,7 @@ const WhyChooseSection = () => {
             {stats.map((stat, i) => (
               <div
                 key={i}
-                className={cn("flex items-center gap-4 bg-[#060a12] border border-blue-500/20 rounded-2xl px-6 py-4 min-w-[200px]", "hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300")}
+                className={cn("flex items-center gap-4 bg-surface-deep border border-blue-500/20 rounded-2xl px-6 py-4 min-w-[200px]", "hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300")}
               >
                 <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-800 via-blue-500 to-blue-700 flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/30">
                   <stat.icon className="w-5 h-5 text-white" />
@@ -71,24 +71,11 @@ const WhyChooseSection = () => {
         </FadeIn>
 
         <div className="relative">
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] hidden md:block"
-            style={{
-              background: 'linear-gradient(to bottom, transparent, hsl(217 91% 60%) 8%, hsl(217 85% 70%) 50%, hsl(217 91% 60%) 92%, transparent)',
-              boxShadow: '0 0 14px hsl(217 91% 60% / 0.6)',
-            }}
-          />
-          <div className="absolute left-5 top-0 bottom-0 w-[2px] md:hidden"
-            style={{
-              background: 'linear-gradient(to bottom, transparent, hsl(217 91% 60%) 5%, hsl(217 91% 60%) 95%, transparent)',
-              boxShadow: '0 0 10px hsl(217 91% 60% / 0.5)',
-            }}
-          />
-
           <TimelineList />
         </div>
 
         <FadeIn delay={0.4} direction="up" className="text-center mt-20">
-          <div className={cn("relative bg-[#060a12] border border-blue-500/20 rounded-3xl max-w-2xl mx-auto p-10 overflow-hidden", "hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500")}
+          <div className={cn("relative bg-surface-deep border border-blue-500/20 rounded-3xl max-w-2xl mx-auto p-10 overflow-hidden", "hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500")}
             style={{ boxShadow: '0 0 60px hsl(217 91% 60% / 0.10)' }}
           >
             <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-blue-500/30 rounded-tl-3xl" />
@@ -110,15 +97,14 @@ const WhyChooseSection = () => {
                 Enroll Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </AnimatedButton>
-              <Link href="/courses">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="bg-transparent border-blue-500/40 text-white hover:bg-blue-500/10 hover:border-blue-500 hover:text-white"
-                >
-                  View Curriculum
-                </Button>
-              </Link>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="bg-transparent border-blue-500/40 text-white hover:bg-blue-500/10 hover:border-blue-500 hover:text-white rounded-xl focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                <Link href="/course-details">View Curriculum</Link>
+              </Button>
             </div>
           </div>
         </FadeIn>

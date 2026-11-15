@@ -7,35 +7,107 @@ import type { Feature } from '@/constants/whyUs';
 interface TimelineCardProps {
   feature: Feature;
   Icon: LucideIcon;
+  isEven: boolean;
+  isActive: boolean;
+  isPassed: boolean;
 }
 
-export default function TimelineCard({ feature, Icon }: TimelineCardProps) {
+export default function TimelineCard({
+  feature,
+  Icon,
+  isEven,
+  isActive,
+  isPassed,
+}: TimelineCardProps) {
   return (
     <div
-      className={cn("group relative w-full md:max-w-[420px] bg-[#060a12] border border-blue-500/15 rounded-2xl p-6 overflow-hidden", "hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1", "transition-all duration-300 ease-out cursor-default")}
+      data-timeline-anchor
+      className={cn(
+        "group relative w-full md:max-w-[440px] rounded-3xl p-6 sm:p-7 pt-9 transition-all duration-500 ease-out cursor-default focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-deep",
+        isActive
+          ? "bg-gradient-to-br from-blue-800 via-blue-500 to-blue-700 text-white shadow-[0_16px_50px_rgba(59,130,246,0.45)] ring-2 ring-blue-400/60 scale-[1.02] z-20"
+          : isPassed
+          ? "bg-[#081226] border border-blue-500/25 text-white/90 shadow-lg hover:border-blue-500/40 opacity-95"
+          : "bg-surface-deep/70 border border-white/5 opacity-40 hover:opacity-75 transition-opacity"
+      )}
     >
-      <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-blue-500/30 rounded-tl-2xl" />
-      <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-blue-500/30 rounded-tr-2xl" />
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      <div
+        className={cn(
+          "absolute -top-6 left-8 sm:left-10 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-md",
+          isActive
+            ? "bg-white/10 text-blue-700 shadow-blue-900/40 scale-110"
+            : isPassed
+            ? "bg-gradient-to-br from-blue-700 via-blue-500 to-blue-600 text-white shadow-blue-500/30"
+            : "bg-blue-500/10 border border-blue-500/20 text-blue-400"
+        )}
+      >
+        <Icon className="w-6 h-6" />
+      </div>
 
-      <div className="relative flex items-start gap-4">
-        <div className={cn("flex-shrink-0 w-11 h-11 rounded-xl bg-gradient-to-br from-blue-800 via-blue-500 to-blue-700", "flex items-center justify-center", "shadow-md shadow-blue-500/30", "group-hover:scale-110 group-hover:shadow-blue-500/50 group-hover:shadow-lg", "transition-all duration-300")}>
-          <Icon className="w-5 h-5 text-white" />
-        </div>
+      {isEven ? (
+        <div
+          className={cn(
+            "hidden md:block absolute left-[100%] top-1/2 -translate-y-1/2 w-3 md:w-4 border-t-2 border-dashed transition-all duration-500 pointer-events-none",
+            isActive
+              ? "border-blue-400 opacity-100 shadow-[0_0_8px_rgba(59,130,246,0.8)]"
+              : isPassed
+              ? "border-blue-500/40 opacity-70"
+              : "border-blue-500/20 opacity-30"
+          )}
+        />
+      ) : (
+        <div
+          className={cn(
+            "hidden md:block absolute right-[100%] top-1/2 -translate-y-1/2 w-3 md:w-4 border-t-2 border-dashed transition-all duration-500 pointer-events-none",
+            isActive
+              ? "border-blue-400 opacity-100 shadow-[0_0_8px_rgba(59,130,246,0.8)]"
+              : isPassed
+              ? "border-blue-500/40 opacity-70"
+              : "border-blue-500/20 opacity-30"
+          )}
+        />
+      )}
 
-        <div className="flex-1 min-w-0">
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            <h3 className="text-white font-semibold text-base leading-snug group-hover:text-blue-300 transition-colors duration-300">
-              {feature.title}
-            </h3>
-            <span className="flex-shrink-0 text-[11px] bg-blue-500/15 text-blue-400 border border-blue-500/25 px-2 py-0.5 rounded-full font-medium">
-              {feature.highlight}
-            </span>
-          </div>
-          <p className="text-white/55 text-sm leading-relaxed group-hover:text-white/75 transition-colors duration-300">
-            {feature.description}
-          </p>
+      <div
+        className={cn(
+          "md:hidden absolute -left-9 top-1/2 -translate-y-1/2 w-9 border-t-2 border-dashed transition-all duration-500 pointer-events-none",
+          isActive
+            ? "border-blue-400 opacity-100 shadow-[0_0_8px_rgba(59,130,246,0.8)]"
+            : isPassed
+            ? "border-blue-500/40 opacity-70"
+            : "border-blue-500/20 opacity-30"
+        )}
+      />
+
+      <div className="relative">
+        <div className="flex flex-wrap items-center gap-2 mb-2.5">
+          <h3
+            className={cn(
+              "font-bold text-base sm:text-lg leading-snug transition-colors duration-300",
+              isActive ? "text-white" : "text-white/95"
+            )}
+          >
+            {feature.title}
+          </h3>
+          <span
+            className={cn(
+              "text-[10px] px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider transition-colors duration-300",
+              isActive
+                ? "bg-white/20 text-white border border-white/30 backdrop-blur-sm"
+                : "bg-blue-500/15 text-blue-400 border border-blue-500/25"
+            )}
+          >
+            {feature.highlight}
+          </span>
         </div>
+        <p
+          className={cn(
+            "text-sm leading-relaxed transition-colors duration-300",
+            isActive ? "text-white/90" : "text-white/65"
+          )}
+        >
+          {feature.description}
+        </p>
       </div>
     </div>
   );

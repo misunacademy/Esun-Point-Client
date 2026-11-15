@@ -5,9 +5,9 @@ export function HeroSkeleton() {
     <div
       aria-busy="true"
       aria-label="Loading hero section"
-      className="relative min-h-screen overflow-hidden flex items-center justify-center pt-24 pb-16 bg-[#0a1526]"
+      className="relative min-h-screen overflow-hidden flex items-center justify-center pt-24 pb-16 bg-surface"
     >
-      <div className="absolute inset-0 bg-[#0a1526]" />
+      <div className="absolute inset-0 bg-surface" />
       <div className="relative z-10 w-full container mx-auto px-4 max-w-7xl flex flex-col items-center">
         <div className="text-center max-w-4xl mx-auto mb-12 flex flex-col items-center">
           <Skeleton className="h-8 w-[260px] rounded-full bg-white/10 mb-6" />
@@ -29,7 +29,7 @@ export function HeroSkeleton() {
             </div>
           </div>
 
-          <div className="hidden md:flex absolute top-1/4 left-[5%] xl:left-0 bg-[#0a1526]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl items-center gap-4">
+          <div className="hidden md:flex absolute top-1/4 left-[5%] xl:left-0 bg-surface/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl items-center gap-4">
             <Skeleton className="w-12 h-12 rounded-full bg-white/10 shrink-0" />
             <div className="space-y-2">
               <Skeleton className="h-2.5 w-12 rounded bg-white/5" />
@@ -37,7 +37,7 @@ export function HeroSkeleton() {
             </div>
           </div>
 
-          <div className="hidden md:flex absolute top-1/3 right-[5%] xl:right-0 bg-[#0a1526]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl items-center gap-4">
+          <div className="hidden md:flex absolute top-1/3 right-[5%] xl:right-0 bg-surface/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl items-center gap-4">
             <Skeleton className="w-12 h-12 rounded-full bg-white/10 shrink-0" />
             <div className="space-y-2">
               <Skeleton className="h-2.5 w-14 rounded bg-white/5" />

@@ -53,7 +53,7 @@ export default function WhyThisCourseModal({
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="w-full max-w-5xl aspect-[15.15/9] p-0 rounded-none">
+      <DialogContent className="w-full max-w-4xl aspect-video p-0 overflow-hidden rounded-2xl border border-white/10 bg-black">
         <DialogHeader className="sr-only">
           <DialogTitle>ESUN POINT</DialogTitle>
           <DialogDescription>

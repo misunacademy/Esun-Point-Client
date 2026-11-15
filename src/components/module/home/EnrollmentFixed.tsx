@@ -1,99 +1,84 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { CalendarCheck, CalendarX, Rocket, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { CalendarCheck, CalendarX, X } from 'lucide-react';
 import { useCurrentBatch } from '@/hooks/useCurrentBatch';
 import { formatDate } from '@/lib/date-utils';
 import type { BatchResponse } from '@/redux/api/batchApi';
-import { Skeleton } from 'boneyard-js/react';
 
 type EnrollmentFixedContentProps = {
-    batch: BatchResponse;
+  batch: BatchResponse;
 };
 
 function EnrollmentFixedContent({ batch }: EnrollmentFixedContentProps) {
-    const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(true);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
 
-    const safeFormatDate = (date?: Date | string | null) => {
-        if (!date) return 'তথ্য পাওয়া যায়নি';
-        try {
-            return formatDate(date);
-        } catch {
-            return 'তথ্য পাওয়া যায়নি';
-        }
-    };
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
 
-    if (!isOpen) return null;
-
-    return (
-        <div>
-            <div
-                className="fixed bottom-5 left-5 bg-[#071225]/90 shadow-[0_10px_30px_rgba(37,99,235,0.22)] rounded-md p-4 max-w-xs font-bangla text-sm font-medium z-50 border border-blue-400/25 text-blue-50"
-                style={{ backdropFilter: 'blur(6px)' }}
-            >
-                <button
-                    type="button"
-                    aria-label="পপআপ বন্ধ করুন"
-                    onClick={() => setIsOpen(false)}
-                    className="absolute -top-2 -right-2 grid h-6 w-6 place-items-center rounded-full border border-blue-200/50 bg-[#0b1d3a] text-blue-100 shadow-md transition hover:scale-105 hover:text-white"
-                >
-                    <X size={14} />
-                </button>
-
-                <div className="flex items-center gap-2 mb-2">
-                    <CalendarCheck size={20} className="text-blue-500" />
-                    <p>এনরোলমেন্ট শুরু: <span className="text-blue-500 font-semibold">{safeFormatDate(batch.enrollmentStartDate)}</span></p>
-                </div>
-                <div className="flex items-center gap-2">
-                    <CalendarX size={20} className="text-red-500" />
-                    <p>এনরোলমেন্ট শেষ: <span className="text-blue-500 font-semibold">{safeFormatDate(batch.enrollmentEndDate)}</span></p>
-                </div>
-                <Link
-                    href="#enroll-now"
-                    aria-label="এনরোলমেন্ট করুন"
-                    className="fixed left-[260px] bottom-[17px] z-50 group hidden sm:block"
-                >
-                    <span className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400/55 via-sky-400/45 to-indigo-500/55 blur-lg group-hover:blur-xl transition-all duration-300" />
-                    <span className="absolute inset-[-7px] rounded-full border border-blue-200/60 animate-ping" />
-                    <span className="absolute inset-[-10px] rounded-full border border-dashed border-white/35 animate-[spin_7s_linear_infinite]" />
-                    <span className="absolute -top-1 -right-0.5 h-2.5 w-2.5 rounded-full bg-amber-300 shadow-[0_0_14px_rgba(251,191,36,0.95)] animate-pulse" />
-                    <span className="relative grid h-11 w-11 place-items-center rounded-full border border-white/45 bg-gradient-to-br from-blue-500 via-sky-500 to-indigo-600 text-white shadow-[0_12px_30px_rgba(37,99,235,0.52)] ring-1 ring-white/15 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:rotate-6">
-                        <span className="absolute inset-[3px] rounded-full bg-gradient-to-br from-white/28 via-white/10 to-transparent" />
-                        <Rocket className="relative h-4.5 w-4.5 animate-bounce" />
-                    </span>
-                    <span className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-full border border-blue-200/40 bg-slate-900/85 px-2 py-0.5 text-[9px] font-semibold tracking-[0.16em] text-blue-100 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0.5">
-                        ENROLL
-                    </span>
-                </Link>
-            </div>
-        </div>
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsFooterVisible(entry.isIntersecting),
+      { rootMargin: '0px 0px -25% 0px' }
     );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
+  const safeFormatDate = (date?: Date | string | null) => {
+    if (!date) return 'তথ্য পাওয়া যায়নি';
+    try {
+      return formatDate(date);
+    } catch {
+      return 'তথ্য পাওয়া যায়নি';
+    }
+  };
+
+  if (!isOpen || isFooterVisible) return null;
+
+  return (
+    <div
+      data-floating-panel
+      className="fixed left-3 right-3 sm:left-5 sm:right-auto sm:w-[calc(100vw-2.5rem)] max-w-[210px] sm:max-w-[344px] font-bangla text-xs sm:text-base font-medium z-[var(--z-floating)] rounded-xl border border-blue-400/25 bg-[#071225]/95 text-blue-50 shadow-[0_10px_30px_rgba(37,99,235,0.22)] backdrop-blur-md p-2.5 pr-12 sm:p-4 sm:pr-14"
+    >
+      <button
+        type="button"
+        aria-label="পপআপ বন্ধ করুন"
+        onClick={() => setIsOpen(false)}
+        className="absolute top-1.5 right-1.5 grid h-11 w-11 min-h-[44px] min-w-[44px] place-items-center rounded-full text-blue-100/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      >
+        <X size={16} />
+      </button>
+
+      <div className="flex items-center gap-3 sm:block">
+        <div className="min-w-0 flex-1 space-y-0.5 sm:space-y-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <CalendarCheck size={16} className="shrink-0 text-blue-400 sm:h-5 sm:w-5" aria-hidden="true" />
+            <p className="truncate">
+              <span className="hidden sm:inline">এনরোলমেন্ট শুরু: </span>
+              <span className="sm:hidden">শুরু: </span>
+              <span className="text-blue-400 font-semibold">{safeFormatDate(batch.enrollmentStartDate)}</span>
+            </p>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <CalendarX size={16} className="shrink-0 text-red-400 sm:h-5 sm:w-5" aria-hidden="true" />
+            <p className="truncate">
+              <span className="hidden sm:inline">এনরোলমেন্ট শেষ: </span>
+              <span className="sm:hidden">শেষ: </span>
+              <span className="text-blue-400 font-semibold">{safeFormatDate(batch.enrollmentEndDate)}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function EnrollmentFixed() {
-    const { batch, isLoading, isError } = useCurrentBatch();
+  const { batch, isLoading, isError } = useCurrentBatch();
 
-    if (isError || (!isLoading && !batch)) return null;
+  if (isLoading || isError || !batch) return null;
 
-    return (
-        <Skeleton
-            name="EnrollmentFixed"
-            loading={isLoading}
-            fixture={
-                <div className="fixed bottom-5 left-5 bg-[#071225]/90 rounded-md p-4 max-w-xs z-50 border border-blue-400/25">
-                    <div className="h-4 bg-white/10 rounded mb-2" />
-                    <div className="h-4 bg-white/10 rounded w-3/4" />
-                </div>
-            }
-            fallback={
-                <div className="fixed bottom-5 left-5 bg-[#071225]/90 rounded-md p-4 max-w-xs z-50 border border-blue-400/25">
-                    <div className="h-4 bg-white/10 rounded mb-2" />
-                    <div className="h-4 bg-white/10 rounded w-3/4" />
-                </div>
-            }
-        >
-            {batch && <EnrollmentFixedContent key={batch._id ?? 'batch'} batch={batch} />}
-        </Skeleton>
-    );
+  return <EnrollmentFixedContent batch={batch} />;
 }
