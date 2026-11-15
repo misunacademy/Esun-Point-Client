@@ -5,20 +5,9 @@ import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
 
 function AnimatedEnrollButton() {
-  const handleEnrollClick = () => {
-    import('@/lib/metaPixel').then(({ track }) =>
-      track('InitiateCheckout', {
-        content_name: 'English for Professional Communication',
-        content_type: 'course',
-        value: 3000,
-        currency: 'BDT',
-      })
-    );
-  };
-
   return (
-    <Link href="/checkout" className="w-full sm:w-auto block" onClick={handleEnrollClick} aria-label="Enroll now">
-      <div className="relative inline-flex p-[1.5px] rounded-full overflow-hidden
+    <Link href="/checkout" className="w-full sm:w-auto block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface" aria-label="Enroll now">
+      <div className="relative flex w-full sm:w-auto justify-center p-[1.5px] rounded-full overflow-hidden
         shadow-[0_4px_24px_rgba(59,130,246,0.35)]
         hover:shadow-[0_8px_36px_rgba(59,130,246,0.60)]
         hover:scale-105 hover:-translate-y-0.5

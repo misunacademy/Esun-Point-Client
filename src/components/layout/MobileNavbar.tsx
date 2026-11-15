@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '../ui/button';
@@ -27,6 +27,52 @@ export default function MobileNavbar() {
   const isEnrolled = (user?.enrolledCourses?.length ?? 0) > 0;
   const canSeeClasses = checkCanSeeClasses(userRole);
 
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const panel = panelRef.current;
+    const firstFocusable = panel?.querySelector<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    firstFocusable?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setIsOpen(false);
+        toggleRef.current?.focus();
+        return;
+      }
+
+      if (e.key !== 'Tab' || !panel) return;
+
+      const focusables = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter(el => el.offsetParent !== null);
+
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   const handleLogout = async () => {
     await signOut();
     setIsOpen(false);
@@ -35,34 +81,45 @@ export default function MobileNavbar() {
   return (
     <div className="relative">
       <button
+        ref={toggleRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="transition-colors text-blue-500"
+        className="relative z-[var(--z-modal)] p-3 -m-1.5 transition-colors text-blue-500 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
         aria-expanded={isOpen}
         aria-controls="mobile-navigation-menu"
         type="button"
       >
-        {isOpen ? <X className="text-blue-500" size={28} /> : <AlignLeft className="text-blue-500" size={28} />}
+        {isOpen ? <X className="text-blue-500" size={24} /> : <AlignLeft className="text-blue-500" size={24} />}
       </button>
 
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[var(--z-overlay)]"
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       <div
+        ref={panelRef}
         id="mobile-navigation-menu"
+        inert={!isOpen}
         className={cn(
-          'absolute right-0 top-14 w-[365px] bg-[#040a07] mr-1 border border-blue-500/20 shadow-lg rounded-lg px-8 pb-10 pt-6 flex flex-col transition-all',
+          'absolute right-0 top-14 w-[calc(100vw-2rem)] max-w-sm bg-surface-darker border border-blue-500/20 shadow-2xl rounded-2xl px-6 pb-8 pt-5 flex flex-col transition-all z-[var(--z-modal)]',
           isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
         )}
       >
-        <Link onClick={() => setIsOpen(!isOpen)} href="/" className="text-lg h-14 flex items-center border-b border-blue-500/20">Home</Link>
-        <Link onClick={() => setIsOpen(!isOpen)} href="/courses" className="text-lg h-14 flex items-center border-b border-blue-500/20">Courses</Link>
-        <Link onClick={() => setIsOpen(!isOpen)} href="/about" className="text-lg h-14 flex items-center border-b border-blue-500/20">About Us</Link>
-        <Link onClick={() => setIsOpen(!isOpen)} href={getGraphicDesignHref()} className="text-lg h-14 flex items-center border-b border-blue-500/20">Graphic Design</Link>
+        <Link onClick={() => setIsOpen(false)} href="/" className="text-base h-12 flex items-center border-b border-blue-500/20 hover:text-blue-400 transition-colors">Home</Link>
+        <Link onClick={() => setIsOpen(false)} href="/course-details" className="text-base h-12 flex items-center border-b border-blue-500/20 hover:text-blue-400 transition-colors">Courses</Link>
+        <Link onClick={() => setIsOpen(false)} href="/about" className="text-base h-12 flex items-center border-b border-blue-500/20 hover:text-blue-400 transition-colors">About Us</Link>
+        <Link onClick={() => setIsOpen(false)} href={getGraphicDesignHref()} className="text-base h-12 flex items-center border-b border-blue-500/20 hover:text-blue-400 transition-colors">Graphic Design</Link>
 
         {safeUser ? (
           <>
-            <div className="py-4 border-b border-blue-500/20 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full overflow-hidden border border-blue-500/40 flex items-center justify-center">
+            <div className="py-3 border-b border-blue-500/20 flex items-center gap-3">
+              <div className="h-9 w-9 rounded-full overflow-hidden border border-blue-500/40 flex items-center justify-center">
                 {safeUser.image ? (
-                  <Image src={safeUser.image} alt={safeUser.name || 'User profile'} width={40} height={40} className="h-full w-full object-cover" />
+                  <Image src={safeUser.image} alt={safeUser.name || 'User profile'} width={36} height={36} className="h-full w-full object-cover" />
                 ) : (
                   <User className="h-5 w-5 text-blue-400" />
                 )}
@@ -72,29 +129,31 @@ export default function MobileNavbar() {
                 <p className="text-xs text-white/60 truncate">{safeUser.email}</p>
               </div>
             </div>
-            <Link onClick={() => setIsOpen(false)} href={getProfileHref()} className="text-lg h-14 flex items-center gap-2 border-b border-blue-500/20">Profile</Link>
+            <Link onClick={() => setIsOpen(false)} href={getProfileHref()} className="text-base h-12 flex items-center gap-2 border-b border-blue-500/20 hover:text-blue-400 transition-colors">Profile</Link>
             {userRole === 'learner' && canSeeClasses && isEnrolled && (
-              <Link href={getEnrollmentPostersHref()} className="text-lg h-14 flex items-center gap-2 border-b border-blue-500/20">Your Enrollment Posters</Link>
+              <Link onClick={() => setIsOpen(false)} href={getEnrollmentPostersHref()} className="text-base h-12 flex items-center gap-2 border-b border-blue-500/20 hover:text-blue-400 transition-colors">Your Enrollment Posters</Link>
             )}
             {userRole === 'learner' && canSeeClasses && isEnrolled && (
-              <Link href={getCertificatesHref()} className="text-lg h-14 flex items-center gap-2 border-b border-blue-500/20">Certificates</Link>
+              <Link onClick={() => setIsOpen(false)} href={getCertificatesHref()} className="text-base h-12 flex items-center gap-2 border-b border-blue-500/20 hover:text-blue-400 transition-colors">Certificates</Link>
             )}
             {isAdminRole(userRole) && (
-              <Link onClick={() => setIsOpen(!isOpen)} href={getDashboardHref(userRole || 'admin')} className="text-lg h-14 flex items-center border-b border-primary/20">
+              <Link onClick={() => setIsOpen(false)} href={getDashboardHref(userRole || 'admin')} className="text-base h-12 flex items-center border-b border-primary/20 hover:text-blue-400 transition-colors">
                 Dashboard
               </Link>
             )}
-            <button type="button" onClick={handleLogout} className="text-lg h-14 flex items-center gap-2 border-b border-blue-500/20 text-red-400">
-              <LogOut className="h-5 w-5" /> Logout
+            <button type="button" onClick={handleLogout} className="text-base h-12 flex items-center gap-2 border-b border-blue-500/20 text-red-400 hover:text-red-300 transition-colors">
+              <LogOut className="h-4 w-4" /> Logout
             </button>
           </>
         ) : (
-          <Link href={getLoginHref()} className="text-lg h-14 flex items-center border-b border-blue-500/20 text-blue-500">Login</Link>
+          <Link onClick={() => setIsOpen(false)} href={getLoginHref()} className="text-base h-12 flex items-center border-b border-blue-500/20 text-blue-400 hover:text-blue-300 transition-colors">Login</Link>
         )}
-        <div className="flex space-x-4 pt-6 pb-2">
-          <Link onClick={() => setIsOpen(!isOpen)} href="/checkout">
-            <Button className="w-28 bg-gradient-to-r from-blue-700 via-blue-500 to-blue-600 hover:from-blue-600 hover:via-blue-400 hover:to-blue-600 border-none text-white">Enroll Now</Button>
-          </Link>
+        <div className="pt-5 pb-1">
+          <Button asChild className="w-full bg-gradient-to-r from-blue-700 via-blue-500 to-blue-600 hover:from-blue-600 hover:via-blue-400 hover:to-blue-600 border-none text-white font-bold">
+            <Link onClick={() => setIsOpen(false)} href="/checkout" className="flex w-full items-center justify-center">
+              Enroll Now
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

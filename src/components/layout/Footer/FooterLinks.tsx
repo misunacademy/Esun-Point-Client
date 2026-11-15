@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const links = [
   { href: '/', label: 'Home' },
-  { href: '/courses', label: 'Courses' },
+  { href: '/course-details', label: 'Courses' },
   { href: '/about', label: 'About Us' },
   { href: '/terms-and-conditions', label: 'Terms & Conditions' },
   { href: '/privacy-policy', label: 'Privacy Policy' },
@@ -20,7 +20,7 @@ export default function FooterLinks() {
         <Link
           key={href}
           href={href}
-          className="group flex items-center gap-2 text-white/60 hover:text-blue-500 transition-colors text-sm w-fit"
+          className="group flex items-center gap-2 text-white/70 hover:text-blue-400 transition-colors text-sm w-fit rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary py-0.5"
         >
           <span className="w-1 h-1 rounded-full bg-blue-500/40 group-hover:bg-blue-500 group-hover:shadow-[0_0_6px_hsl(217_91%_60%)] transition-all" />
           {label}

@@ -1,27 +1,26 @@
-
-
 import { Suspense } from "react";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import PopupBannerModal from "@/components/shared/PopupBannerModal";
-
+import BackToTop from "@/components/shared/BackToTop";
 
 export default function CommonLayoutShell({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
-
   return (
     <div className="grid grid-cols-1 grid-rows-[auto,1fr,auto] min-h-screen">
       <Suspense fallback={null}>
         <PopupBannerModal />
       </Suspense>
       <Navbar />
-      <main>{children}</main>
+      <main id="main-content" tabIndex={-1}>{children}</main>
       <Suspense fallback={null}>
         <Footer />
+      </Suspense>
+      <Suspense fallback={null}>
+        <BackToTop variant="glass-glow" />
       </Suspense>
     </div>
   );
