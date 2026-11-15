@@ -7,6 +7,7 @@ interface PlayButtonProps {
     className?: string;
     onClick?: () => void;
     isPlaying?: boolean;
+    decorative?: boolean;
 }
 
 const PlayButton = ({
@@ -14,7 +15,8 @@ const PlayButton = ({
     variant = "default",
     className,
     onClick,
-    isPlaying = false
+    isPlaying = false,
+    decorative = false
 }: PlayButtonProps) => {
     const sizeClasses = {
         sm: "w-12 h-12",
@@ -33,23 +35,22 @@ const PlayButton = ({
     const baseClasses = cn(
         "relative flex items-center justify-center rounded-full cursor-pointer",
         "transition-all duration-300 ease-out",
-        "focus:outline-none focus:ring-4 focus:ring-red-500/30",
         "group overflow-hidden",
         sizeClasses[size]
     );
 
     const variantClasses = {
         default: cn(
-            "bg-white/95 backdrop-blur-sm",
-            "shadow-[0_8px_32px_rgba(0,0,0,0.12)]",
+            "bg-[#060a12] backdrop-blur-sm border border-white/10",
+            "shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
             "hover:shadow-[0_12px_40px_rgba(220,38,38,0.4)]",
-            "hover:bg-white",
+            "hover:bg-[#060a12]/80",
             "active:scale-95"
         ),
         glass: cn(
-            "bg-white/20 backdrop-blur-md border border-white/30",
+            "bg-white/[0.10] backdrop-blur-md border border-white/20",
             "shadow-[0_8px_32px_rgba(0,0,0,0.1)]",
-            "hover:bg-white/30",
+            "hover:bg-white/[0.15]",
             "hover:shadow-[0_12px_40px_rgba(220,38,38,0.3)]",
             "active:scale-95"
         ),
@@ -64,14 +65,13 @@ const PlayButton = ({
     };
 
     const iconColorClasses = {
-        default: "text-red-600 group-hover:text-red-700",
+        default: "text-red-400 group-hover:text-red-300",
         glass: "text-white group-hover:text-red-100",
         gradient: "text-white"
     };
 
-    return (
-        <div className="relative">
-            {/* Animated glow effect */}
+    const inner = (
+        <>
             <div
                 className={cn(
                     "absolute inset-0 rounded-full opacity-0 group-hover:opacity-100",
@@ -81,32 +81,50 @@ const PlayButton = ({
                 )}
             />
 
+            {isPlaying && (
+                <div className="absolute inset-0 rounded-full bg-red-500/20 animate-play-pulse" />
+            )}
+
+            <div className="relative z-10 flex items-center justify-center">
+                <Play
+                    className={cn(
+                        iconSizes[size],
+                        iconColorClasses[variant],
+                        "transition-all duration-300",
+                        "transform group-hover:scale-110",
+                        "ml-0.5"
+                    )}
+                    fill="currentColor"
+                    aria-hidden="true"
+                />
+            </div>
+
+            <div className="absolute inset-0 rounded-full bg-red-500/20 scale-0 group-active:scale-100 transition-transform duration-150" />
+        </>
+    );
+
+    if (decorative) {
+        return (
+            <span className={cn(baseClasses, variantClasses[variant], className)} aria-hidden="true">
+                {inner}
+            </span>
+        );
+    }
+
+    return (
+        <div className="relative">
             <button
-                className={cn(baseClasses, variantClasses[variant], className)}
+                type="button"
+                className={cn(
+                    baseClasses,
+                    variantClasses[variant],
+                    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-500/30",
+                    className
+                )}
                 onClick={onClick}
                 aria-label={isPlaying ? "Pause" : "Play"}
             >
-                {/* Pulse animation when playing */}
-                {isPlaying && (
-                    <div className="absolute inset-0 rounded-full bg-red-500/20 animate-play-pulse" />
-                )}
-
-                {/* Icon container with subtle animation */}
-                <div className="relative z-10 flex items-center justify-center">
-                    <Play
-                        className={cn(
-                            iconSizes[size],
-                            iconColorClasses[variant],
-                            "transition-all duration-300",
-                            "transform group-hover:scale-110",
-                            "ml-0.5" // Slight offset for visual centering
-                        )}
-                        fill="currentColor"
-                    />
-                </div>
-
-                {/* Ripple effect on click */}
-                <div className="absolute inset-0 rounded-full bg-red-500/20 scale-0 group-active:scale-100 transition-transform duration-150" />
+                {inner}
             </button>
         </div>
     );

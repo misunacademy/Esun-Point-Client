@@ -3,7 +3,7 @@ export function DotGrid({ className = "" }: { className?: string }) {
     <div
       className={`absolute inset-0 opacity-[0.03] pointer-events-none ${className}`}
       style={{
-        backgroundImage: "radial-gradient(circle, #3b82f6 1px, transparent 1px)",
+        backgroundImage: "radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)",
         backgroundSize: "32px 32px",
       }}
     />

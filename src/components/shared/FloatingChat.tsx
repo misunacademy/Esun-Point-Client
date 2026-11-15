@@ -40,7 +40,11 @@ export default function FloatingChat() {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-4 w-[370px] sm:w-[400px]">
+    <div
+      id="chat-panel"
+      style={{ bottom: 'calc(2rem + var(--consent-banner-h, 0px))' }}
+      className="fixed right-4 sm:right-8 z-[var(--z-floating)] flex flex-col items-end gap-4 w-[calc(100vw-2rem)] sm:w-[400px]"
+    >
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -51,9 +55,14 @@ export default function FloatingChat() {
             className="w-full h-[580px] sm:h-[620px] flex flex-col rounded-2xl bg-[#0b1326]/90 backdrop-blur-xl border border-white/10 shadow-[0_0_30px_hsl(var(--primary)/0.12)] overflow-hidden"
           >
             <ChatHeader onClose={toggle} />
-            <div className="flex-grow overflow-y-auto p-4 space-y-4 custom-scrollbar bg-gradient-to-b from-transparent to-[#0b1326]/50">
+            <div
+              role="log"
+              aria-live="polite"
+              aria-label="Chat conversation"
+              className="flex-grow overflow-y-auto p-4 space-y-4 custom-scrollbar bg-gradient-to-b from-transparent to-[#0b1326]/50"
+            >
               {messages.length === 1 && (
-                <p className="text-[12px] text-[#bccbb9]/50 text-center leading-relaxed py-3 px-2">
+                <p className="text-[12px] text-white/70/50 text-center leading-relaxed py-3 px-2">
                   নিচের যেকোনো অপশনে ক্লিক করে দ্রুত উত্তর পান
                 </p>
               )}

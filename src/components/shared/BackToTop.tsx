@@ -78,7 +78,8 @@ export default function BackToTop({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 50, scale: 0.8 }}
               onClick={scrollToTop}
-              className="fixed bottom-[150px] right-8 w-16 h-16 rounded-full bg-[#171f33]/70 backdrop-blur-xl border border-white/10 flex items-center justify-center group shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_25px_hsl(var(--primary)/0.4)] transition-all duration-300 hover:scale-110 active:scale-95 z-40 overflow-hidden"
+              style={{ bottom: 'calc(1.5rem + var(--consent-banner-h, 0px))' }}
+              className="fixed right-4 sm:right-8 w-14 h-14 rounded-full bg-[#171f33]/80 backdrop-blur-xl border border-white/10 flex items-center justify-center group shadow-[0_0_20px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_25px_hsl(var(--primary)/0.4)] transition-all duration-300 hover:scale-110 active:scale-95 z-[var(--z-floating)] overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
               aria-label="Back to top"
             >
               <svg className="absolute inset-0 w-full h-full -rotate-90 origin-center" viewBox="0 0 100 100">
@@ -120,7 +121,8 @@ export default function BackToTop({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 50, scale: 0.8 }}
               onClick={scrollToTop}
-              className="fixed bottom-[110px] right-8 w-14 h-14 rounded-full border border-white/10 bg-transparent flex items-center justify-center group hover:border-primary hover:bg-primary/5 active:scale-95 transition-all duration-300 z-40"
+              style={{ bottom: 'calc(1.5rem + var(--consent-banner-h, 0px))' }}
+              className="fixed right-4 sm:right-8 w-14 h-14 rounded-full border border-white/10 bg-transparent flex items-center justify-center group hover:border-primary hover:bg-primary/5 active:scale-95 transition-all duration-300 z-[var(--z-floating)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
               aria-label="Back to top"
             >
               <svg className="absolute inset-0 w-full h-full -rotate-90 origin-center" viewBox="0 0 100 100">
@@ -144,7 +146,7 @@ export default function BackToTop({
                   className="text-primary transition-all duration-100 ease-out"
                 />
               </svg>
-              <ArrowUp className="w-4 h-4 text-[#bccbb9] group-hover:text-primary transition-colors duration-300" />
+              <ArrowUp className="w-4 h-4 text-white/70 group-hover:text-primary transition-colors duration-300" />
             </motion.button>
           )}
 
@@ -155,7 +157,8 @@ export default function BackToTop({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 50, scale: 0.8 }}
               onClick={scrollToTop}
-              className="fixed bottom-[110px] right-8 w-14 h-14 rounded-full bg-[#171f33] border border-white/5 flex items-center justify-center group shadow-[4px_4px_10px_rgba(0,0,0,0.5),inset_1px_1px_2px_rgba(255,255,255,0.05)] hover:shadow-[0_0_15px_hsl(var(--primary)/0.2)] active:scale-95 transition-all duration-300 z-40"
+              style={{ bottom: 'calc(1.5rem + var(--consent-banner-h, 0px))' }}
+              className="fixed right-4 sm:right-8 w-14 h-14 rounded-full bg-[#171f33] border border-white/5 flex items-center justify-center group shadow-[4px_4px_10px_rgba(0,0,0,0.5),inset_1px_1px_2px_rgba(255,255,255,0.05)] hover:shadow-[0_0_15px_hsl(var(--primary)/0.2)] active:scale-95 transition-all duration-300 z-[var(--z-floating)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
               aria-label="Back to top"
             >
               {/* Spinning orbiting ring */}
@@ -186,7 +189,7 @@ export default function BackToTop({
                   className="text-primary transition-all duration-100 ease-out"
                 />
               </svg>
-              <Layers className="w-5 h-5 text-[#dae2fd] group-hover:text-primary transition-colors duration-300" />
+              <Layers className="w-5 h-5 text-white/90 group-hover:text-primary transition-colors duration-300" />
             </motion.button>
           )}
 
@@ -197,7 +200,8 @@ export default function BackToTop({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 50, scale: 0.8 }}
               onClick={scrollToTop}
-              className="fixed bottom-[110px] right-8 w-12 h-12 flex items-center justify-center group active:scale-95 transition-all duration-300 z-40"
+              style={{ bottom: 'calc(1.5rem + var(--consent-banner-h, 0px))' }}
+              className="fixed right-4 sm:right-8 w-12 h-12 flex items-center justify-center group active:scale-95 transition-all duration-300 z-[var(--z-floating)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
               aria-label="Back to top"
             >
               <svg className="absolute inset-0 w-full h-full -rotate-90 origin-center" viewBox="0 0 100 100">
@@ -222,8 +226,8 @@ export default function BackToTop({
                 />
               </svg>
               <div className="flex flex-col items-center justify-center">
-                <ChevronUp className="w-4 h-4 text-[#bccbb9] group-hover:text-primary transition-colors duration-300" />
-                <span className="text-[8px] font-medium font-mono text-[#bccbb9]/60 group-hover:text-primary transition-colors duration-300">
+                <ChevronUp className="w-4 h-4 text-white/70 group-hover:text-primary transition-colors duration-300" />
+                <span className="text-[8px] font-medium font-mono text-white/70/60 group-hover:text-primary transition-colors duration-300">
                   {Math.round(progress)}%
                 </span>
               </div>

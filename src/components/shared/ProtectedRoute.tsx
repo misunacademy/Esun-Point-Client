@@ -16,8 +16,9 @@ interface ProtectedRouteProps {
 }
 
 const defaultFallback = (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+  <div role="status" aria-live="polite" className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" aria-hidden="true" />
+    <span className="sr-only">Checking your session…</span>
   </div>
 );
 

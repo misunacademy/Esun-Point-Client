@@ -31,10 +31,10 @@ export default function PopupBannerModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <div className="relative max-w-5xl w-full bg-white rounded-xl shadow-xl overflow-hidden">
+    <div className="fixed inset-0 z-[var(--z-modal)] flex items-center justify-center bg-black/60 p-4">
+      <div className="relative max-w-5xl w-full bg-surface-deep rounded-xl shadow-xl overflow-hidden">
         <button
-          className="absolute top-3 right-3 z-20 rounded-full bg-white/90 p-1 text-gray-900 shadow hover:bg-white"
+          className="absolute top-3 right-3 z-20 rounded-full bg-white/10 p-1 text-white shadow hover:bg-white/20"
           aria-label="Close popup"
           onClick={close}
         >
