@@ -21,17 +21,19 @@ export function TemplateSelector({ templates, selectedIndex, onSelect }: Templat
           Choose Template
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4">
+      <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {templates.map((template, index) => (
           <div
             key={template.id}
             role="button"
             tabIndex={0}
+            aria-pressed={selectedIndex === index}
+            aria-label={`Choose the ${template.name} template`}
             onClick={() => onSelect(index)}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(index); } }}
             className={`
               cursor-pointer rounded-lg border-2 overflow-hidden relative aspect-square transition-all
-              ${selectedIndex === index ? 'border-green-600 ring-2 ring-green-100' : 'border-slate-100 hover:border-slate-300'}
+              ${selectedIndex === index ? 'border-green-500 ring-2 ring-green-500/30' : 'border-white/10 hover:border-white/25'}
             `}
           >
             <Image
@@ -42,7 +44,7 @@ export function TemplateSelector({ templates, selectedIndex, onSelect }: Templat
               className="w-full h-full object-cover"
             />
             {selectedIndex === index && (
-              <div className="absolute top-2 right-2 bg-green-600 text-white p-1 rounded-full">
+              <div aria-hidden="true" className="absolute top-2 right-2 bg-green-600 text-white p-1 rounded-full">
                 <CheckCircle2 className="w-3 h-3" />
               </div>
             )}

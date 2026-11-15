@@ -46,21 +46,22 @@ export function PhotoEditor({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label>Student Name</Label>
+          <Label htmlFor="poster-student-name">Student Name</Label>
           <Input
+            id="poster-student-name"
             value={userName}
             onChange={(e) => onNameChange(e.target.value)}
             placeholder="Enter your full name"
           />
         </div>
         <div className="space-y-2 hidden">
-          <Label>Batch ID</Label>
-          <Input value={batchNo} readOnly placeholder="e.g. BATCH-06" />
+          <Label htmlFor="poster-batch-id">Batch ID</Label>
+          <Input id="poster-batch-id" value={batchNo} readOnly placeholder="e.g. BATCH-06" />
         </div>
 
         <div className="space-y-2">
           <Label>Profile Photo</Label>
-          <div className="border-2 border-dashed border-slate-200 rounded-lg p-6 hover:bg-slate-50 transition-colors text-center">
+          <div className="border-2 border-dashed border-white/15 rounded-lg p-6 hover:bg-white/[0.04] transition-colors text-center">
             <input
               type="file"
               id="image-upload"
@@ -99,7 +100,7 @@ export function PhotoEditor({
                         </Button>
                         <div className="flex items-center justify-center space-x-2">
                           <Button size="sm" variant="ghost" onClick={onResetImage}>Reset</Button>
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-white/60">
                             X: {Math.round(imageOffset.x * 100)}% Y: {Math.round(imageOffset.y * 100)}% Zoom: {Math.round(imageZoom * 100)}%
                           </span>
                         </div>
@@ -135,10 +136,10 @@ export function PhotoEditor({
                   </div>
                 </div>
               ) : (<div>
-                  <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-2 text-green-600">
+                  <div className="w-12 h-12 bg-green-500/15 rounded-full flex items-center justify-center mx-auto mb-2 text-green-400">
                     <Upload className="w-6 h-6" />
                   </div>
-                  <span className="text-sm font-medium text-slate-600">Click to upload photo</span>
+                  <span className="text-sm font-medium text-white/70">Click to upload photo</span>
                 </div>
               )}
             </label>

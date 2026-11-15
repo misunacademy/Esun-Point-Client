@@ -1,6 +1,6 @@
 'use client';
 
-import { Skeleton } from 'boneyard-js/react';
+import { SkeletonWrapper } from '@/components/ui/skeleton-wrapper';
 
 import { usePosterGenerator } from '@/hooks/usePosterGenerator';
 import { WelcomeCard } from './WelcomeCard';
@@ -36,32 +36,7 @@ function CongratulationsPage() {
   }
 
   return (
-    <Skeleton
-      name="congratulations"
-      loading={isLoading}
-      fixture={
-        <div className="min-h-screen">
-          <div className="container mx-auto px-4 py-8">
-            <div className="max-w-6xl mx-auto">
-              <div className="bg-white/5 rounded-2xl p-8 mb-8">
-                <div className="h-8 bg-white/10 rounded w-1/3 mb-2" />
-                <div className="h-4 bg-white/10 rounded w-1/2" />
-              </div>
-              <div className="grid lg:grid-cols-12 gap-8">
-                <div className="lg:col-span-5 space-y-6">
-                  <div className="bg-white/5 rounded-2xl p-6 h-64" />
-                  <div className="bg-white/5 rounded-2xl p-6 h-80" />
-                </div>
-                <div className="lg:col-span-7">
-                  <div className="bg-white/5 rounded-2xl p-6 h-[500px]" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      }
-    >
-    <div className="min-h-screen">
+    <SkeletonWrapper loading={isLoading} className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           <WelcomeCard userName={userName} />
@@ -104,8 +79,7 @@ function CongratulationsPage() {
           </div>
         </div>
       </div>
-    </div>
-    </Skeleton>
+    </SkeletonWrapper>
   );
 }
 

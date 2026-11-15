@@ -15,7 +15,7 @@ export function PosterPreview({ canvasRef, onDownload, onShare }: PosterPreviewP
   return (
     <Card className="h-full border-0 shadow-lg bg-slate-900/5 backdrop-blur-sm sticky top-24 flex items-center justify-center">
       <CardContent className="p-6">
-        <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-white shadow-inner mb-6">
+        <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-deep shadow-inner mb-6">
           <canvas ref={canvasRef} className="w-full h-full object-contain" />
         </div>
 
