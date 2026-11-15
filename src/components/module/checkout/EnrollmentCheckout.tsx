@@ -27,8 +27,8 @@ export default function EnrollmentCheckout({ courseSlug }: EnrollmentCheckoutPro
   const enrollmentStartDate = (resolvedBatch as BatchResponse)?.enrollmentStartDate;
 
   return (
-    <div className="min-h-screen bg-[#060f0a]">
-      <div className="bg-[#060f0a]/90 backdrop-blur-sm border-b border-primary/15 sticky top-16 z-50">
+    <div className="min-h-screen bg-surface">
+      <div className="bg-surface/90 backdrop-blur-sm border-b border-primary/15 sticky top-16 z-[var(--z-floating)]">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <button onClick={goBack}
@@ -55,14 +55,14 @@ export default function EnrollmentCheckout({ courseSlug }: EnrollmentCheckoutPro
           </div>
 
           <div className="lg:col-span-2 mt-10">
-            <div className="relative overflow-hidden rounded-2xl bg-[#060f0a] border border-primary/15">
+            <div className="relative overflow-hidden rounded-2xl bg-surface border border-primary/15">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
               <CornerAccent />
               <div className="p-6 pb-2 border-b border-primary/10">
                 <h2 className="text-2xl font-bold text-white/90">
                   {currentStep === 1 ? 'Choose Payment Method' : 'Manual Payment'}
                 </h2>
-                <p className="text-sm text-white/45 mt-1">
+                <p className="text-sm text-white/60 mt-1">
                   {currentStep === 1 ? 'Select your preferred payment method and complete enrollment' : 'Complete your payment details'}
                 </p>
               </div>
@@ -76,12 +76,19 @@ export default function EnrollmentCheckout({ courseSlug }: EnrollmentCheckoutPro
                           <BatchInfoCard batch={resolvedBatch} course={resolvedCourse} />
                           <Divider />
                         </>
-                      ) : (
-                        <div className="bg-yellow-500/8 border border-yellow-500/20 rounded-xl p-4 text-center">
-                          <p className="text-yellow-400 font-medium">No upcoming batches available at the moment</p>
-                          <p className="text-sm text-white/40 mt-1">Please check back later or contact support</p>
-                        </div>
-                      )}
+) : (
+                          <div className="rounded-xl bg-yellow-500/8 border border-yellow-500/20 p-6 text-center">
+                            <p className="text-yellow-400 font-medium mb-3">No upcoming batches available at the moment</p>
+                            <p className="text-sm text-white/40 mt-1 mb-4">Please check back later or contact support</p>
+                            <button
+                              type="button"
+                              disabled
+                              className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-300 font-medium cursor-not-allowed transition-colors"
+                            >
+                              <span>Notify Me</span>
+                            </button>
+                          </div>
+                        )}
 
                       <PaymentTutorial />
                       <Divider />
@@ -112,9 +119,9 @@ export default function EnrollmentCheckout({ courseSlug }: EnrollmentCheckoutPro
                           <input type="checkbox" checked={agreed} onChange={() => setAgreed(!agreed)} className="mt-1 accent-primary" />
                           <span className="text-white/50 leading-relaxed">
                             I have read and agree to the{' '}
-                            <a href="/terms-and-conditions" target="_blank" className="text-primary hover:text-primary/80 underline underline-offset-2">Terms & Conditions</a>,{' '}
-                            <a href="/privacy-policy" target="_blank" className="text-primary hover:text-primary/80 underline underline-offset-2">Privacy Policy</a>, and{' '}
-                            <a href="/refund-policy" target="_blank" className="text-primary hover:text-primary/80 underline underline-offset-2">Return, Refund & Cancellation Policy</a>.
+                            <a href="/terms-and-conditions" target="_blank" className="text-primary hover:text-primary underline underline-offset-2">Terms & Conditions</a>,{' '}
+                            <a href="/privacy-policy" target="_blank" className="text-primary hover:text-primary underline underline-offset-2">Privacy Policy</a>, and{' '}
+                            <a href="/refund-policy" target="_blank" className="text-primary hover:text-primary underline underline-offset-2">Return, Refund & Cancellation Policy</a>.
                           </span>
                         </label>
 

@@ -12,7 +12,7 @@ interface CourseInfoSidebarProps {
 export function CourseInfoSidebar({ course, isLoading }: CourseInfoSidebarProps) {
   if (isLoading) {
     return (
-      <div className="relative overflow-hidden rounded-2xl bg-[#060f0a] border border-primary/15">
+      <div className="relative overflow-hidden rounded-2xl bg-surface border border-primary/15">
         <div className="p-5">
           <div className="aspect-video rounded-lg mb-4 bg-primary/8 animate-pulse" />
         </div>
@@ -23,7 +23,7 @@ export function CourseInfoSidebar({ course, isLoading }: CourseInfoSidebarProps)
   if (!course) return null;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-[#060f0a] border border-primary/15">
+    <div className="relative overflow-hidden rounded-2xl bg-surface border border-primary/15">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       <div className="p-5">
         <div className="aspect-video rounded-lg mb-4 relative overflow-hidden">
@@ -38,7 +38,7 @@ export function CourseInfoSidebar({ course, isLoading }: CourseInfoSidebarProps)
         <h3 className="font-bold text-lg mb-2 text-white/90">{course.title}</h3>
         <div className="flex items-center gap-4 text-sm text-white/50">
           <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4 text-primary/70" />
+            <Clock className="w-4 h-4 text-primary" />
             <span>{course.durationEstimate != null ? String(course.durationEstimate) : '0'} Months</span>
           </div>
         </div>

@@ -75,7 +75,7 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount, manualCurr
     return (
         <div className="space-y-5">
             {/* QR Code Section */}
-            <div className="relative overflow-hidden rounded-2xl bg-[#060f0a] border border-primary/15">
+            <div className="relative overflow-hidden rounded-2xl bg-surface border border-primary/15">
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
                 <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-primary/40 rounded-tl-2xl" />
                 <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-primary/40 rounded-tr-2xl" />
@@ -117,12 +117,12 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount, manualCurr
                                 <button
                                     type="button"
                                     onClick={() => copyToClipboard(paymentInfo.phoneNumber)}
+                                    aria-label={copied ? 'Phone number copied' : 'Copy phone number'}
                                     className="relative w-7 h-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center hover:bg-primary/20 transition-colors"
-                                    title="Copy phone number"
                                 >
-                                    {copied ? <CheckCircle className="w-3.5 h-3.5 text-primary" /> : <Copy className="w-3.5 h-3.5 text-primary/70" />}
+                                    {copied ? <CheckCircle className="w-3.5 h-3.5 text-primary" aria-hidden="true" /> : <Copy className="w-3.5 h-3.5 text-primary" aria-hidden="true" />}
                                     {copied && (
-                                        <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#060f0a] border border-primary/25 text-primary text-[10px] rounded px-2 py-0.5 whitespace-nowrap">
+                                        <span role="status" className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-surface border border-primary/25 text-primary text-[10px] rounded px-2 py-0.5 whitespace-nowrap">
                                             Copied!
                                         </span>
                                     )}
@@ -158,7 +158,7 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount, manualCurr
             </div>
 
             {/* Payment Details Form */}
-            <div className="relative overflow-hidden rounded-2xl bg-[#060f0a] border border-primary/15">
+            <div className="relative overflow-hidden rounded-2xl bg-surface border border-primary/15">
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
                 <div className="p-5 border-b border-primary/10">
                     <h3 className="text-lg font-bold text-white/90">Confirm Your Payment</h3>

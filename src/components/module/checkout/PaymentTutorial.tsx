@@ -55,6 +55,8 @@ export function PaymentTutorial() {
       <button
         type="button"
         onClick={() => setShowTutorial(!showTutorial)}
+        aria-expanded={showTutorial}
+        aria-controls="payment-tutorial-panel"
         className="w-full p-4 flex items-center justify-between hover:bg-primary/8 transition-colors"
       >
         <div className="flex items-center gap-3">
@@ -63,17 +65,17 @@ export function PaymentTutorial() {
           </div>
           <div className="text-left">
             <h4 className="font-semibold text-white/85 text-sm">Payment Tutorial Video</h4>
-            <p className="text-xs text-white/45">Learn how to complete your payment step by step</p>
+            <p className="text-xs text-white/65">Learn how to complete your payment step by step</p>
           </div>
         </div>
         {showTutorial ? (
-          <ChevronUp className="w-5 h-5 text-primary/60" />
+          <ChevronUp className="w-5 h-5 text-primary" />
         ) : (
-          <ChevronDown className="w-5 h-5 text-primary/60" />
+          <ChevronDown className="w-5 h-5 text-primary" />
         )}
       </button>
       {showTutorial && (
-        <div className="px-4 pb-4 space-y-3 border-t border-primary/15">
+        <div id="payment-tutorial-panel" className="px-4 pb-4 space-y-3 border-t border-primary/15">
           <div className="aspect-video bg-black rounded-lg overflow-hidden mt-3">
             <iframe
               className="w-full h-full"

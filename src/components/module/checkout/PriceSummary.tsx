@@ -6,13 +6,13 @@ interface PriceSummaryProps {
 
 export function PriceSummary({ batch }: PriceSummaryProps) {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-[#060f0a] border border-primary/15">
+    <div className="relative overflow-hidden rounded-2xl bg-surface border border-primary/15">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       <div className="p-5">
         <div className="space-y-3">
           {batch ? (
             <>
-              <p className="text-xs font-semibold tracking-[0.12em] uppercase text-primary/70 mb-3">Price Summary</p>
+              <p className="text-xs font-semibold tracking-[0.12em] uppercase text-primary mb-3">Price Summary</p>
               <div className="flex justify-between items-center text-lg font-semibold">
                 <span className="text-white/70">Course Price</span>
                 <span className="text-primary font-bold">
