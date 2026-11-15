@@ -6,11 +6,9 @@ import { EnrollmentSection } from '@/components/module/home/EnrollmentSection';
 import WhyThisCourse from '@/components/module/home/WhyThisCourse';
 import ProfessionalEnglish from '@/components/module/home/ProfessionalEnglish';
 import WhyUs from '@/components/module/home/WhyUs';
-import { Suspense } from 'react';
-import BackToTop from '@/components/shared/BackToTop';
 
 export const metadata = generateMetadata({
-  title: 'Professional English Course | ESUN POINT',
+  title: 'Professional English Course',
   description:
     'Improve your spoken English and professional communication skills with ESUN POINT. Learn from expert mentors and build confidence for interviews, meetings, and real-life conversations.',
   keywords: [
@@ -31,7 +29,7 @@ export const metadata = generateMetadata({
 
 export default function page() {
   return (
-    <div>
+    <div className="min-h-screen bg-surface">
       <BreadcrumbJsonLd />
       <HeroSection />
       <WhyThisCourse />
@@ -39,11 +37,6 @@ export default function page() {
       <WhyUs />
       <EnrollmentSection />
       <EnrollmentFixed />
-
-      {/* Global Back to Top Button */}
-      <Suspense fallback={null}>
-        <BackToTop variant="glass-glow" />
-      </Suspense>
     </div>
   );
 }
