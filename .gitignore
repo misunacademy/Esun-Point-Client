@@ -6,3 +6,4 @@ dist
 AGENTS.md
 .turbo
 .env*.local
+.playwright-mcp

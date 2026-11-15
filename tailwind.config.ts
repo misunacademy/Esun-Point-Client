@@ -25,7 +25,8 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					glow: 'hsl(var(--primary-glow))'
+					glow: 'hsl(var(--primary-glow))',
+					strong: 'hsl(var(--primary-strong))',
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -62,12 +63,23 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				surface: {
+					darker: 'hsl(var(--surface-darker))',
+					DEFAULT: 'hsl(var(--surface))',
+					deep: 'hsl(var(--surface-deep))',
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			spacing: {
+				'18': '4.5rem',
+				'22': '5.5rem',
+				'26': '6.5rem',
+				'30': '7.5rem',
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(farthest-corner at 0px 0px, rgba(255,86,54,0.4) 0%, rgba(253,187,45,0) 20%);'
@@ -131,6 +143,36 @@ export default {
 					'100%': {
 						strokeDashoffset: '-301.59'
 					}
+				},
+				'fade-in-up': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(16px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'play-glow': {
+					'0%, 100%': {
+						opacity: '0',
+						transform: 'scale(1)'
+					},
+					'50%': {
+						opacity: '1',
+						transform: 'scale(1.15)'
+					}
+				},
+				'play-pulse': {
+					'0%': {
+						opacity: '0.55',
+						transform: 'scale(1)'
+					},
+					'100%': {
+						opacity: '0',
+						transform: 'scale(1.6)'
+					}
 				}
 			},
 			animation: {
@@ -141,7 +183,10 @@ export default {
 				shimmer: 'shimmer 3s linear infinite',
 				draw: 'draw 5s ease-in-out infinite',
 				'zoom-in-out': 'zoom-in-out 8s ease-in-out infinite',
-				 "spin-slow": "spin 4s linear infinite",
+				'spin-slow': 'spin 4s linear infinite',
+				'fade-in-up': 'fade-in-up 0.6s ease-out both',
+				'play-glow': 'play-glow 2s ease-in-out infinite',
+				'play-pulse': 'play-pulse 1.6s ease-out infinite',
 			},
 			fontFamily: {
 				mona: [

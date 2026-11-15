@@ -34,6 +34,13 @@ const apiWsOrigin = (() => {
     return null;
   }
 })();
+const maOrigin = (() => {
+  try {
+    return new URL(process.env.NEXT_PUBLIC_MA_FRONTEND_URL || '').origin;
+  } catch {
+    return null;
+  }
+})();
 const connectSrc = [
   "'self'",
   'https://graph.facebook.com',
@@ -41,6 +48,7 @@ const connectSrc = [
   'https://www.google-analytics.com',
   'https://region1.google-analytics.com',
   ...(apiOrigin ? [apiOrigin] : []),
+  ...(maOrigin ? [maOrigin] : []),
   ...(apiWsOrigin ? [apiWsOrigin] : []),
 ].join(' ');
 
