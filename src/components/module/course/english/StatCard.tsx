@@ -27,7 +27,7 @@ export default function StatCard({ icon, target, suffix, label, animate, delay =
         }}
       />
 
-      <div className={cn("relative flex flex-col items-center justify-center pt-10 pb-10 px-6 rounded-2xl bg-[#060a12] border border-blue-500/10 overflow-hidden", "group-hover:border-blue-500/30 group-hover:shadow-2xl group-hover:shadow-blue-500/20 transition-all duration-500")}>
+      <div className={cn("relative flex flex-col items-center justify-center pt-10 pb-10 px-6 rounded-2xl bg-surface-deep border border-blue-500/10 overflow-hidden", "group-hover:border-blue-500/30 group-hover:shadow-2xl group-hover:shadow-blue-500/20 transition-all duration-500")}>
         <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-blue-500/40 rounded-tl-2xl" />
         <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-blue-500/40 rounded-tr-2xl" />
         <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-blue-500/20 rounded-bl-2xl" />

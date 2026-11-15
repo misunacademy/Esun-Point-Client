@@ -6,7 +6,7 @@ import { useGetCourseBySlugQuery } from "@/redux/api/courseApi";
 import { intervalToDuration, isBefore, isAfter } from "date-fns";
 import { FadeIn } from '@/components/ui/FadeIn';
 import { BatchResponse, CourseInfo } from '@/redux/api/batchApi';
-import { Skeleton } from 'boneyard-js/react';
+import { SkeletonWrapper } from '@/components/ui/skeleton-wrapper';
 
 type TimeLeft = {
   months: number;
@@ -21,22 +21,19 @@ type TimeLeft = {
 function TimeBlock({ value, label }: { value: number; label: string }) {
   return (
     <div className="relative overflow-hidden flex flex-col items-center justify-center
-      bg-[#060f0a] border border-primary/20 rounded-2xl
-      w-20 h-24 sm:w-24 sm:h-28
+      bg-surface border border-primary/20 rounded-2xl
+      flex-1 basis-0 min-w-0 max-w-[6rem] h-24 sm:h-28
       shadow-[0_8px_32px_hsl(217_91%_60%/0.15)]
       transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 group"
     >
-      {/* Corner accents */}
       <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-primary/40 rounded-tl-2xl" />
       <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-primary/40 rounded-tr-2xl" />
-      {/* Top shimmer line */}
       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/80 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
-      {/* Hover glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      <div className="relative z-10 text-4xl sm:text-5xl font-bold font-mona tabular-nums bg-gradient-to-b from-primary via-primary-glow to-primary bg-clip-text text-transparent drop-shadow-md">
+      <div className="relative z-10 text-4xl sm:text-5xl font-bold font-mona tabular-nums text-primary-glow">
         {String(value).padStart(2, '0')}
       </div>
-      <div className="relative z-10 text-[10px] sm:text-xs text-white/70 mt-2 tracking-[0.2em] uppercase">
+      <div className="relative z-10 text-[10px] sm:text-[11px] text-white/70 mt-1 sm:mt-2 tracking-[0.08em] sm:tracking-[0.12em] uppercase">
         {label}
       </div>
     </div>
@@ -80,13 +77,13 @@ const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimest
 
   // ── Course-slug path (course detail pages & BannerSection) ───────────────
   const { data: courseBySlug, isLoading: courseBySlugLoading } = useGetCourseBySlugQuery(
-    courseSlug!, { skip: !courseSlug }
+    courseSlug!, { skip: !courseSlug || !!batchProp }
   );
-  const slugCourseId = courseSlug ? (courseBySlug?.data as { _id?: string } | undefined)?._id : undefined;
+  const slugCourseId = courseSlug && !batchProp ? (courseBySlug?.data as { _id?: string } | undefined)?._id : undefined;
 
   const { data: slugBatchRes, isLoading: slugBatchLoading } = useGetCurrentEnrollmentBatchQuery(
     { courseId: slugCourseId },
-    { skip: !slugCourseId }
+    { skip: !slugCourseId || !!batchProp }
   );
 
   const batch = batchProp ?? (courseSlug ? (slugBatchRes?.data as BatchResponse | null | undefined) : null);
@@ -178,74 +175,39 @@ const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimest
     : false;
 
   return (
-    <Skeleton
-      name="countdown"
-      loading={isCountdownLoading}
-      fixture={
-        <div className="mt-8 mb-4">
-          <div className="text-center space-y-6">
-            <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <p className="text-xs font-semibold uppercase text-primary/90">Enrollment ends in</p>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl" />
-            </div>
+    <SkeletonWrapper loading={isCountdownLoading} className="min-h-[200px]">
+      {!batch || !timeLeft || !label ? null : (
+      <FadeIn delay={0.1} className="mt-8 mb-4" style={themeVars}>
+        <div className="text-center space-y-6">
+          {/* Status badge */}
+          <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full
+            bg-primary/10 border border-primary/25 backdrop-blur-sm
+            shadow-[0_0_20px_hsl(217_91%_60%/0.12)]">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+            <p className="text-xs font-semibold  uppercase text-primary">
+              {label}
+            </p>
           </div>
-        </div>
-      }
-      fallback={
-        <div className="mt-8 mb-4">
-          <div className="text-center space-y-6">
-            <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <p className="text-xs font-semibold uppercase text-primary/90">Loading...</p>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-primary/10 rounded-2xl animate-pulse" />
-            </div>
-          </div>
-        </div>
-      }
-    >
-    {!batch || !timeLeft || !label ? null : (
-    <FadeIn delay={0.1} className="mt-8 mb-4" style={themeVars}>
-      <div className="text-center space-y-6">
-        {/* Status badge */}
-        <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full
-          bg-primary/10 border border-primary/25 backdrop-blur-sm
-          shadow-[0_0_20px_hsl(217_91%_60%/0.12)]">
-          <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-          <p className="text-xs font-semibold  uppercase text-primary/90">
-            {label}
-          </p>
-        </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-          {timeLeft.months > 0 && (
-            <>
-              <TimeBlock value={timeLeft.months} label="Months" />
-              <Colon />
-            </>
-          )}
-          <TimeBlock value={timeLeft.days} label="Days" />
-          <Colon />
-          <TimeBlock value={timeLeft.hours} label="Hours" />
-          <Colon />
-          <TimeBlock value={timeLeft.minutes} label="Minutes" />
-          <Colon />
-          <TimeBlock value={timeLeft.seconds} label="Seconds" />
+          <div className="mx-auto flex w-full max-w-xl flex-wrap items-center justify-center gap-2 sm:gap-3">
+            {timeLeft.months > 0 && (
+              <>
+                <TimeBlock value={timeLeft.months} label="Months" />
+                <Colon />
+              </>
+            )}
+            <TimeBlock value={timeLeft.days} label="Days" />
+            <Colon />
+            <TimeBlock value={timeLeft.hours} label="Hours" />
+            <Colon />
+            <TimeBlock value={timeLeft.minutes} label="Minutes" />
+            <Colon />
+            <TimeBlock value={timeLeft.seconds} label="Seconds" />
+          </div>
         </div>
-      </div>
-    </FadeIn>
-    )}
-    </Skeleton>
+      </FadeIn>
+      )}
+    </SkeletonWrapper>
   );
 };
 

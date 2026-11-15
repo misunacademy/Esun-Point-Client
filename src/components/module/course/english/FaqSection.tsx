@@ -37,7 +37,7 @@ import { SectionBorder } from "@/components/shared/Decorative";
 
 const FaqSection = () => {
     return (
-           <section className="relative bg-[#060a12] overflow-hidden">
+           <section className="relative bg-surface-deep overflow-hidden">
         <SectionBorder />
 
         <div className="relative z-10 py-20 container mx-auto px-4 max-w-4xl">
@@ -60,13 +60,13 @@ const FaqSection = () => {
             {faqs.map((faq, i) => (
               <details
                 key={i}
-                className="group rounded-2xl border border-blue-500/20 bg-[#060a12]/70 px-6 py-4 open:border-blue-500/40 transition-colors"
+                className="group rounded-2xl border border-blue-500/20 bg-surface-deep/70 px-6 py-4 open:border-blue-500/40 transition-colors"
               >
-                <summary className="cursor-pointer font-semibold text-white/85 text-base list-none flex justify-between items-center gap-3">
+                <summary className="cursor-pointer font-semibold text-white/90 text-base list-none flex justify-between items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 py-1">
                   {faq.question}
-                  <span className="flex-shrink-0 text-blue-400 text-lg group-open:rotate-45 transition-transform duration-200">+</span>
+                  <span className="flex-shrink-0 text-blue-400 text-lg group-open:rotate-45 transition-transform duration-200 select-none">+</span>
                 </summary>
-                <p className="mt-3 text-white/55 text-sm leading-relaxed">{faq.answer}</p>
+                <p className="mt-3 text-white/70 text-sm leading-relaxed">{faq.answer}</p>
               </details>
             ))}
           </div>

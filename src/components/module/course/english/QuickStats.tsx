@@ -13,7 +13,7 @@ function QuickStats() {
       {STATS.map((s) => (
         <div key={s.lbl} className="flex flex-col items-center gap-0.5">
           <span className="text-blue-400 font-bold text-base">{s.val}</span>
-          <span className="text-white/45 text-xs">{s.lbl}</span>
+          <span className="text-white/70 text-xs">{s.lbl}</span>
         </div>
       ))}
     </div>
