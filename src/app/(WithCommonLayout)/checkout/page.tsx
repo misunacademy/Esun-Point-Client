@@ -12,7 +12,7 @@ import { isWindowOpen } from '@/lib/date-utils';
 import { useCurrentBatch, DEFAULT_COURSE_SLUG } from '@/hooks/useCurrentBatch';
 import Spinner from './Spinner';
 import EnrollmentNotStartedDialog from './EnrollmentNotStartedDialog';
-import { Skeleton } from 'boneyard-js/react';
+import { SkeletonWrapper } from '@/components/ui/skeleton-wrapper';
 import { Loader2 } from 'lucide-react';
 
 function CheckoutContent() {
@@ -71,15 +71,24 @@ function CheckoutContent() {
 
   if (authLoading || batchLoading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div role="status" aria-live="polite" className="min-h-screen bg-surface flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-10 h-10 text-primary animate-spin" />
-          <p className="text-sm text-white/40 font-medium">Loading checkout...</p>
+          <Loader2 className="w-10 h-10 text-primary animate-spin" aria-hidden="true" />
+          <p className="text-sm text-white/70 font-medium">Loading checkout…</p>
         </div>
       </div>
     );
   }
-  if (!user) return null;
+  if (!user) {
+    return (
+      <div role="status" aria-live="polite" className="min-h-screen bg-surface flex items-center justify-center px-4">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <Loader2 className="w-10 h-10 text-primary animate-spin" aria-hidden="true" />
+          <p className="text-sm text-white/70 font-medium">Taking you to login…</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!enrollmentRunning) {
     return (
@@ -93,11 +102,12 @@ function CheckoutContent() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-surface">
       <BreadcrumbJsonLd />
-      <Skeleton name="checkout-page" loading={false}>
+      <h1 className="sr-only">Complete your ESUN POINT course enrollment</h1>
+      <SkeletonWrapper loading={false} className="min-h-screen">
         <EnrollmentCheckout courseSlug={courseSlug} />
-      </Skeleton>
+      </SkeletonWrapper>
     </div>
   );
 }

@@ -24,7 +24,7 @@ export default function EnrollmentNotStartedDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
-      <DialogContent className="sm:max-w-lg font-bangla bg-[#060f0a] border border-primary/20 text-white z-50 mt-5">
+      <DialogContent className="sm:max-w-lg font-bangla bg-surface border border-primary/20 text-white mt-5">
         <DialogHeader className="space-y-4">
           <div className="flex items-center justify-center">
             <div className="relative p-[1.5px] rounded-full overflow-hidden">
@@ -48,21 +48,23 @@ export default function EnrollmentNotStartedDialog({
 
         <DialogFooter className="pt-2">
           <div className="relative group w-full">
-            <div className="absolute inset-0 rounded-xl blur-sm opacity-20 group-hover:opacity-35 transition-opacity duration-500"
-              style={{ background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.6) 0%, transparent 70%)' }} />
+            <div className="absolute inset-0 rounded-xl blur-sm opacity-25 group-hover:opacity-45 transition-opacity duration-500"
+              style={{ background: 'radial-gradient(ellipse at center, hsl(217 91% 60% / 0.55) 0%, transparent 70%)' }} />
             <button
               onClick={onClose}
+              type="button"
               className="relative w-full flex items-center justify-center gap-2 py-3 rounded-xl overflow-hidden cursor-pointer
-                border border-white/15 group-hover:border-white/30 transition-all duration-400 group-hover:-translate-y-[1px]
-                group-hover:shadow-[0_0_18px_3px_rgba(255,255,255,0.08)]"
-              style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(8px)' }}>
-              <div className="absolute inset-0 translate-x-[-110%] group-hover:translate-x-[110%] transition-transform duration-700 ease-in-out"
-                style={{ background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.1) 50%, transparent 65%)' }} />
-              <svg className="relative w-4 h-4 shrink-0 text-white/50 group-hover:text-white/70 transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                bg-gradient-to-r from-blue-700 via-blue-600 to-blue-700
+                border border-primary/40 text-white
+                transition-all duration-300
+                hover:from-blue-600 hover:via-blue-500 hover:to-blue-600 hover:-translate-y-[1px]
+                hover:shadow-[0_0_18px_3px_hsl(217_91%_60%/0.35)]
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface">
+              <div className="absolute inset-0 translate-x-[-110%] group-hover:translate-x-[110%] transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <svg className="relative w-4 h-4 shrink-0 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 6 9 17l-5-5" />
               </svg>
-              <span className="relative text-sm font-bold tracking-wide font-bangla"
-                style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.80) 50%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              <span className="relative text-sm font-bold tracking-wide font-bangla text-white">
                 Got it
               </span>
             </button>

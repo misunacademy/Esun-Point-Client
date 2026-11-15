@@ -7,7 +7,7 @@ export default function CheckoutError({ error, reset }: { error: Error & { diges
   useEffect(() => { console.error('Checkout error:', error); }, [error]);
 
   return (
-    <div className="min-h-screen bg-[#060f0a] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="max-w-md text-center space-y-6">
         <div className="w-16 h-16 mx-auto rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
           <AlertCircle className="w-8 h-8 text-red-400" />

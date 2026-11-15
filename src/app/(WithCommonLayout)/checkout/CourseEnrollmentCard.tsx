@@ -24,11 +24,11 @@ function CourseEnrollmentCard({
   if (!courseName) return null;
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/3 overflow-hidden">
-      <div className="px-4 pt-4 pb-3 border-b border-white/8">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
+      <div className="px-4 pt-4 pb-3 border-b border-white/10">
         <p className="text-xs text-yellow-400/70 uppercase tracking-widest mb-0.5">Course</p>
         <p className="font-bold text-white/90 text-sm leading-snug">{courseName}</p>
-        {batchTitle && <p className="text-xs text-primary/70 mt-1">{batchTitle}</p>}
+        {batchTitle && <p className="text-xs text-primary mt-1">{batchTitle}</p>}
       </div>
       <div className="p-4 space-y-2">
         {start && (
@@ -37,7 +37,7 @@ function CourseEnrollmentCard({
               <Calendar className="h-3.5 w-3.5 text-primary" />
             </div>
             <div>
-              <p className="text-xs text-primary/70">Enrollment Starts</p>
+              <p className="text-xs text-primary">Enrollment Starts</p>
               <p className="text-sm font-bold text-white/90">{fmtDate(start)}</p>
             </div>
           </div>
@@ -57,7 +57,7 @@ function CourseEnrollmentCard({
           <p className="text-xs text-white/40 italic">Enrollment dates will be announced soon.</p>
         )}
         {fee > 0 && (
-          <div className="flex items-center justify-between pt-1 border-t border-white/8 mt-2">
+          <div className="flex items-center justify-between pt-1 border-t border-white/10 mt-2">
             <span className="text-xs text-white/50">Course Fee</span>
             <span className="text-sm font-bold text-primary">TK{fee}</span>
           </div>

@@ -4,7 +4,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Enroll Now | ESUN POINT',
+    title: 'Enroll Now',
     description: 'Complete your enrollment in the ESUN POINT Professional English Communication course.',
     robots: {
         index: false,
