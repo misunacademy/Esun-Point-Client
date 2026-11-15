@@ -10,8 +10,11 @@ export function ChatToggleButton({ isOpen, showNotification, onClick }: ChatTogg
   return (
     <button
       onClick={onClick}
+      type="button"
       className="fab-btn relative group outline-none cursor-pointer"
-      aria-label="Sun Assistant চালু করুন"
+      aria-label={isOpen ? "Sun Assistant বন্ধ করুন" : "Sun Assistant চালু করুন"}
+      aria-expanded={isOpen}
+      aria-controls="chat-panel"
     >
       <div className="absolute -inset-1 rounded-full fab-pulse-glow pointer-events-none" />
       {showNotification && !isOpen && (

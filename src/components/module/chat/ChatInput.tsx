@@ -15,8 +15,9 @@ export function ChatInput({ inputValue, setInputValue, onSend }: ChatInputProps)
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          aria-label="আপনার প্রশ্ন লিখুন"
           placeholder="বাংলায় আপনার প্রশ্ন লিখুন..."
-          className="bg-transparent border-none focus:ring-0 flex-grow text-[#dae2fd] text-[14px] py-2.5 outline-none placeholder-[#bccbb9]/40"
+          className="bg-transparent border-none focus:ring-0 flex-grow text-white/90 text-[14px] py-2.5 outline-none placeholder-[#bccbb9]/40"
         />
       </div>
       <button

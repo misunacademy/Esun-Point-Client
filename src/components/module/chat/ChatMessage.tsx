@@ -26,7 +26,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
         <div
           className={`p-3.5 rounded-2xl text-[14px] leading-relaxed ${
             isBot
-              ? "bg-[#171f33]/90 text-[#dae2fd] border border-white/5 rounded-tl-none"
+              ? "bg-[#171f33]/90 text-white/90 border border-white/5 rounded-tl-none"
               : "bg-primary text-primary-foreground font-medium rounded-tr-none shadow-[0_0_10px_hsl(var(--primary)/0.25)]"
           }`}
         >
@@ -49,7 +49,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
             message.text
           )}
         </div>
-        <span className="text-[9px] text-[#bccbb9]/40 px-1">{message.time}</span>
+        <span className="text-[9px] text-white/70/40 px-1">{message.time}</span>
       </div>
     </div>
   );

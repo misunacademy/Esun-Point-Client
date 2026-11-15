@@ -29,7 +29,7 @@ export function ChatHeader({ onClose }: ChatHeaderProps) {
       <button
         onClick={onClose}
         aria-label="Close chat"
-        className="text-[#bccbb9] hover:text-primary hover:bg-white/5 p-1.5 rounded-full transition-all duration-200"
+        className="text-white/70 hover:text-primary hover:bg-white/5 p-1.5 rounded-full transition-all duration-200"
       >
         <X className="w-5 h-5" />
       </button>

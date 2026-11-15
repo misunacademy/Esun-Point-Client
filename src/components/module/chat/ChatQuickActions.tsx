@@ -19,7 +19,7 @@ export function ChatQuickActions({ onAction }: ChatQuickActionsProps) {
           <button
             key={action.label}
             onClick={() => onAction(action.prompt)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#171f33]/70 border border-white/10 text-[12px] text-[#bccbb9] hover:text-primary hover:border-primary/30 transition-all duration-200"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#171f33]/70 border border-white/10 text-[12px] text-white/70 hover:text-primary hover:border-primary/30 transition-all duration-200"
           >
             <Icon className="w-3.5 h-3.5" />
             {action.label}
