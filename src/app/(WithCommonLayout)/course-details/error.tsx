@@ -6,7 +6,7 @@ export default function CoursesError({ error, reset }: { error: Error & { digest
   useEffect(() => { console.error('Courses error:', error); }, [error]);
 
   return (
-    <div className="min-h-screen bg-[#060a12] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="max-w-md text-center space-y-6">
         <h1 className="text-3xl font-bold text-white/90">Failed to Load Course</h1>
         <p className="text-white/50">We could not load the course information. Please try again.</p>

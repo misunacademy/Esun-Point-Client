@@ -6,7 +6,7 @@ export default function CoursesLoading() {
       <section
         aria-busy="true"
         aria-label="Loading course banner"
-        className="relative bg-[#060a12] overflow-hidden"
+        className="relative bg-surface overflow-hidden"
       >
         <div className="relative z-10 flex flex-col items-center justify-center pt-24 md:pt-28 pb-24 px-4">
           <Skeleton className="h-7 w-[200px] rounded-full bg-white/10 mb-6" />

@@ -3,7 +3,7 @@ import EnglishCourseDetails from './EnglishCourseDetails';
 import CourseJsonLd from '@/components/seo/CourseJsonLd';
 
 export const metadata = generateMetadata({
-  title: 'English for Professional Communication Course | ESUN POINT',
+  title: 'English for Professional Communication Course',
   description:
     'Explore the ESUN POINT Professional English Communication course. Learn spoken English, business communication, interview skills, and more with expert mentorship and live interactive classes.',
   keywords: [
@@ -21,9 +21,9 @@ export const metadata = generateMetadata({
 
 export default function CoursesPage() {
   return (
-    <>
+    <div className="min-h-screen bg-surface">
       <CourseJsonLd />
       <EnglishCourseDetails />
-    </>
+    </div>
   );
 }
