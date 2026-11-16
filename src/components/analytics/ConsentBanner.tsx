@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 import { getConsent, setConsent, subscribeToConsent, type ConsentChoice } from '@/lib/consent';
 
@@ -46,31 +47,44 @@ export default function ConsentBanner() {
     <div
       role="dialog"
       aria-modal="false"
-      aria-label="Tracking consent"
+      aria-labelledby="consent-banner-title"
       className="fixed inset-x-0 bottom-0 z-[var(--z-toast)] px-4 pb-4 sm:px-6 sm:pb-6"
     >
       <div
         ref={cardRef}
-        className="mx-auto flex max-w-3xl flex-col gap-3 rounded-2xl border border-primary/20 bg-surface/95 p-4 shadow-2xl backdrop-blur sm:flex-row sm:items-center"
+        className="mx-auto flex max-h-[75vh] max-w-3xl flex-col gap-4 overflow-y-auto rounded-2xl border border-primary/20 bg-surface/95 p-4 shadow-2xl backdrop-blur sm:flex-row sm:items-center sm:gap-6"
       >
-        <p className="flex-1 text-xs leading-relaxed text-white/75">
-          We use cookies and pixels (Meta, Google Analytics) to measure traffic and improve courses.
-          Accept for analytics, or decline to browse with strictly-necessary cookies only.
-        </p>
+        <div className="flex-1 space-y-1.5">
+          <p id="consent-banner-title" className="text-sm font-semibold text-white">
+            Your privacy
+          </p>
+          <p className="text-xs leading-relaxed text-white/75">
+            We keep a few small cookies in your browser to run this site. If you allow it, we use
+            Google and Facebook tools to see how people use the site and improve our courses and
+            ads. If you don&apos;t, the site works the same — and you can change this any time in
+            Cookie settings.
+          </p>
+          <Link
+            href="/privacy-policy"
+            className="inline-block text-xs font-medium text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:text-white hover:decoration-white/60"
+          >
+            Privacy policy
+          </Link>
+        </div>
         <div className="flex shrink-0 gap-2">
           <button
             type="button"
             onClick={() => choose('denied')}
-            className="rounded-xl border border-white/25 px-4 py-2 text-xs font-semibold text-white/85 hover:bg-white/[0.08]"
+            className="flex-1 rounded-xl border border-white/25 px-4 py-2 text-xs font-semibold text-white/85 transition-colors hover:border-white/40 hover:bg-white/[0.08] hover:text-white sm:flex-none"
           >
-            Decline
+            No, thanks
           </button>
           <button
             type="button"
             onClick={() => choose('granted')}
-            className="rounded-xl bg-primary-strong px-4 py-2 text-xs font-bold text-white hover:opacity-90"
+            className="flex-1 rounded-xl bg-primary-strong px-4 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-90 sm:flex-none"
           >
-            Accept
+            Allow
           </button>
         </div>
       </div>

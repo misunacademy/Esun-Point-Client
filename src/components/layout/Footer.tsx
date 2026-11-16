@@ -3,6 +3,7 @@ import Image from 'next/image';
 import FooterBg from '@/assets/images/footer.png';
 import { FooterBrand, FooterLinks, FooterSocial, FooterTopSeparator } from './Footer/index';
 import CurrentYear from '../shared/CurrentYear';
+import ConsentSettingsButton from '../analytics/ConsentSettingsButton';
 
 export default function Footer() {
   return (
@@ -38,12 +39,14 @@ export default function Footer() {
 
       <div className="relative z-10 mt-2">
         <div className="h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
-        <div className="flex w-full justify-center py-5">
+        <div className="flex w-full flex-col items-center justify-center gap-2 py-5 sm:flex-row sm:gap-3">
           <p className="text-white/40 text-sm tracking-wide">
                © <CurrentYear />{' '}
             <span className="text-blue-500/70 font-medium">Misun Academy</span>
             {' '}— All rights reserved.
           </p>
+          <span aria-hidden="true" className="hidden text-white/20 sm:inline">·</span>
+          <ConsentSettingsButton />
         </div>
       </div>
     </footer>

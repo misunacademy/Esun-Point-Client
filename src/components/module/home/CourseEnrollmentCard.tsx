@@ -1,12 +1,12 @@
 'use client';
 
 import { memo, useMemo } from 'react';
-import Link from 'next/link';
-import { ArrowRight, CalendarCheck, CalendarX } from 'lucide-react';
+import { CalendarCheck, CalendarX } from 'lucide-react';
 import Countdown from '../course/english/Countdown';
 import { FadeIn } from '../../ui/FadeIn';
 import { BatchResponse, CourseInfo } from '@/redux/api/batchApi';
 import { formatDate } from '@/lib/date-utils';
+import { EnrollNowButton } from '@/components/shared/EnrollNowButton';
 
 const themeMap: Record<string, { primary: string; glow: string }> = {
   'english-for-professional-communication': {
@@ -70,23 +70,23 @@ function CourseEnrollmentCard({ batch, serverTimestamp }: { batch: BatchResponse
 
           <Countdown batch={batch} courseSlug={course.slug} serverTimestamp={serverTimestamp} />
 
-          <div className="flex w-fit shrink-0 items-baseline gap-1.5 self-center rounded-xl border border-primary/25 bg-gradient-to-br from-primary/15 via-primary/[0.08] to-primary/[0.02] px-3.5 py-2 shadow-[0_0_20px_hsl(var(--primary)/0.10)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_0_24px_hsl(var(--primary)/0.14)]">
+          {/* <div className="flex w-fit shrink-0 items-baseline gap-1.5 self-center rounded-xl border border-primary/25 bg-gradient-to-br from-primary/15 via-primary/[0.08] to-primary/[0.02] px-3.5 py-2 shadow-[0_0_20px_hsl(var(--primary)/0.10)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_0_24px_hsl(var(--primary)/0.14)]">
             <span className="font-bangla text-xl font-medium uppercase text-primary-glow sm:text-3xl">
               Course Fee:
             </span>
             <span className="font-mona text-xl font-black tracking-tight text-primary-glow tabular-nums sm:text-3xl">
               Tk {price}
             </span>
+          </div> */}
+          <div className="flex w-fit shrink-0 items-baseline gap-1.5 self-center relative my-4 rounded-2xl overflow-hidden border border-blue-500/25 bg-blue-500/10 shadow-[0_0_24px_hsl(217_91%_60%/0.25)]">
+            <div className="relative rounded-2xl px-6 sm:px-8 py-3 font-bold text-base sm:text-lg text-white">
+              Course Fee: Only <span className="text-blue-400 font-bold">
+                {price}
+              </span> BDT
+            </div>
           </div>
-
           <div className="flex w-full shrink-0 items-center justify-center gap-4 sm:w-auto">
-            <Link
-              href={`/checkout?course=${course.slug}`}
-              className="pulse-enroll-button group/btn relative inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-6 py-3 font-bangla text-lg font-bold tracking-wide text-white shadow-[0_4px_20px_hsl(var(--primary)/0.35)] transition-shadow duration-300 hover:shadow-[0_10px_30px_hsl(var(--primary)/0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-deep"
-            >
-              <span className="relative z-10">Enroll Now</span>
-              <ArrowRight size={16} className="relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1" aria-hidden="true" />
-            </Link>
+            <EnrollNowButton courseSlug={course.slug} />
           </div>
 
           <div className="flex flex-col items-start justify-between gap-5 border-t border-primary/15 pt-5 sm:items-center">

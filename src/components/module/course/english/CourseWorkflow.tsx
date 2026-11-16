@@ -1,9 +1,9 @@
 import { Scic, SearchOnline, Session, SupportSession, SubmitAssignment, WeekCourse, Duration } from "@/assets/icons";
 import Container from "@/components/ui/container";
 import Clock from "@/assets/icons/Clock";
-import Link from "next/link";
 import WorkflowCard from "./WorkFlowCard";
 import { DotGrid, SectionBorder } from "@/components/shared/Decorative";
+import { EnrollNowButton } from "@/components/shared/EnrollNowButton";
 
 
 // ─── English course workflow steps ───────────────────────────────────────────
@@ -96,15 +96,7 @@ const CourseWorkflow = () => {
 
           {/* Enroll CTA */}
           <div className="mt-8 mb-10">
-            <Link
-              href="/checkout?course=english-for-professional-communication"
-              className="inline-block relative p-[1.5px] rounded-xl overflow-hidden group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-deep"
-            >
-              <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_60%,hsl(217_91%_60%)_100%)]" />
-              <span className="relative block bg-gradient-to-r from-blue-800 via-blue-500 to-blue-700 hover:from-blue-700 hover:via-blue-400 hover:to-blue-700 transition-all duration-300 text-white font-semibold text-base px-10 py-3 rounded-xl shadow-[0_0_20px_hsl(217_91%_60%/0.35)]">
-                Enroll Now
-              </span>
-            </Link>
+            <EnrollNowButton courseSlug="english-for-professional-communication" />
           </div>
         </div>
       </div>

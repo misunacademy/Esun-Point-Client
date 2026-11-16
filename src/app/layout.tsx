@@ -1,10 +1,12 @@
 
 import Script from "next/script";
+import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import Providers from "@/providers/Providers";
 import { LenisProvider } from "@/providers/LenisProvider";
 import ConsentAwareTracking from "@/components/analytics/ConsentAwareTracking";
 import ConsentBanner from "@/components/analytics/ConsentBanner";
+import MetaPixelPageViewTracker from "@/components/analytics/MetaPixelPageViewTracker";
 import type { Metadata } from "next";
 import { Hind_Siliguri } from "next/font/google";
 import "lenis/dist/lenis.css";
@@ -150,6 +152,10 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Providers>
+          <Suspense fallback={null}>
+            <MetaPixelPageViewTracker />
+          </Suspense>
+
           {/* Marketing tracking (Pixel + GA) loads only after opt-in */}
           <ConsentAwareTracking pixelId={pixelId} gaId={GA_ID} />
           <ConsentBanner />

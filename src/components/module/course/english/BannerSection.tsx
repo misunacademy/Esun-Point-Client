@@ -4,7 +4,7 @@ import { track } from "@/lib/metaPixel";
 import { useCurrentBatch } from '@/hooks/useCurrentBatch';
 import Countdown from "./Countdown";
 import { DotGrid, AmbientGlow, SectionBorder } from "@/components/shared/Decorative";
-import Link from "next/link";
+import { EnrollNowButton } from "@/components/shared/EnrollNowButton";
 import CourseBadge from "./CourseBadge";
 import EnrollmentTimelineCard from "./EnrollmentTimelineCard";
 import QuickStats from "./QuickStats";
@@ -104,15 +104,7 @@ const BannerSection = () => {
         />
 
         <div className="flex flex-wrap justify-center gap-3 mt-8">
-          <Link
-            href={`/checkout?course=${COURSE_SLUG}`}
-            className="inline-block relative p-[1.5px] rounded-xl overflow-hidden group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-deep"
-          >
-            <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_60%,hsl(217_91%_60%)_100%)]" />
-            <span className="relative block bg-gradient-to-r from-blue-800 via-blue-500 to-blue-700 hover:from-blue-700 hover:via-blue-400 hover:to-blue-700 transition-all duration-300 text-white font-bold text-base px-10 py-3.5 rounded-xl shadow-[0_0_24px_hsl(217_91%_60%/0.4)] hover:shadow-[0_0_36px_hsl(217_91%_60%/0.6)]">
-              Enroll Now
-            </span>
-          </Link>
+          <EnrollNowButton courseSlug={COURSE_SLUG} size="lg" />
         </div>
 
         <QuickStats />

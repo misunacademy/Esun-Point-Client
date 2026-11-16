@@ -1,8 +1,8 @@
 import Container from "@/components/ui/container";
 import Image from "next/image";
 import { instructor } from "@/assets/images";
-import Link from "next/link";
 import { DotGrid, AmbientGlow, SectionBorder } from "@/components/shared/Decorative";
+import { EnrollNowButton } from "@/components/shared/EnrollNowButton";
 
 export default function InstructorSection() {
   return (
@@ -110,15 +110,7 @@ export default function InstructorSection() {
             </div>
 
             <div>
-              <Link
-                href="/checkout?course=english-for-professional-communication"
-                className="inline-block relative p-[1.5px] rounded-xl overflow-hidden group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-deep"
-              >
-                <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_60%,hsl(217_91%_60%)_100%)]" />
-                <span className="relative block bg-gradient-to-r from-blue-800 via-blue-500 to-blue-700 hover:from-blue-700 hover:via-blue-400 hover:to-blue-700 transition-all duration-300 text-white font-bold text-base px-8 py-3 rounded-xl shadow-[0_0_24px_hsl(217_91%_60%/0.4)] hover:shadow-[0_0_36px_hsl(217_91%_60%/0.6)]">
-                  Enroll Now
-                </span>
-              </Link>
+              <EnrollNowButton courseSlug="english-for-professional-communication" />
             </div>
           </div>
         </div>

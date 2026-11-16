@@ -23,6 +23,7 @@ function TimeBlock({ value, label }: { value: number; label: string }) {
     <div className="relative overflow-hidden flex flex-col items-center justify-center
       bg-surface border border-primary/20 rounded-2xl
       flex-1 basis-0 min-w-0 max-w-[6rem] h-24 sm:h-28
+      px-1 py-2 sm:px-2.5
       shadow-[0_8px_32px_hsl(217_91%_60%/0.15)]
       transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 group"
     >
@@ -30,10 +31,10 @@ function TimeBlock({ value, label }: { value: number; label: string }) {
       <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-primary/40 rounded-tr-2xl" />
       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/80 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
       <div className="absolute inset-0 bg-gradient-to-b from-primary/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      <div className="relative z-10 text-4xl sm:text-5xl font-bold font-mona tabular-nums text-primary-glow">
+      <div className="relative z-10 text-[2rem] leading-none sm:text-5xl font-bold font-mona tabular-nums text-primary-glow">
         {String(value).padStart(2, '0')}
       </div>
-      <div className="relative z-10 text-[10px] sm:text-[11px] text-white/70 mt-1 sm:mt-2 tracking-[0.08em] sm:tracking-[0.12em] uppercase">
+      <div className="relative z-10 text-[8px] sm:text-[11px] text-white/70 mt-1.5 sm:mt-2 tracking-[0.02em] sm:tracking-[0.12em] uppercase whitespace-nowrap">
         {label}
       </div>
     </div>
@@ -177,7 +178,7 @@ const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimest
   return (
     <SkeletonWrapper loading={isCountdownLoading} className="min-h-[200px]">
       {!batch || !timeLeft || !label ? null : (
-      <FadeIn delay={0.1} className="mt-8 mb-4" style={themeVars}>
+      <FadeIn delay={0.1} className="mt-8 mb-4 w-full" style={themeVars}>
         <div className="text-center space-y-6">
           {/* Status badge */}
           <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full
@@ -189,7 +190,7 @@ const Countdown = ({ batch: batchProp, courseSlug, serverTimestamp: serverTimest
             </p>
           </div>
 
-          <div className="mx-auto flex w-full max-w-xl flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <div className="mx-auto flex w-full max-w-xl flex-wrap items-center justify-center gap-1 sm:gap-3">
             {timeLeft.months > 0 && (
               <>
                 <TimeBlock value={timeLeft.months} label="Months" />
