@@ -88,7 +88,7 @@ const ManualPaymentForm = ({ onBack, onPaymentComplete, manualAmount, manualCurr
                 <div className="p-6 space-y-5">
                     {/* Logo */}
                     <div className="flex justify-center">
-                        <div className="relative overflow-hidden rounded-xl bg-white/5 border border-primary/15 p-4">
+                        <div className="relative overflow-hidden rounded-xl bg-white border border-white/60 p-4 shadow-sm">
                             <Image src={phonePe} alt="PhonePe" width={180} height={120} className="object-contain" />
                         </div>
                     </div>

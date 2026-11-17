@@ -66,7 +66,7 @@ function PaymentMethodOptions({
               {gatewayIcons.map((src, i) => (
                 <div
                   key={i}
-                  className="bg-white/[0.05] border border-white/10 rounded-lg overflow-hidden flex items-center justify-center h-[52px]"
+                  className="bg-white border border-white/60 rounded-lg overflow-hidden flex items-center justify-center h-[52px] shadow-sm"
                 >
                   <Image
                     src={src}
@@ -88,7 +88,7 @@ function PaymentMethodOptions({
       children: (
         <div className="border-t border-primary/15 pt-3">
           <p className="text-xs text-white/70 pb-2">Pay with your phone pay account:</p>
-          <div className="bg-white/[0.05] border border-white/10 rounded-lg overflow-hidden flex items-center justify-center h-[56px] max-w-[200px]">
+          <div className="bg-white border border-white/60 rounded-lg overflow-hidden flex items-center justify-center h-[56px] max-w-[200px] shadow-sm">
             <Image src={phonepay} alt="Phone Pay" className="object-contain w-full h-full p-2" />
           </div>
         </div>
