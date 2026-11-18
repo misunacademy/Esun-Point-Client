@@ -33,7 +33,7 @@ export function getCertificatesHref(): string {
 export function getGraphicDesignHref(): string {
   // The graphic-design course lives on MA; never link a bare origin here
   // (a missing env would produce an "undefined" href).
-  if (!MA_FRONTEND_URL) return '/courses';
+  if (!MA_FRONTEND_URL) return '/';
   return `${MA_FRONTEND_URL}`;
 }
 
