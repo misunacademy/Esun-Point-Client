@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: http://localhost:3001
+Host: https://client2.mehedi2026x7k9.dpdns.org
 
 # Sitemaps
-Sitemap: http://localhost:3001/sitemap.xml
+Sitemap: https://client2.mehedi2026x7k9.dpdns.org/sitemap.xml
