@@ -100,7 +100,7 @@ export default function EnrollmentCheckout({ courseSlug }: EnrollmentCheckoutPro
                         <div className="relative overflow-hidden rounded-xl bg-primary/8 border border-primary/20 p-4">
                           <div className="flex justify-between items-center font-semibold text-lg">
                             <span className="text-white/70">Total Amount:</span>
-                            <span className="text-primary font-bold">৳{batchPrice?.toLocaleString('en-IN') || 0}</span>
+                            <span className="text-primary font-bold">৳{batchPrice?.toLocaleString('en-US') || 0}</span>
                           </div>
                         </div>
 

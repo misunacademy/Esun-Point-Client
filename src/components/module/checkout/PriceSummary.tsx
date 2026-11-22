@@ -16,7 +16,7 @@ export function PriceSummary({ batch }: PriceSummaryProps) {
               <div className="flex justify-between items-center text-lg font-semibold">
                 <span className="text-white/70">Course Price</span>
                 <span className="text-primary font-bold">
-                  ৳{(batch.price?.toLocaleString('en-IN') || 0)}
+                  ৳{(batch.price?.toLocaleString('en-US') || 0)}
                 </span>
               </div>
               {batch.currency && batch.currency !== 'BDT' && (
